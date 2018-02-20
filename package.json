@@ -15,6 +15,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"@shoutem/ui": "^0.23.2",
 		"@types/jest": "^22.1.0",
 		"aws-sdk": "^2.188.0",
 		"axios": "^0.17.1",

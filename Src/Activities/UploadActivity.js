@@ -1,102 +1,129 @@
 // @flow
 import React, { Component } from "react";
-import axios from "axios";
-import { Button, View } from "react-native";
-import AWS from "aws-sdk/dist/aws-sdk-react-native";
+import Axios from "axios";
+import { Button, View, TextInput } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
+import { SERVER_URL } from "../Config/Constants";
 
 class UploadActivity extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { image: {} };
+		this.state = {
+			image: [],
+			albumname: "",
+			groupsTags: ["abc", "lmn"],
+			users: ["xyz"]
+		};
 	}
 
 	handleUploadButtonPress = () => {
-		/* const spacesEndpoint = new AWS.Endpoint("sgp1.digitaloceanspaces.com");
-		const s3 = new AWS.S3({
-			endpoint: spacesEndpoint,
-			accessKeyId: "6YFIAIPMZPFI6D4KCMLZ",
-			secretAccessKey: "MjViUX5ow+ZZPizjvTG6cO5BlJs7M7Bdzc1dXGXkSvE"
+		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
+		const axios = Axios.create();
+		axios.interceptors.request.use(request => {
+			console.log("Starting Request", request);
+			return request;
 		});
 
-		const params = {
-			Body: this.state.image.path,
-			Bucket: "trialspace",
-			Key: "try2.jpg"
+		const payload = {
+			album_name: this.state.albumname,
+			created_by: "xyz", //current user
+			groupTag_names_array: this.state.groupsTags,
+			users_names_array: this.state.users,
+			pending_images_array: this.image
 		};
 
-		s3.putObject(params, (err, data) => {
-			if (err) console.log(err, err.stack);
-			else console.log(data);
-        }); */
+		console.log("albumID and subAlbumID0///" + this.state.image.length);
 
-		/****************************************** */
-		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
-		axios
-			.post("http://192.168.31.59:3000/getPreSignedURL", {
-				type: this.state.image.mime
-			})
+		axios({
+			//create album
+			data: payload,
+			url: SERVER_URL + "createAlbum",
+			method: "post"
+		})
 			.then(({ data }) => {
-				console.log(data);
-				const xhr = new XMLHttpRequest();
-				console.log(data.key);
-				xhr.open("PUT", data.url);
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState === 4) {
-						if (xhr.status === 200) {
-							console.log("Image successfully uploaded to S3");
-						} else {
-							console.log("Error while sending the image to S3");
-						}
-					}
-				};
-
-				xhr.setRequestHeader("Content-Type", data.contentType);
-				xhr.send({
-					uri: this.state.image.path,
-					type: data.contentType,
-					name: data.key
+				const { albumId, subAlbumId } = data;
+				console.log(
+					"albumID and subAlbumID1" +
+						albumId +
+						subAlbumId +
+						"length" +
+						this.state.image.length
+				);
+				this.state.image.forEach(image => {
+					//for each image perform the following actions
+					console.log("albumID and subAlbumID2" + data.subAlbumId);
+					const type = image.mime;
+					const uri = image.path;
+					const name = image.path; //TODO:get filename here if required
+					let key;
+					axios
+						.post(SERVER_URL + "getPreSignedURL", {
+							//get url from node.js along with key or filename
+							type
+						})
+						.then(({ data }) => {
+							console.log(data);
+							key = data.Key;
+							return axios({
+								//upload image using signed url
+								url: data.url,
+								data: {
+									uri,
+									type,
+									name
+								},
+								method: "put",
+								headers: {
+									"Content-Type": type,
+									"x-amz-acl": "public-read"
+									//"x-amz-server-side-encryption": "AES256"
+								},
+								transformRequest: [
+									(data, headers) => {
+										delete headers.common.Authorization;
+										return data;
+									}
+								]
+							});
+						})
+						.then(data => {
+							// notify that the image was uploaded to our node.js server
+							console.log(data);
+							const payload = {
+								url: key, //photo url
+								subAlbumId,
+								albumId
+							};
+							return axios({
+								data: payload,
+								url: SERVER_URL + "notifyImageUpload",
+								method: "post"
+							});
+						})
+						.then(success => console.log(success))
+						.catch(error => console.log(error.response));
 				});
-				return data;
+				this.setState({ image: [] });
 			})
-			/*	.then(({ key }) => {
-				console.log(key);
-				axios.post("notifyImageUploaded", { key });
-			}) */
-			.catch(error => {
-				console.log(error);
-			});
-
-		/****************************************** */
-
-		/* const options = {
-			headers: {
-				"Content-Type": "image/jpeg"
-			}
-		};
-
-		const data = {
-			uri: this.state.image.path,
-			type: this.state.image.mime,
-			name: "myimage.jpg"
-		};
-
-		axios
-			.put(url, data, options)
-			.then(success => console.log(success))
-			.catch(error => console.log(error.response)); */
+			.catch(error => console.log(error.response));
 	};
 
 	handleOnPressImagePickerButton = () => {
-		ImagePicker.openPicker({}).then(image => {
+		ImagePicker.openPicker({
+			multiple: true
+		}).then(image => {
 			console.log(image);
-			this.setState({ image });
+			this.setState({ image: [...this.state.image, ...image] });
 		});
 	};
 
 	render() {
 		return (
 			<View>
+				<TextInput
+					onChangeText={albumname => this.setState({ albumname })}
+					value={this.state.albumname}
+				/>
 				<Button onPress={this.handleUploadButtonPress} title="upload" />
 				<Button
 					onPress={this.handleOnPressImagePickerButton}
