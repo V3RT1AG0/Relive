@@ -1,9 +1,9 @@
-// @flow
+//@flow
 import React, { Component } from "react";
 import Axios from "axios";
 import { Button, View, TextInput } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
-import { SERVER_URL } from "../Config/Constants";
+import { SERVER_URL } from "../../Config/Constants";
 
 class UploadActivity extends Component {
 	constructor(props) {

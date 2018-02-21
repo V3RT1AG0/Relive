@@ -1,12 +1,12 @@
 // @flow
 import { StackNavigator } from "react-navigation";
-import MainActivity from "./Activities/MainActivity";
+import MainActivity from "./Activities/TimelineActivity/TimelineMain";
 import configureStore from "./Config/ReduxStoreConfig";
 import { Provider } from "react-redux";
 import React from "react";
-import UploadActivity from "./Activities/UploadActivity";
-import LoginActivity from "./Activities/LoginActivity";
-import ProfileActivity from "./Activities/ProfileActivity";
+import UploadActivity from "./Activities/UploadActivity/UploadMain";
+import LoginActivity from "./Activities/LoginActivity/LoginMain";
+import ProfileActivity from "./Activities/ProfileActivity/ProfileMain";
 
 const RootNavigator = StackNavigator({
 	Upload: {
