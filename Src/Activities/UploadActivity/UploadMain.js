@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Button, View, TextInput } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { SERVER_URL } from "../../Config/Constants";
+import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
 
 class UploadActivity extends Component {
 	constructor(props) {
@@ -129,6 +130,7 @@ class UploadActivity extends Component {
 					onPress={this.handleOnPressImagePickerButton}
 					title="ImagePicker"
 				/>
+				<CreateGroupTag />
 			</View>
 		);
 	}
