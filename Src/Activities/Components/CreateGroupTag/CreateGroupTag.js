@@ -10,7 +10,7 @@ class CreateGroupTag extends Component {
 		this.state = {
 			//use map to add ticked:false to each one
 			userIDs: [], //store this ids in redux store first time you fetch user data
-			selectedUserID: [],
+			selectedUserID: [], //this contains name and id of user.
 			text: "",
 			completed: false
 		};
@@ -43,7 +43,7 @@ class CreateGroupTag extends Component {
 		//const axios = Axios.create();
 
 		const payload = {
-			members: this.state.selectedUserID,
+			members: this.state.selectedUserID.map(user => user._id), //send only userid and not name
 			name: this.state.text,
 			createdBy: MY_ID
 		};

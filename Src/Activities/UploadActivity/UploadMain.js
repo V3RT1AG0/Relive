@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { Button, View, TextInput } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
-import { SERVER_URL } from "../../Config/Constants";
+import { SERVER_URL, MY_ID } from "../../Config/Constants";
 import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
 
 class UploadActivity extends Component {
@@ -12,8 +12,8 @@ class UploadActivity extends Component {
 		this.state = {
 			image: [],
 			albumname: "",
-			groupsTags: ["abc", "lmn"],
-			users: ["xyz"]
+			groupsTags: ["5a9280f2e800da77ac1ebb94"],
+			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"]
 		};
 	}
 
@@ -28,12 +28,12 @@ class UploadActivity extends Component {
 		const payload = {
 			album_name: this.state.albumname,
 			created_by: "xyz", //current user
-			groupTag_names_array: this.state.groupsTags,
-			users_names_array: this.state.users,
+			groupTag_id_array: this.state.groupsTags,
+			users_id_array: this.state.users,
 			pending_images_array: this.image
 		};
 
-		console.log("albumID and subAlbumID0///" + this.state.image.length);
+		console.log("albumID and subAlbumID///" + this.state.image.length);
 
 		axios({
 			//create album
@@ -104,7 +104,7 @@ class UploadActivity extends Component {
 						.then(success => console.log(success))
 						.catch(error => console.log(error.response));
 				});
-				this.setState({ image: [] });
+				//this.setState({ image: [] });
 			})
 			.catch(error => console.log(error.response));
 	};
