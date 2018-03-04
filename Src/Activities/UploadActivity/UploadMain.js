@@ -9,22 +9,23 @@ import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
 class UploadActivity extends Component {
 	constructor(props) {
 		super(props);
+		this.axios = Axios.create();
+		this.axios.interceptors.request.use(request => {
+			console.log("Starting Request", request);
+			return request;
+		});
+
 		this.state = {
 			image: [],
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
-			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"]
+			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
+			albumId: "5a9ba2588db14e194f7b78d1"
 		};
 	}
 
 	handleUploadButtonPress = () => {
 		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
-		const axios = Axios.create();
-		axios.interceptors.request.use(request => {
-			console.log("Starting Request", request);
-			return request;
-		});
-
 		const payload = {
 			album_name: this.state.albumname,
 			created_by: "xyz", //current user
@@ -32,81 +33,18 @@ class UploadActivity extends Component {
 			users_id_array: this.state.users,
 			pending_images_array: this.image
 		};
+		this.createNewAlbumOrSubAlbum(payload, "createAlbum");
+	};
 
-		console.log("albumID and subAlbumID///" + this.state.image.length);
-
-		axios({
-			//create album
-			data: payload,
-			url: SERVER_URL + "createAlbum",
-			method: "post"
-		})
-			.then(({ data }) => {
-				const { albumId, subAlbumId } = data;
-				console.log(
-					"albumID and subAlbumID1" +
-						albumId +
-						subAlbumId +
-						"length" +
-						this.state.image.length
-				);
-				this.state.image.forEach(image => {
-					//for each image perform the following actions
-					console.log("albumID and subAlbumID2" + data.subAlbumId);
-					const type = image.mime;
-					const uri = image.path;
-					const name = image.path; //TODO:get filename here if required
-					let key;
-					axios
-						.post(SERVER_URL + "getPreSignedURL", {
-							//get url from node.js along with key or filename
-							type
-						})
-						.then(({ data }) => {
-							console.log(data);
-							key = data.Key;
-							return axios({
-								//upload image using signed url
-								url: data.url,
-								data: {
-									uri,
-									type,
-									name
-								},
-								method: "put",
-								headers: {
-									"Content-Type": type,
-									"x-amz-acl": "public-read"
-									//"x-amz-server-side-encryption": "AES256"
-								},
-								transformRequest: [
-									(data, headers) => {
-										delete headers.common.Authorization;
-										return data;
-									}
-								]
-							});
-						})
-						.then(data => {
-							// notify that the image was uploaded to our node.js server
-							console.log(data);
-							const payload = {
-								url: key, //photo url
-								subAlbumId,
-								albumId
-							};
-							return axios({
-								data: payload,
-								url: SERVER_URL + "notifyImageUpload",
-								method: "post"
-							});
-						})
-						.then(success => console.log(success))
-						.catch(error => console.log(error.response));
-				});
-				//this.setState({ image: [] });
-			})
-			.catch(error => console.log(error.response));
+	handleCreateSubAlbumButton = () => {
+		const payload = {
+			albumId: this.state.albumId,
+			created_by: "xyz", //current user
+			groupTag_id_array: this.state.groupsTags,
+			users_id_array: this.state.users,
+			pending_images_array: this.image
+		};
+		this.createNewAlbumOrSubAlbum(payload, "createSubAlbum");
 	};
 
 	handleOnPressImagePickerButton = () => {
@@ -118,6 +56,82 @@ class UploadActivity extends Component {
 		});
 	};
 
+	createNewAlbumOrSubAlbum = (payload, path) => {
+		console.log("albumID and subAlbumID///" + this.state.image.length);
+
+		this.axios({
+			//create album
+			data: payload,
+			url: SERVER_URL + path,
+			method: "post"
+		})
+			.then(({ data }) => {
+				const { subAlbumId } = data;
+				console.log(
+					" subAlbumID1" + subAlbumId + "length" + this.state.image.length
+				);
+				this.startInsertingImages(this.state.image, subAlbumId);
+				//this.setState({ image: [] });
+			})
+			.catch(error => console.log(error.response));
+	};
+
+	startInsertingImages = (Images, subAlbumId) => {
+		Images.forEach(image => {
+			//for each image perform the following actions
+			console.log("albumID and subAlbumID2" + subAlbumId);
+			const type = image.mime;
+			const uri = image.path;
+			const name = image.path; //TODO:get filename here if required
+			let key;
+			this.axios
+				.post(SERVER_URL + "getPreSignedURL", {
+					//get url from node.js along with key or filename
+					type
+				})
+				.then(({ data }) => {
+					console.log(data);
+					key = data.Key;
+					return this.axios({
+						//upload image using signed url
+						url: data.url,
+						data: {
+							uri,
+							type,
+							name
+						},
+						method: "put",
+						headers: {
+							"Content-Type": type,
+							"x-amz-acl": "public-read"
+							//"x-amz-server-side-encryption": "AES256"
+						},
+						transformRequest: [
+							(data, headers) => {
+								delete headers.common.Authorization;
+								return data;
+							}
+						]
+					});
+				})
+				.then(data => {
+					// notify that the image was uploaded to our node.js server
+					console.log(data);
+					const payload = {
+						url: key, //photo url
+						subAlbumId
+					};
+					return this.axios({
+						data: payload,
+						url: SERVER_URL + "notifyImageUpload",
+						method: "post"
+					});
+				})
+				.then(success => console.log(success))
+				.catch(error => console.log(error.response));
+		});
+	};
+
 	render() {
 		return (
 			<View>
@@ -126,6 +140,10 @@ class UploadActivity extends Component {
 					value={this.state.albumname}
 				/>
 				<Button onPress={this.handleUploadButtonPress} title="upload" />
+				<Button
+					onPress={this.handleCreateSubAlbumButton}
+					title="add to subalbum"
+				/>
 				<Button
 					onPress={this.handleOnPressImagePickerButton}
 					title="ImagePicker"
