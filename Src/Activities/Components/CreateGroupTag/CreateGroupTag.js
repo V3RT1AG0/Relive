@@ -43,7 +43,7 @@ class CreateGroupTag extends Component {
 		//const axios = Axios.create();
 
 		const payload = {
-			members: this.state.selectedUserID.map(user => user._id), //send only userid and not name
+			members: [MY_ID, ...this.state.selectedUserID.map(user => user._id)], //send only userid and not name
 			name: this.state.text,
 			createdBy: MY_ID
 		};
