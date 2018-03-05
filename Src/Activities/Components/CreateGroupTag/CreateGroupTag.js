@@ -28,7 +28,7 @@ class CreateGroupTag extends Component {
 		});
 
 		axios
-			.post(SERVER_URL + "getUserIds", { userId: MY_ID })
+			.post(SERVER_URL + "grouptag/getUserIds", { userId: MY_ID })
 			.then(result => {
 				console.log(result);
 				this.setState({ userIDs: [...result.data.userid] });
@@ -48,7 +48,7 @@ class CreateGroupTag extends Component {
 			createdBy: MY_ID
 		};
 		axios
-			.post(SERVER_URL + "addTag", payload)
+			.post(SERVER_URL + "groupTag/addTag", payload)
 			.then(success => {
 				console.log(success);
 			})

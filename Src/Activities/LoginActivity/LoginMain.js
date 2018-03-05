@@ -21,7 +21,7 @@ export default class LoginActivity extends Component {
 	handeleSubmitButton = () => {
 		const { name, phone } = this.state;
 		axios
-			.post(SERVER_URL + "signUp", { name, phone })
+			.post(SERVER_URL + "user/signUp", { name, phone })
 			.then(result => {
 				console.log(result);
 			})
