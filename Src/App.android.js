@@ -6,7 +6,7 @@ import React from "react";
 import UploadActivity from "./Activities/UploadActivity/UploadMain";
 import LoginActivity from "./Activities/LoginActivity/LoginMain";
 import ProfileActivity from "./Activities/ProfileActivity/ProfileMain";
-import TimelineActivity from "./Activities/TimelineActivity/TimelineMain";
+import TimelineActivity from "./Activities/TimelineActivity/TimelineContainer";
 import GalleryActivity from "./Activities/GalleryActivity/GalleryMain";
 import Navigation from "./Activities/Navigator";
 

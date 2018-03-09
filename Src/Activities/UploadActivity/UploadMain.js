@@ -21,6 +21,7 @@ class UploadActivity extends Component {
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
 			albumId: "5a9ba2588db14e194f7b78d1"
+			//5aa2152bad55272f3e1f758e
 		};
 	}
 
