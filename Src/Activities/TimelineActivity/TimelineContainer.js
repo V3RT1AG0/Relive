@@ -4,7 +4,7 @@ import { loadInitialTimelineAC } from "./TimelineActions";
 import TimeLineMain from "./TimelineMain";
 
 const mapDispatchToProps = dispatch => ({
-	getInitialTimeline: data => dispatch(loadInitialTimelineAC(data))
+	getInitialTimeline: () => dispatch(loadInitialTimelineAC())
 });
 
 const mapStateToProps = state => ({ timelineData: state.timeline });

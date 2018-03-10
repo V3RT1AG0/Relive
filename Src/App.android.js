@@ -9,6 +9,12 @@ import ProfileActivity from "./Activities/ProfileActivity/ProfileMain";
 import TimelineActivity from "./Activities/TimelineActivity/TimelineContainer";
 import GalleryActivity from "./Activities/GalleryActivity/GalleryMain";
 import Navigation from "./Activities/Navigator";
+import axios from "axios";
+
+axios.interceptors.request.use(request => {
+	console.log("Starting Request", request);
+	return request;
+});
 
 const RootNavigator = StackNavigator({
 	Navigator: {
