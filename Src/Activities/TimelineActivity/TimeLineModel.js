@@ -1,4 +1,6 @@
 // @flow
+import Realm from "realm";
+
 export const SubAlbumSchema = {
 	name: "SubAlbum",
 	properties: {
@@ -6,19 +8,22 @@ export const SubAlbumSchema = {
 		groupTagId: "string[]"
 	}
 };
-
-export const AlbumSchema = {
-	name: "AlbumSchema",
+const AlbumSchema = {
+	name: "Album",
 	properties: {
 		name: "string"
 	}
 };
 
-export const TimeLineSchema = {
-	name: "TimeLineSchema",
+const TimeLineSchema = {
+	name: "TimeLine",
 	properties: {
 		subAlbumIds: "SubAlbum[]",
-		albumId: "AlbumSchema",
+		albumId: "Album",
 		_id: "string"
 	}
 };
+
+export default new Realm({
+	schema: [TimeLineSchema, AlbumSchema, SubAlbumSchema]
+});

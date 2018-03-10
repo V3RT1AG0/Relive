@@ -1,10 +1,10 @@
 // @flow
 import { connect } from "react-redux";
-import { loadInitialTimelineAC } from "./TimelineActions";
+import { loadInitialTimeline } from "./TimelineActions";
 import TimeLineMain from "./TimelineMain";
 
 const mapDispatchToProps = dispatch => ({
-	getInitialTimeline: () => dispatch(loadInitialTimelineAC())
+	getInitialTimeline: () => dispatch(loadInitialTimeline())
 });
 
 const mapStateToProps = state => ({ timelineData: state.timeline });
