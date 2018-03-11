@@ -34,7 +34,7 @@ class UploadActivity extends Component {
 			users_id_array: this.state.users,
 			pending_images_array: this.image
 		};
-		this.createNewAlbumOrSubAlbum(payload, "album/createAlbum");
+		this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
 	};
 
 	handleCreateSubAlbumButton = () => {
@@ -45,7 +45,7 @@ class UploadActivity extends Component {
 			users_id_array: this.state.users,
 			pending_images_array: this.image
 		};
-		this.createNewAlbumOrSubAlbum(payload, "album/createSubAlbum");
+		this.createNewAlbumOrSubAlbum(payload, "/album/createSubAlbum");
 	};
 
 	handleOnPressImagePickerButton = () => {
@@ -86,7 +86,7 @@ class UploadActivity extends Component {
 			const name = image.path; //TODO:get filename here if required
 			let key;
 			this.axios
-				.post(SERVER_URL + "photos/getPreSignedURL", {
+				.post(SERVER_URL + "/photos/getPreSignedURL", {
 					//get url from node.js along with key or filename
 					type
 				})
@@ -124,7 +124,7 @@ class UploadActivity extends Component {
 					};
 					return this.axios({
 						data: payload,
-						url: SERVER_URL + "photos/notifyImageUpload",
+						url: SERVER_URL + "/photos/notifyImageUpload",
 						method: "post"
 					});
 				})

@@ -27,7 +27,7 @@ const fetchNewTimelineDataFromNetwork = latestAlbumId => {
 	//in production this will only fetch updated data
 	axios
 		.get(
-			SERVER_URL + "user/getUserAndTimelineData/" + MY_ID + "/" + latestAlbumId
+			SERVER_URL + "/user/getUserAndTimelineData/" + MY_ID + "/" + latestAlbumId
 		)
 		.then(result => {
 			console.log("fetchfromnetwork", result);
