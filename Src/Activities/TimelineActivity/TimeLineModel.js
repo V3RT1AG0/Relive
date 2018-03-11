@@ -15,6 +15,7 @@ const AlbumSchema = {
 	}
 };
 
+//this is same as album array in mongoDB
 const TimeLineSchema = {
 	name: "TimeLine",
 	properties: {
@@ -25,5 +26,6 @@ const TimeLineSchema = {
 };
 
 export default new Realm({
+	path: "Timeline.realm",
 	schema: [TimeLineSchema, AlbumSchema, SubAlbumSchema]
 });

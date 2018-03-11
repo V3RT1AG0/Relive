@@ -7,7 +7,7 @@ import UploadActivity from "./Activities/UploadActivity/UploadMain";
 import LoginActivity from "./Activities/LoginActivity/LoginMain";
 import ProfileActivity from "./Activities/ProfileActivity/ProfileMain";
 import TimelineActivity from "./Activities/TimelineActivity/TimelineContainer";
-import GalleryActivity from "./Activities/GalleryActivity/GalleryMain";
+import GalleryActivity from "./Activities/GalleryActivity/GalleyContainer";
 import Navigation from "./Activities/Navigator";
 import axios from "axios";
 
