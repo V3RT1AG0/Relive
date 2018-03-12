@@ -1,6 +1,7 @@
 // @flow
 import realm from "./GalleryModels";
 import { SERVER_URL, INITIAL_PHOTOS, ADD_PHOTOS } from "../../Config/Constants";
+import socket from "../../Config/SocketConfig";
 import axios from "axios";
 
 const loadPhotosAC = data => ({
@@ -11,6 +12,11 @@ const loadPhotosAC = data => ({
 const addNewPhotosAC = data => ({
 	type: ADD_PHOTOS,
 	data
+});
+
+const addSinglePhoto = photo => ({
+	type: ADD_PHOTOS,
+	photo
 });
 
 export const loadInitialPhotosfromRealm = subAlbumId => dispatch => {
@@ -50,12 +56,12 @@ const fetchNewPhotosDataFromNetwork = (subAlbumId, latestPhotoId) => {
 			console.log("fetchfromnetwork", result);
 			const newPhotos = result.data.photoId;
 			//newPhotos.forEach(Photo => addNewPhotoToRealm(Photo));
-			addNewPhotoToRealm(newPhotos);
+			addNewPhotoToRealm(newPhotos, subAlbumId);
 		})
 		.catch(error => console.log(error.response));
 };
 
-const addNewPhotoToRealm = newPhotos => {
+const addNewPhotoToRealm = (newPhotos, subAlbumId) => {
 	//call using foEACH and remove forEach here
 	try {
 		//this will trigger the listener
@@ -65,7 +71,23 @@ const addNewPhotoToRealm = newPhotos => {
 				console.log("Realm" + Photos._id);
 			});
 		});
+		setUpSocketforImageUpdates(subAlbumId);
 	} catch (e) {
 		console.log("Error on creation", e);
 	}
+};
+
+const setUpSocketforImageUpdates = subAlbumId => {
+	socket.emit("enterSubAlbum", subAlbumId);
+	socket.on("Photo", photo => {
+		console.log("PhotoFromSocket", photo);
+
+		try {
+			realm.write(() => {
+				realm.create("Photos", photo);
+			});
+		} catch (e) {
+			console.log("Error on creation", e);
+		}
+	});
 };
