@@ -3,6 +3,9 @@ package com.relive;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.photoview.PhotoViewPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import io.realm.react.RealmReactPackage;
 //import com.reactnative.photoview.PhotoViewPackage;
 //import com.BV.LinearGradient.LinearGradientPackage;
@@ -28,6 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PhotoViewPackage(),
+            new LinearGradientPackage(),
+            new VectorIconsPackage(),
             new RealmReactPackage(),
             //new PhotoViewPackage(),
             //new LinearGradientPackage(),

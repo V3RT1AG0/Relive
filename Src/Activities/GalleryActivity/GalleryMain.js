@@ -15,6 +15,10 @@ export default class GalleryActivity extends Component {
 		this.props.getInitialPhotos(this.state.subAlbumId);
 	}
 
+	componentWillUnmount(){
+		//maybe leave the joined subalbum group or in addition to that disconnect socket connection
+	}
+
 	render() {
 		return <Text>Done</Text>;
 	}

@@ -149,6 +149,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-photo-view')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-vector-icons')
     compile project(':realm')
     //below 3 lines were commented out because it caused error after shoutem unlink
     //compile project(':react-native-photo-view')
