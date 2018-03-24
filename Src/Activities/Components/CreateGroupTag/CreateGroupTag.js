@@ -77,6 +77,7 @@ class CreateGroupTag extends Component {
 		}
 
 		this.setState({ userIDs: [...this.state.userIDs] });
+		//even though I had not changed userId array I had to call setState on that to rerender listview since I have passed userId in listview
 	};
 
 	setSwitchValue = item => {
