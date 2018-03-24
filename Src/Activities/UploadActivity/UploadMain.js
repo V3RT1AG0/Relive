@@ -37,7 +37,7 @@ class UploadActivity extends Component {
 		this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
 	};
 
-	handleCreateSubAlbumButton = () => {
+	/* handleCreateSubAlbumButton = () => {
 		const payload = {
 			albumId: this.state.albumId,
 			created_by: "xyz", //current user
@@ -46,7 +46,7 @@ class UploadActivity extends Component {
 			pending_images_array: this.image
 		};
 		this.createNewAlbumOrSubAlbum(payload, "/album/createSubAlbum");
-	};
+	}; */
 
 	handleOnPressImagePickerButton = () => {
 		ImagePicker.openPicker({
@@ -67,20 +67,18 @@ class UploadActivity extends Component {
 			method: "post"
 		})
 			.then(({ data }) => {
-				const { subAlbumId } = data;
-				console.log(
-					" subAlbumID1" + subAlbumId + "length" + this.state.image.length
-				);
-				this.startInsertingImages(this.state.image, subAlbumId);
+				const { AlbumId } = data;
+				console.log(" AlbumID1" + AlbumId + "length" + this.state.image.length);
+				this.startInsertingImages(this.state.image, AlbumId);
 				this.setState({ image: [] });
 			})
 			.catch(error => console.log(error.response));
 	};
 
-	startInsertingImages = (Images, subAlbumId) => {
+	startInsertingImages = (Images, AlbumId) => {
 		Images.forEach(image => {
 			//for each image perform the following actions
-			console.log("albumID and subAlbumID2" + subAlbumId);
+			console.log("albumID" + AlbumId);
 			const type = image.mime;
 			const uri = image.path;
 			const name = image.path; //TODO:get filename here if required
@@ -120,7 +118,7 @@ class UploadActivity extends Component {
 					console.log(data);
 					const payload = {
 						url: key, //photo url
-						subAlbumId
+						AlbumId
 					};
 					return this.axios({
 						data: payload,

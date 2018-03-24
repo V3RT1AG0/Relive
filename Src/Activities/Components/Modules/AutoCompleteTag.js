@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {StyleSheet, Text, TouchableHighlight, TouchableOpacity, View} from "react-native";
 import {Image} from "@shoutem/ui";
-import Autocomplete from "./Modules/react-natie-autocomplete-input";
+import Autocomplete from "./react-native-autocomplete-input";
 
 export default class AutoTags extends Component {
     state = {
