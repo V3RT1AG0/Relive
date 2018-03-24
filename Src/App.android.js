@@ -8,6 +8,7 @@ import LoginActivity from "./Activities/LoginActivity/LoginMain";
 import ProfileActivity from "./Activities/ProfileActivity/ProfileMain";
 import TimelineActivity from "./Activities/TimelineActivity/TimelineContainer";
 import GalleryActivity from "./Activities/GalleryActivity/GalleyContainer";
+import ShareActivity from "./Activities/ShareActivity/ShareMain";
 import Navigation from "./Activities/Navigator";
 import axios from "axios";
 
@@ -51,6 +52,12 @@ const RootNavigator = StackNavigator({
 		screen: GalleryActivity,
 		navigationOptions: {
 			headerTitle: "Gallery"
+		}
+	},
+	Share: {
+		screen: ShareActivity,
+		navigationOptions: {
+			headerTitle: "Share"
 		}
 	}
 });

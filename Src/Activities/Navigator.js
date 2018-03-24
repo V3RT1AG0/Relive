@@ -16,6 +16,7 @@ export default class Navigator extends Component {
 				<Button title="Profile" onPress={() => navigate("Profile")} />
 				<Button title="Upload" onPress={() => navigate("Upload")} />
 				<Button title="Gallery" onPress={() => navigate("Gallery")} />
+				<Button title="Share" onPress={() => navigate("Share")} />
 			</View>
 		);
 	}
