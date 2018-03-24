@@ -1,10 +1,15 @@
 //@flow
 import React, { Component } from "react";
 import Axios from "axios";
-import { Button, View, TextInput } from "react-native";
+import { Button, View, TextInput, Animated } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { SERVER_URL, MY_ID } from "../../Config/Constants";
 import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
+import Gallery from "../Components/Gallery/Gallery";
+import AlbumDetailsForm from "../Components/Modules/AlbumDetailsForm";
+import { NavigationBar } from "@shoutem/ui";
+import styles from "./Style";
+import Interactable from "react-native-interactable";
 
 class UploadActivity extends Component {
 	constructor(props) {
@@ -14,7 +19,7 @@ class UploadActivity extends Component {
 			console.log("Starting Request", request);
 			return request;
 		});
-
+		this.scrollY = new Animated.Value(0);
 		this.state = {
 			image: [],
 			albumname: "",
@@ -36,17 +41,6 @@ class UploadActivity extends Component {
 		};
 		this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
 	};
-
-	/* handleCreateSubAlbumButton = () => {
-		const payload = {
-			albumId: this.state.albumId,
-			created_by: "xyz", //current user
-			groupTag_id_array: this.state.groupsTags,
-			users_id_array: this.state.users,
-			pending_images_array: this.image
-		};
-		this.createNewAlbumOrSubAlbum(payload, "/album/createSubAlbum");
-	}; */
 
 	handleOnPressImagePickerButton = () => {
 		ImagePicker.openPicker({
@@ -131,7 +125,7 @@ class UploadActivity extends Component {
 		});
 	};
 
-	render() {
+	/* render() {
 		return (
 			<View>
 				<TextInput
@@ -148,6 +142,59 @@ class UploadActivity extends Component {
 					title="ImagePicker"
 				/>
 				<CreateGroupTag />
+			</View>
+		);
+	} */
+
+	handleOnScrollUp = () => {
+		this.refs.gallery.snapTo({ index: 1 });
+	};
+
+	render() {
+		const scrollY = this.scrollY.interpolate({
+			inputRange: [-250, 0],
+			outputRange: [5, 200]
+		});
+
+		const opacity = this.scrollY.interpolate({
+			inputRange: [-250, 0],
+			outputRange: [0.5, 1]
+		});
+
+		/*  const {uploadNotifCount} = this.state;
+        let uploadCompArr = [];
+        for (let i = 0; i < uploadNotifCount; i++) {
+            uploadCompArr = [
+                ...uploadCompArr,
+                <ProgressView progress={this.state.progress}/>
+            ];
+        } */
+
+		return (
+			<View style={styles.topContainer}>
+				{/* <NavigationBar hasHistory /> */}
+				{/* <Animated.View style={{opacity}}>{uploadCompArr}</Animated.View> */}
+
+				<Animated.View
+					style={(styles.infoContainer, { top: scrollY, opacity })}
+				>
+					<AlbumDetailsForm />
+				</Animated.View>
+
+				<Interactable.View
+					ref="gallery"
+					style={styles.bottomGalleyContainer}
+					verticalOnly
+					snapPoints={[{ y: 0 }, { y: -250 }]}
+					animatedValueY={this.scrollY}
+				>
+					<Gallery
+						onScrollUp={this.handleOnScrollUp}
+						galleryMargin={5}
+						galleryPadding={5}
+						numColumns={3}
+					/>
+				</Interactable.View>
 			</View>
 		);
 	}

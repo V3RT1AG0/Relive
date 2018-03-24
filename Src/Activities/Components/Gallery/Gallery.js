@@ -68,9 +68,6 @@ export default class Gallery extends React.Component {
                 RNAlbums: [<Item key={0} label="Recents" value=""/>, ...dataItems]
             });
             this.getImagesFromCameraRoll();
-            /* console.log(list);
-            this.setState({ RNAlbums: [{ name: "Recents" }, ...list] });
-            this.getImagesFromCameraRoll(); */
         });
     }
 
@@ -212,7 +209,7 @@ export default class Gallery extends React.Component {
                     width: 25,
                     height: 25
                 }}
-                source={require("../../checked.png")}
+                source={require("../../../Assets/Images/checked.png")}
                 //require only once and try if performance imporoves
             />
         );

@@ -1,6 +1,6 @@
+// @flow
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import { Card, Subtitle, Caption, Title, DropDownMenu } from "@shoutem/ui";
 import { Picker } from "native-base";
 const Item = Picker.Item;
 
@@ -14,15 +14,7 @@ export default class ImagePathSelector extends Component {
 		};
 	}
 
-	/* handleOnOptionSelected = selectedData => {
-		console.log(selectedData.name + "selectedData");
-		this.setState({ selectedData });
-		console.log(this.props + "props");
-		this.props.onNewAlbumSelected(selectedData.name);
-	}; */
 	render() {
-		//const selectedData = this.state.selectedData || this.props.data[0];
-		//const selectedData = this.state.selectedData || this.props.data[0];
 		console.log(this.props.selectedData, "selectedData", this.props.data);
 		return (
 			<Picker
@@ -30,7 +22,7 @@ export default class ImagePathSelector extends Component {
 				itemStyle={{ backgroundColor: "#b95dd3" }}
 				textStyle={{ backgroundColor: "#b95dd3" }}
 				headerStyle={{ backgroundColor: "#b95dd3" }} */
-                style={{width: 150}}
+				style={{ width: 150 }}
 				itemStyle={{ fontStyle: "italic" }}
 				mode="dropdown" //dialog
 				placeholder="Select One"

@@ -1,4 +1,6 @@
 rootProject.name = 'Relive'
+include ':react-native-albums'
+project(':react-native-albums').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-albums/android')
 include ':react-native-interactable'
 project(':react-native-interactable').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-interactable/android')
 include ':react-native-photo-view'
