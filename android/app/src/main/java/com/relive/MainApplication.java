@@ -3,6 +3,7 @@ package com.relive;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.vydia.RNUploader.UploaderReactPackage;
 import im.shimo.react.albums.RNAlbumsPackage;
 import com.wix.interactable.Interactable;
 import com.reactnative.photoview.PhotoViewPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new UploaderReactPackage(),
             new RNAlbumsPackage(),
             new Interactable(),
             new PhotoViewPackage(),

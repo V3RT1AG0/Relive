@@ -24,6 +24,7 @@
 		"react": "16.2.0",
 		"react-native": "0.52.0",
 		"react-native-albums": "0.0.2",
+		"react-native-background-upload": "^4.4.0",
 		"react-native-image-crop-picker": "^0.19.1",
 		"react-native-interactable": "^0.1.10",
 		"react-navigation": "^1.0.0-beta.26",
