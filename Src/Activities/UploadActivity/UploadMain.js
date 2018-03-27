@@ -44,6 +44,8 @@ class UploadActivity extends Component {
 		this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
 	};
 
+	componentDidMount = () => {};
+
 	handleOnPressImagePickerButton = () => {
 		ImagePicker.openPicker({
 			multiple: true

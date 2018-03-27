@@ -29,3 +29,5 @@ export default new Realm({
 	path: "Timeline.realm",
 	schema: [TimeLineSchema, AlbumSchema, SubAlbumSchema]
 });
+
+//TODO remove subalbum schema
