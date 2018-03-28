@@ -14,6 +14,7 @@ import axios from "axios";
 import { Navigation } from "react-native-navigation";
 import { registerScreens } from "./Config/Screens";
 import { AppState } from "react-native";
+import { setUpNewUploadRealmListener } from "./Config/Listeners";
 
 axios.interceptors.request.use(request => {
 	console.log("Starting Request", request);
@@ -30,6 +31,8 @@ Navigation.startSingleScreenApp({
 		icon: require("./Assets/Images/checked.png")
 	}
 });
+
+setUpNewUploadRealmListener();
 /* AppState.addEventListener("change", () => {
 	console.log("abc");
 }); */
@@ -86,7 +89,8 @@ store.subscribe(() => {
 }); */
 
 //you need to import React even for stateless functional components
-/* const app = () => (
+/* const app =import { setUpNewUploadRealmListener } from './Config/Listeners';
+ () => (
 	<Provider store={store}>
 		<RootNavigator />
 	</Provider>

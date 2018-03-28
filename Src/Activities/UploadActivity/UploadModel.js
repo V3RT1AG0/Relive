@@ -4,9 +4,9 @@ import Realm from "realm";
 const PhotosSchema = {
 	name: "Photos",
 	properties: {
-		_id: "string",
-		uri: "string",
-		uploaded: "bool"
+		src: "string",
+		uploaded: { type: "bool", default: false },
+		mime: "string"
 	}
 };
 
@@ -15,7 +15,7 @@ const AlbumSchema = {
 	properties: {
 		name: "string",
 		_id: "string",
-		pendingPhotos: "Photos[]"
+		photos: "Photos[]"
 	}
 };
 

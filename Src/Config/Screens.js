@@ -1,19 +1,18 @@
 // @flow
 import { Navigation } from "react-native-navigation";
-import UploadActivity from "../Activities/UploadActivity/UploadMain";
+import UploadActivity from "../Activities/UploadActivity/UploadContainer";
 import LoginActivity from "../Activities/LoginActivity/LoginMain";
 import ProfileActivity from "../Activities/ProfileActivity/ProfileMain";
 import TimelineActivity from "../Activities/TimelineActivity/TimelineContainer";
 import GalleryActivity from "../Activities/GalleryActivity/GalleyContainer";
 import ShareActivity from "../Activities/ShareActivity/ShareMain";
 import NavigationActivity from "../Activities/Navigator";
-import configureStore from "./ReduxStoreConfig";
+import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
-
-const store = configureStore();
-/* store.subscribe(() => {
+//const store = configureStore();
+store.subscribe(() => {
 	console.log("store changed" + store.getState());
-}); */
+});
 
 export function registerScreens() {
 	Navigation.registerComponent("Navigator", () => NavigationActivity);

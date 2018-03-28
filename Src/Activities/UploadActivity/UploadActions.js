@@ -1,23 +1,8 @@
 // @flow
-// @flow
-// @flow
-// @flow
-// @flow
-// @flow
-// @flow
-// @flow
-// @flow
-// @flow
-/* // @flow
-import realm from "./GalleryModels";
-import { SERVER_URL, INITIAL_PHOTOS, ADD_PHOTOS } from "../../Config/Constants";
-import socket from "../../Config/SocketConfig";
-import axios from "axios";
+import { createAlbum } from "./UploadUtils";
 
-const addUploadListeners = () => ({});
-
-export const setUpUploadLIsteners = () => dispatch => {
+//payload contains album details and images is array of images to upload
+export const startUploadingPhotos = (payload, images) => dispatch => {
 	console.log("load initial photos action called");
-	dispatch(loadInitialPhotosfromRealm(subAlbumId));
+	dispatch(createAlbum(payload, images));
 };
- */

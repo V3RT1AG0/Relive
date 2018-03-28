@@ -4,10 +4,10 @@ import { loadInitialPhotos } from "./GalleryActions";
 import PhotosMain from "./GalleryMain";
 
 const mapDispatchToProps = dispatch => ({
-	getInitialPhotos: subAlbumId => dispatch(loadInitialPhotos(subAlbumId))
+	getInitialPhotos: AlbumId => dispatch(loadInitialPhotos(AlbumId))
 });
 
-const mapStateToProps = state => ({ PhotosData: state.Photos });
+const mapStateToProps = state => ({ PhotosData: state.gallery });
 
 const PhotosContainer = connect(mapStateToProps, mapDispatchToProps)(
 	PhotosMain

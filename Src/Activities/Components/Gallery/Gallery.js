@@ -41,7 +41,7 @@ export default class Gallery extends React.Component {
 	}
 
 	handleOnOptionSelected = selectedData => {
-		console.log(selectedData + "selectedData2");
+		//console.log(selectedData + "selectedData2");
 		this.setState(
 			{
 				selectedData,
@@ -50,11 +50,11 @@ export default class Gallery extends React.Component {
 				page: 0
 			},
 			() => {
-				console.log("callback", this.state.selectedData, this.state.items);
+				//console.log("callback", this.state.selectedData, this.state.items);
 				this.getImagesFromCameraRoll();
 			}
 		);
-		console.log(this.state.selectedData + "yyyx");
+		//console.log(this.state.selectedData + "yyyx");
 	};
 
 	componentDidMount() {
@@ -63,7 +63,7 @@ export default class Gallery extends React.Component {
 			thumbnail: false,
 			thumbnailDimensions: false
 		}).then(list => {
-			console.log(list);
+			//console.log(list);
 			const dataItems = list.map((item, i) => (
 				<Item key={i + 1} label={item.name} value={item.name} />
 			));
@@ -78,7 +78,7 @@ export default class Gallery extends React.Component {
 		const selectedDataName = this.state.selectedData
 			? this.state.selectedData
 			: undefined;
-		console.log(this.state.selectedData + "yyy");
+		//console.log(this.state.selectedData + "yyy");
 		CameraRoll.getPhotos({
 			first: 20,
 			after: this.state.after,
@@ -88,7 +88,7 @@ export default class Gallery extends React.Component {
 		})
 			.then(r => {
 				//this.setState({ photos: r.edges });
-				console.log(r);
+				//console.log(r);
 				const items = r.edges.map((item, i) => ({
 					id: this.state.page + i,
 					src: item.node.image.uri,
@@ -103,12 +103,12 @@ export default class Gallery extends React.Component {
 				});
 			})
 			.catch(err => {
-				console.log("Error Loading Images", err);
+				//	console.log("Error Loading Images", err);
 			});
 	};
 
 	onEndReached = () => {
-		console.log("onEndReached");
+		//console.log("onEndReached");
 		this.getImagesFromCameraRoll();
 	};
 
@@ -118,7 +118,7 @@ export default class Gallery extends React.Component {
 			: this.state.RNAlbums[0];
 
 		const noOfSelectedImages = this.state.selectedImages.length;
-		console.log(selectedData, "xxx");
+		//console.log(selectedData, "xxx");
 
 		return (
 			<View>
@@ -188,7 +188,7 @@ export default class Gallery extends React.Component {
 
 	onButtonPress = itemData => {
 		const id = itemData.item.id;
-		console.log("button pressed", id);
+		//console.log("button pressed", id);
 		const newItems = [...this.state.items];
 		newItems[id].selected = !newItems[id].selected; //toggle selected true or false
 

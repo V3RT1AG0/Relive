@@ -33,6 +33,7 @@ export const loadInitialPhotosfromRealm = AlbumId => dispatch => {
 		console.log(changes + "changes");
 		const PhotosArray = [];
 		changes.insertions.forEach(index => {
+			console.log(Photos[index]);
 			PhotosArray.push(Photos[index]);
 		});
 		if (PhotosArray.length !== 0) dispatch(addNewPhotosAC(PhotosArray));

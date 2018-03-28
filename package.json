@@ -22,7 +22,7 @@
 		"axios": "^0.17.1",
 		"native-base": "^2.4.1",
 		"react": "16.2.0",
-		"react-native": "^0.54.3",
+		"react-native": "^0.51.0",
 		"react-native-albums": "0.0.2",
 		"react-native-background-upload": "^4.4.0",
 		"react-native-image-crop-picker": "^0.19.1",

@@ -15,7 +15,7 @@ export default class ImagePathSelector extends Component {
 	}
 
 	render() {
-		console.log(this.props.selectedData, "selectedData", this.props.data);
+		//console.log(this.props.selectedData, "selectedData", this.props.data);
 		return (
 			<Picker
 				/* IOS only

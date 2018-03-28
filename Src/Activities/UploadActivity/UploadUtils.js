@@ -1,8 +1,22 @@
 // @flow
-import { ADD_ALBUM, IMAGE_UPLOADED, SERVER_URL } from "../../Config/Constants";
-import Upload from "react-native-background-upload";
+import realm from "./UploadModel";
+import { ADD_ALBUM, SERVER_URL, IMAGE_UPLOADED } from "../../Config/Constants";
 import axios from "axios";
-const startInsertingImages = (Images, AlbumId) => {
+
+//triggered whenever a new photo is added to existing album or new album is created
+export const insertAlbum = album => ({
+	type: ADD_ALBUM,
+	album
+});
+
+createNewAlbumOrSubAlbum = (payload, path) =>
+	axios({
+		data: payload,
+		url: SERVER_URL + path,
+		method: "post"
+	});
+
+startInsertingImages = (Images, AlbumId) => {
 	Images.forEach(image => {
 		//for each image perform the following actions
 		console.log("albumID" + AlbumId);
@@ -13,7 +27,7 @@ const startInsertingImages = (Images, AlbumId) => {
                 : image.path; */
 		const name = image.path; //TODO:get filename here if required
 		let key;
-		axios
+		this.axios
 			.post(SERVER_URL + "/photos/getPreSignedURL", {
 				//get url from node.js along with key or filename
 				type
@@ -55,7 +69,7 @@ const startInsertingImages = (Images, AlbumId) => {
 								url: key, //photo url
 								AlbumId
 							};
-							axios({
+							return this.axios({
 								data: payload,
 								url: SERVER_URL + "/photos/notifyImageUpload",
 								method: "post"
@@ -69,24 +83,42 @@ const startInsertingImages = (Images, AlbumId) => {
 	});
 };
 
-const GalleryReducer = (state = [], action) => {
-	//this state is nothing but an array of albums currently in upload which contains array of photos
-	switch (action.type) {
-		case ADD_ALBUM:
-			//	const newAlbums = action.albums.filter(f => !state.includes(f));
-			if (!state.includes(action.album)) {
-				startInsertingImages(action.album.photos, action.album._id);
-				return (state = [...state, ...action.album]);
-			} 
-				return state;
-				// if album already exist update the images. i.e if insert listener is triggered when data is entered in photos array which is not yet confiremd
-			
-
-		case IMAGE_UPLOADED:
-			return (state = [...state, ...action.data]);
-		default:
-			return state;
-	}
+export const createAlbum = (payload, selectedImages) => dispatch => {
+	createNewAlbumOrSubAlbum(payload, "/album/createAlbum")
+		.then(({ data }) => {
+			const { AlbumId } = data;
+			console.log(" AlbumID1" + AlbumId + "length" + selectedImages.length);
+			loadAlbumToUploadToRealm(AlbumId, payload.album_name, selectedImages);
+			//this.startInsertingImages(this.selectedImages, AlbumId);
+			//this.setState({ image: [] });
+		})
+		.catch(error => console.log(error.response));
 };
 
-export default GalleryReducer;
+const loadAlbumToUploadToRealm = (_id, name, imagesArray) => {
+	console.log(imagesArray, "imagesAray");
+	realm.write(() => {
+		const Album = realm.create("Album", {
+			name,
+			_id,
+			photos: []
+		});
+		imagesArray.forEach(image => {
+			Album.photos.push(image);
+		});
+	});
+	/* const Album = realm.objects("Album");
+	console.log(Album.length);
+	Album.addListener((Photos, changes) => {
+		console.log(changes + "changes");
+		const PhotosArray = [];
+		changes.insertions.forEach(index => {
+			PhotosArray.push(Photos[index]);
+		});
+		//setup update listener here
+		dispatch(addNewPhotosAC(PhotosArray));
+	}); */
+
+	/* dispatch(loadPhotosAC(Photos));
+	fetchNewPhotosDataFromNetwork(AlbumId, latestPhotoId);*/
+};
