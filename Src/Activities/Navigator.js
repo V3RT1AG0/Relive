@@ -8,14 +8,14 @@ export default class Navigator extends Component {
 	}
 
 	render() {
-		const { push } = this.props.navigator;
+		//const { this.props.navigator.push } = this.props.navigator;
 
 		return (
 			<View>
 				<Button
 					title="Login"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Login",
 							title: "Login"
 						})
@@ -24,7 +24,7 @@ export default class Navigator extends Component {
 				<Button
 					title="Timeline"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Login",
 							title: "Login"
 						})
@@ -33,7 +33,7 @@ export default class Navigator extends Component {
 				<Button
 					title="Profile"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Profile",
 							title: "Profie"
 						})
@@ -42,7 +42,7 @@ export default class Navigator extends Component {
 				<Button
 					title="Upload"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Upload",
 							title: "Upload"
 						})
@@ -51,7 +51,7 @@ export default class Navigator extends Component {
 				<Button
 					title="Gallery"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Gallery",
 							title: "Gallery"
 						})
@@ -60,9 +60,18 @@ export default class Navigator extends Component {
 				<Button
 					title="Share"
 					onPress={() =>
-						push({
+						this.props.navigator.push({
 							screen: "Share",
 							title: "Share"
+						})
+					}
+				/>
+				<Button
+					title="UploadProgress"
+					onPress={() =>
+						this.props.navigator.push({
+							screen: "UploadProgress",
+							title: "UploadProgress"
 						})
 					}
 				/>

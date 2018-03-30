@@ -12,6 +12,7 @@ const PhotosSchema = {
 
 const AlbumSchema = {
 	name: "Album",
+	primaryKey: "_id",
 	properties: {
 		name: "string",
 		_id: "string",

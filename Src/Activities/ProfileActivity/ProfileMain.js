@@ -8,6 +8,7 @@ import Interactable from "react-native-interactable";
 export default class ProfileActivity extends Component {
 	constructor(props) {
 		super(props);
+		console.log(props);
 	}
 
 	render() {

@@ -42,7 +42,15 @@ class UploadActivity extends Component {
 			users_id_array: this.state.users
 			//pending_images_array: this.image
 		};
-		this.props.startUploadingPhotos(payload, this.selectedImages);
+		this.props.startUploadingPhotos(
+			payload,
+			this.selectedImages,
+			this.props.navigator
+		);
+		/* this.props.navigator.push({
+			screen: "UploadProgress"
+		}); */
+
 		//this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
 	};
 
@@ -66,130 +74,6 @@ class UploadActivity extends Component {
 		const index = this.selectedImages.indexOf(selectedImage);
 		if (index > -1) this.selectedImages.splice(index, 1);
 	};
-
-	/* createNewAlbumOrSubAlbum = (payload, path) => {
-		console.log("albumID and subAlbumID///" + this.state.image.length);
-
-		this.axios({
-			//create album
-			data: payload,
-			url: SERVER_URL + path,
-			method: "post"
-		})
-			.then(({ data }) => {
-				const { AlbumId } = data;
-				console.log(" AlbumID1" + AlbumId + "length" + this.state.image.length);
-				this.startInsertingImages(this.selectedImages, AlbumId);
-				this.setState({ image: [] });
-			})
-			.catch(error => console.log(error.response));
-	};
-
-	startInsertingImages = (Images, AlbumId) => {
-		Images.forEach(image => {
-			//for each image perform the following actions
-			console.log("albumID" + AlbumId);
-			const type = image.mime;
-			const uri = image.src;
-			/* Platform.OS === "android"
-					? image.path.replace("file://", "")
-					: image.path; */
-			const name = image.path; //TODO:get filename here if required
-			let key;
-			this.axios
-				.post(SERVER_URL + "/photos/getPreSignedURL", {
-					//get url from node.js along with key or filename
-					type
-				})
-				.then(({ data }) => {
-					key = data.Key;
-					const options = {
-						url: data.url,
-						path: uri,
-						method: "PUT",
-						type: "raw",
-						field: "uploaded_media",
-						headers: {
-							"Content-Type": type,
-							"x-amz-acl": "public-read"
-						},
-						notification: {
-							enabled: true
-						}
-					};
-
-					Upload.startUpload(options)
-						.then(uploadId => {
-							console.log("Upload started");
-							Upload.addListener("progress", uploadId, data => {
-								console.log(`Progress: ${data.progress}%`);
-							});
-							Upload.addListener("error", uploadId, data => {
-								console.log(`Error: ${data.error}%`);
-							});
-							Upload.addListener("cancelled", uploadId, data => {
-								console.log(`Cancelled!`);
-							});
-							Upload.addListener("completed", uploadId, data => {
-								// data includes responseCode: number and responseBody: Object
-								console.log(data);
-								console.log("Completed!");
-								const payload = {
-									url: key, //photo url
-									AlbumId
-								};
-								return this.axios({
-									data: payload,
-									url: SERVER_URL + "/photos/notifyImageUpload",
-									method: "post"
-								});
-							});
-						})
-						.catch(err => {
-							console.log("Upload error!", err);
-						});
-
-					/* console.log(data);
-					key = data.Key;
-					return this.axios({
-						//upload image using signed url
-						url: data.url,
-						data: {
-							uri,
-							type,
-							name
-						},
-						method: "put",
-						headers: {
-							"Content-Type": type,
-							"x-amz-acl": "public-read"
-							//"x-amz-server-side-encryption": "AES256"
-						},
-						transformRequest: [
-							(data, headers) => {
-								delete headers.common.Authorization;
-								return data;
-							}
-						]
-					}); */
-				});
-			/* .then(data => {
-					// notify that the image was uploaded to our node.js server
-					console.log(data);
-					const payload = {
-						url: key, //photo url
-						AlbumId
-					};
-					return this.axios({
-						data: payload,
-						url: SERVER_URL + "/photos/notifyImageUpload",
-						method: "post"
-					});
-				})
-				.then(success => console.log(success))
-				.catch(error => console.log(error.response)); */
-		});
-	}; */
 
 	/* render() {
 		return (

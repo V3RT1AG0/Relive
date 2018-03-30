@@ -1,6 +1,6 @@
 // @flow
 import realm from "./UploadModel";
-import { ADD_ALBUM, SERVER_URL, IMAGE_UPLOADED } from "../../Config/Constants";
+import { ADD_ALBUM, SERVER_URL } from "../../Config/Constants";
 import axios from "axios";
 
 //triggered whenever a new photo is added to existing album or new album is created
@@ -9,14 +9,14 @@ export const insertAlbum = album => ({
 	album
 });
 
-createNewAlbumOrSubAlbum = (payload, path) =>
+const createNewAlbumOrSubAlbum = (payload, path) =>
 	axios({
 		data: payload,
 		url: SERVER_URL + path,
 		method: "post"
 	});
 
-startInsertingImages = (Images, AlbumId) => {
+const startInsertingImages = (Images, AlbumId) => {
 	Images.forEach(image => {
 		//for each image perform the following actions
 		console.log("albumID" + AlbumId);
@@ -83,10 +83,14 @@ startInsertingImages = (Images, AlbumId) => {
 	});
 };
 
-export const createAlbum = (payload, selectedImages) => dispatch => {
+export const createAlbum = (payload, selectedImages, navigator) => dispatch => {
 	createNewAlbumOrSubAlbum(payload, "/album/createAlbum")
 		.then(({ data }) => {
 			const { AlbumId } = data;
+			navigator.push({
+				screen: "UploadProgress",
+				passProps: { AlbumId }
+			});
 			console.log(" AlbumID1" + AlbumId + "length" + selectedImages.length);
 			loadAlbumToUploadToRealm(AlbumId, payload.album_name, selectedImages);
 			//this.startInsertingImages(this.selectedImages, AlbumId);

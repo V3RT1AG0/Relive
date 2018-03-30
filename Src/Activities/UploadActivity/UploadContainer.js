@@ -4,11 +4,13 @@ import { startUploadingPhotos } from "./UploadActions";
 import UploadMain from "./UploadMain";
 
 const mapDispatchToProps = dispatch => ({
-	startUploadingPhotos: (payload, photosArray) =>
-		dispatch(startUploadingPhotos(payload, photosArray))
+	startUploadingPhotos: (payload, photosArray, navigator) =>
+		dispatch(startUploadingPhotos(payload, photosArray, navigator))
 });
 
-const mapStateToProps = state => ({ data: state.upload });
+const mapStateToProps = state => ({
+	data: state.upload
+});
 
 const UploadContainer = connect(mapStateToProps, mapDispatchToProps)(
 	UploadMain

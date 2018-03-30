@@ -1,5 +1,10 @@
 // @flow
-import { ADD_ALBUM, IMAGE_UPLOADED, SERVER_URL } from "../../Config/Constants";
+import {
+	ADD_ALBUM,
+	IMAGE_UPLOADED,
+	SERVER_URL,
+	ADD_SELECTED_PHOTO
+} from "../../Config/Constants";
 import Upload from "react-native-background-upload";
 import axios from "axios";
 const startInsertingImages = (Images, AlbumId) => {
@@ -73,15 +78,17 @@ const GalleryReducer = (state = [], action) => {
 	//this state is nothing but an array of albums currently in upload which contains array of photos
 	switch (action.type) {
 		case ADD_ALBUM:
-			//	const newAlbums = action.albums.filter(f => !state.includes(f));
-			if (!state.includes(action.album)) {
-				startInsertingImages(action.album.photos, action.album._id);
-				return (state = [...state, ...action.album]);
-			} 
-				return state;
-				// if album already exist update the images. i.e if insert listener is triggered when data is entered in photos array which is not yet confiremd
-			
-
+			return (state = [...state, action.album]);
+		case ADD_SELECTED_PHOTO: {
+			const updatedItems = state.map(item => {
+				if (item._id === action.albumId) {
+					return { ...item, photos: [...item.photos, ...action.photos] };
+				}
+				return item;
+			});
+			//startInsertingImages(action.photos, action.albumId);
+			return (state = [...updatedItems]);
+		}
 		case IMAGE_UPLOADED:
 			return (state = [...state, ...action.data]);
 		default:
@@ -90,3 +97,24 @@ const GalleryReducer = (state = [], action) => {
 };
 
 export default GalleryReducer;
+
+//	const newAlbums = action.albums.filter(f => !state.includes(f));
+/* if (!state.includes(action.album)) {
+				startInsertingImages(action.album.photos, action.album._id);
+				return (state = [...state, action.album]);
+			}
+			else
+			{
+				startInsertingImages(action.album.photos, action.album._id);
+				console.log("returned same state");
+				const updatedItems = state.map(item => {
+					if(item._id === action.album._id){
+					  return { ...item, photos:[...action.album.photos] }
+					}
+					return item
+				  })
+				return (state = [...updatedItems]); 
+			}*/
+//startInsertingImages(action.album.photos, action.album._id);
+
+// if album already exist update the images. i.e if insert listener is triggered when data is entered in photos array which is not yet confiremd
