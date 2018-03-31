@@ -11,11 +11,13 @@ import { NavigationBar } from "@shoutem/ui";
 import styles from "./Style";
 import Interactable from "react-native-interactable";
 import Upload from "react-native-background-upload";
+import { UploadRealm } from "./UploadModel";
+import { startInsertingImages } from "../../Config/UploadService";
+import { createNewAlbumOrSubAlbum, loadAlbumToRealm } from "./UploadUtils";
 
 class UploadActivity extends Component {
 	constructor(props) {
 		super(props);
-		console.log(props, "props");
 		this.selectedImages = [];
 		this.axios = Axios.create();
 		this.axios.interceptors.request.use(request => {
@@ -24,12 +26,10 @@ class UploadActivity extends Component {
 		});
 		this.scrollY = new Animated.Value(0);
 		this.state = {
-			//image: [],
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
 			albumId: "5a9ba2588db14e194f7b78d1"
-			//5aa2152bad55272f3e1f758e
 		};
 	}
 
@@ -40,21 +40,18 @@ class UploadActivity extends Component {
 			created_by: "xyz", //current user
 			groupTag_id_array: this.state.groupsTags,
 			users_id_array: this.state.users
-			//pending_images_array: this.image
 		};
-		this.props.startUploadingPhotos(
-			payload,
-			this.selectedImages,
-			this.props.navigator
-		);
-		/* this.props.navigator.push({
-			screen: "UploadProgress"
-		}); */
 
-		//this.createNewAlbumOrSubAlbum(payload, "/album/createAlbum");
+		createNewAlbumOrSubAlbum(payload, "/album/createAlbum").then(({ data }) => {
+			const { AlbumId } = data;
+			loadAlbumToRealm(AlbumId, this.state.albumname, this.selectedImages);
+			startInsertingImages(this.selectedImages, AlbumId);
+			this.props.navigator.push({
+				screen: "UploadProgress",
+				passProps: { AlbumId }
+			});
+		});
 	};
-
-	componentDidMount = () => {};
 
 	handleOnPressImagePickerButton = () => {
 		ImagePicker.openPicker({

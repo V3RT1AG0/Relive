@@ -32,7 +32,7 @@ Navigation.startSingleScreenApp({
 	}
 });
 
-setUpNewUploadRealmListener();
+//setUpNewUploadRealmListener();
 /* AppState.addEventListener("change", () => {
 	console.log("abc");
 }); */

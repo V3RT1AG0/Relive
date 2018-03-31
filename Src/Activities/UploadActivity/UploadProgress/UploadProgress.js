@@ -15,19 +15,3 @@ export const addImagesToExistingAlbum = (albumId, images) => dispatch => {
 	console.log("addPhotosToExistigAlbum");
 	dispatch(addPhotosToExistingAlbum(albumId, images));
 };
-
-const addPhotosToRealm = (albumId, images) => {
-	//const Albums= realm.objects("Album").filtered("_id = " + albumId);
-	console.log(albumId);
-	const Album = realm.objectForPrimaryKey("Album", albumId);
-	console.log(Album, albumId);
-	try {
-		realm.write(() => {
-			images.forEach(item => {
-				Album.photos.push(item);
-			});
-		});
-	} catch (e) {
-		console.log(e);
-	}
-};

@@ -7,8 +7,10 @@ import { NavigationBar } from "@shoutem/ui";
 import styles from "./Style";
 import Interactable from "react-native-interactable";
 import { connect } from "react-redux";
-import { addImagesToExistingAlbum } from "./UploadProgressActions";
 import { MY_ID } from "../../../Config/Constants";
+import { UploadRealm } from "../UploadModel";
+import { addPhotosToRealm } from "../UploadUtils";
+import { startInsertingImages } from "../../../Config/UploadService";
 
 class UploadProgressMain extends Component {
 	constructor(props) {
@@ -17,6 +19,8 @@ class UploadProgressMain extends Component {
 		this.selectedImages = [];
 		this.scrollY = new Animated.Value(0);
 		this.state = {
+			queuedImages: UploadRealm.objectForPrimaryKey("Album", props.AlbumId)
+				.photos,
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
@@ -24,11 +28,26 @@ class UploadProgressMain extends Component {
 		};
 	}
 
+	forceUpdateRealm = () => {
+		this.forceUpdate(() => {
+			console.log("StateChanged=>", this.state.queuedImages);
+		});
+	};
+
+	componentDidMount = () => {
+		UploadRealm.addListener("change", this.forceUpdateRealm);
+	};
+
+	componentWillUnmount = () => {
+		UploadRealm.removeListener("change", this.forceUpdateRealm);
+	};
+
 	handleUploadButtonPress = () => {
-		this.props.addImagesToExistingAlbum(
-			this.props.AlbumId,
-			this.selectedImages
-		);
+		addPhotosToRealm(this.props.AlbumId, this.selectedImages)
+			.then(() => {
+				startInsertingImages(this.selectedImages, this.props.AlbumId);
+			})
+			.catch(e => console.log(e));
 	};
 
 	handleOnPressImagePickerButton = () => {
@@ -95,15 +114,13 @@ class UploadProgressMain extends Component {
 	};
 }
 
-const mapDispatchToProps = dispatch => ({
+/* const mapDispatchToProps = dispatch => ({
 	addImagesToExistingAlbum: (albumId, photosArray) =>
 		dispatch(addImagesToExistingAlbum(albumId, photosArray))
-});
+}); */
 
 const mapStateToProps = state => ({ data: state.upload });
 
-const UploadProgressContainer = connect(mapStateToProps, mapDispatchToProps)(
-	UploadProgressMain
-);
+const UploadProgressContainer = connect(mapStateToProps)(UploadProgressMain);
 
 export default UploadProgressContainer;

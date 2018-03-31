@@ -12,7 +12,7 @@ export default class App extends Component {
 	_keyExtractor = (item, index) => item.id;
 
 	render() {
-		console.log("Photo Grid Flat render");
+		//console.log("Photo Grid Flat render");
 		return (
 			<FlatList
 				data={this.props.data}

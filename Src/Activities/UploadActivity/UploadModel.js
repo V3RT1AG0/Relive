@@ -20,7 +20,7 @@ const AlbumSchema = {
 	}
 };
 
-export default new Realm({
+export const UploadRealm =  new Realm({
 	path: "Upload.realm",
 	schema: [AlbumSchema, PhotosSchema]
 });
