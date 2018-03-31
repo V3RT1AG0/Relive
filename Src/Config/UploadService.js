@@ -12,7 +12,12 @@ export const startInsertingImages = (Images, AlbumId) => {
 };
 
 const uploadImage = (Images, AlbumId, index) => {
-	if (!index < Images.length) return;
+	console.log(index);
+	if (!(index < Images.length)) {
+		console.log("return", index, Images.length);
+		return;
+	}
+
 	const image = Images[index];
 	console.log("IMage upload started for image=>", image);
 	console.log("albumID" + AlbumId);
@@ -61,13 +66,19 @@ const uploadImage = (Images, AlbumId, index) => {
 							url: key, //photo url
 							AlbumId
 						};
+						uploadImage(Images, AlbumId, index + 1);
 						axios({
 							data: payload,
 							url: SERVER_URL + "/photos/notifyImageUpload",
 							method: "post"
-						}).then(() => {
-							uploadImage(Images, AlbumId, index++);
-						});
+						})
+							.then(() => {
+								//this does not get triggerd for some unknown reason and I assume becasue of this image upload is retried hence duplicate image
+								console.log("Image uploaded");
+							})
+							.catch(e => {
+								console.log(e);
+							});
 					});
 				})
 				.catch(err => {

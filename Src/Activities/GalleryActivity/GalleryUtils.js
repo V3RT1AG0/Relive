@@ -110,3 +110,18 @@ export const setUpSocketforImageUpdates = AlbumId => {
 		}
 	});
 };
+
+export const leaveSocketRoom = AlbumId => {
+	const Album = GalleryRealm.objectForPrimaryKey("Album", AlbumId);
+	socket.emit("enterAlbum", AlbumId);
+	socket.on("Photo", photo => {
+		console.log("PhotoFromSocket", photo);
+		try {
+			GalleryRealm.write(() => {
+				Album.photos.push(photo);
+			});
+		} catch (e) {
+			console.log("Error on creation", e);
+		}
+	});
+};
