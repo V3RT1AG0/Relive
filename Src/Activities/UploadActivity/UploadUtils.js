@@ -16,7 +16,7 @@ export const createNewAlbumOrSubAlbum = (payload, path) =>
 		method: "post"
 	});
 
-export const createAlbum = (payload, selectedImages, navigator) => dispatch => {
+/* export const createAlbum = (payload, selectedImages, navigator) => dispatch => {
 	createNewAlbumOrSubAlbum(payload, "/album/createAlbum")
 		.then(({ data }) => {
 			const { AlbumId } = data;
@@ -28,7 +28,7 @@ export const createAlbum = (payload, selectedImages, navigator) => dispatch => {
 			loadAlbumToUploadToRealm(AlbumId, payload.album_name, selectedImages);
 		})
 		.catch(error => console.log(error.response));
-};
+}; */
 
 export const addPhotosToRealm = (albumId, images) =>
 	new Promise((resolve, reject) => {

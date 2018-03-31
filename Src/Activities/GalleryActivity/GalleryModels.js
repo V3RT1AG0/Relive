@@ -1,19 +1,9 @@
 // @flow
 import Realm from "realm";
 
-const SubAlbumSchema = {
-	name: "Sub",
-	properties: {
-		owner: "string",
-		userId: "string[]",
-		groupTagId: "string[]",
-		photoId: "string[]",
-		pendingPhotos: "Photos[]"
-	}
-};
-
 const PhotosSchema = {
 	name: "Photos",
+	primaryKey: "_id",
 	properties: {
 		_id: "string",
 		url: "string",
@@ -21,7 +11,19 @@ const PhotosSchema = {
 	}
 };
 
-export default new Realm({
+const AlbumSchema = {
+	name: "Album",
+	primaryKey: "_id",
+	properties: {
+		_id: "string",
+		owner: "string",
+		userId: "string[]",
+		groupTagId: "string[]",
+		photos: { type: "Photos[]", default: [] }
+	}
+};
+
+export const GalleryRealm = new Realm({
 	path: "Gallery.realm",
-	schema: [SubAlbumSchema, PhotosSchema]
+	schema: [AlbumSchema, PhotosSchema]
 });

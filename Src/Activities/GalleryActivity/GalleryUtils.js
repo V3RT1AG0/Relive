@@ -1,8 +1,8 @@
 // @flow
-import realm from "./GalleryModels";
 import { SERVER_URL, INITIAL_PHOTOS, ADD_PHOTOS } from "../../Config/Constants";
 import socket from "../../Config/SocketConfig";
 import axios from "axios";
+import { GalleryRealm } from "./GalleryModels";
 
 const loadPhotosAC = data => ({
 	type: INITIAL_PHOTOS,
@@ -19,7 +19,7 @@ const addSinglePhoto = photo => ({
 	photo
 });
 
-export const loadInitialPhotosfromRealm = AlbumId => dispatch => {
+/* export const loadInitialPhotosfromRealm = AlbumId => {
 	const Photos = realm.objects("Photos");
 	let latestPhotoId = "000000000000000000000000";
 	console.log(Photos.length);
@@ -29,7 +29,7 @@ export const loadInitialPhotosfromRealm = AlbumId => dispatch => {
 		console.log("data changed" + Photos);
 		dispatch(loadPhotosAC(Photos));
 	}); */
-	Photos.addListener((Photos, changes) => {
+/* Photos.addListener((Photos, changes) => {
 		console.log(changes + "changes");
 		const PhotosArray = [];
 		changes.insertions.forEach(index => {
@@ -40,46 +40,70 @@ export const loadInitialPhotosfromRealm = AlbumId => dispatch => {
 	});
 
 	dispatch(loadPhotosAC(Photos));
-	fetchNewPhotosDataFromNetwork(AlbumId, latestPhotoId);
-};
+	fetchNewPhotosDataFromNetwork(AlbumId, latestPhotoId); 
+}; */
 
-const fetchNewPhotosDataFromNetwork = (AlbumId, latestPhotoId) => {
+export const fetchNewPhotosDataFromNetwork = (AlbumId, photos) => {
 	//in production this will only fetch updated data
-	axios
+	let latestPhotoId = "000000000000000000000000";
+	if (photos.length !== 0) latestPhotoId = photos.sorted("_id", true)[0]._id;
+	console.log("latestPhoto ID=>", latestPhotoId);
+	return axios
 		.get(SERVER_URL + "/album/getAlbumPhotos/" + AlbumId + "/" + latestPhotoId)
 		.then(result => {
 			console.log("fetchfromnetwork", result);
-			const newPhotos = result.data.photoId;
-			//newPhotos.forEach(Photo => addNewPhotoToRealm(Photo));
-			addNewPhotoToRealm(newPhotos, AlbumId);
+			return addNewPhotoToRealm(result.data);
 		})
 		.catch(error => console.log(error.response));
 };
 
-const addNewPhotoToRealm = (newPhotos, AlbumId) => {
-	//call using foEACH and remove forEach here
-	try {
-		//this will trigger the listener
-		realm.write(() => {
-			newPhotos.forEach(newPhoto => {
-				const Photos = realm.create("Photos", newPhoto);
-				console.log("Realm" + Photos._id);
-			});
-		});
-		setUpSocketforImageUpdates(AlbumId);
-	} catch (e) {
-		console.log("Error on creation", e);
-	}
-};
+const addNewPhotoToRealm = album =>
+	new Promise((resolve, reject) => {
+		const newPhotos = album.photoId;
+		const Album = GalleryRealm.objectForPrimaryKey("Album", album._id);
+		if (Album)
+			try {
+				console.log("Tiggered 1st condition");
+				GalleryRealm.write(() => {
+					newPhotos.forEach(photo => {
+						Album.photos.push(photo);
+					});
+				});
+				resolve("success");
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
+		else {
+			try {
+				console.log("Tiggered 2nd condition");
+				GalleryRealm.write(() => {
+					GalleryRealm.create("Album", {
+						_id: album._id,
+						owner: album.owner,
+						userId: album.userId,
+						groupTagId: album.groupTagId,
+						photos: album.photoId
+					});
+				});
+				resolve("success");
+			} catch (e) {
+				console.log(e);
+				reject(e);
+			}
 
-const setUpSocketforImageUpdates = AlbumId => {
+			//change photoId to photos to avoid name conflict and then set using simply {_id,owner,...}
+		}
+	});
+
+export const setUpSocketforImageUpdates = AlbumId => {
+	const Album = GalleryRealm.objectForPrimaryKey("Album", AlbumId);
 	socket.emit("enterAlbum", AlbumId);
 	socket.on("Photo", photo => {
 		console.log("PhotoFromSocket", photo);
-
 		try {
-			realm.write(() => {
-				realm.create("Photos", photo);
+			GalleryRealm.write(() => {
+				Album.photos.push(photo);
 			});
 		} catch (e) {
 			console.log("Error on creation", e);
