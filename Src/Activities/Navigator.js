@@ -75,6 +75,24 @@ export default class Navigator extends Component {
 						})
 					}
 				/>
+				<Button
+					title="ChatHome"
+					onPress={() =>
+						this.props.navigator.push({
+							screen: "ChatHome",
+							title: "ChatHome"
+						})
+					}
+				/>
+				<Button
+					title="Splash"
+					onPress={() =>
+						this.props.navigator.push({
+							screen: "Splash",
+							title: "Splash"
+						})
+					}
+				/>
 			</View>
 		);
 	}

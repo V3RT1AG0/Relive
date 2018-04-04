@@ -111,6 +111,7 @@ export const setUpSocketforImageUpdates = AlbumId => {
 	});
 };
 
+//TODO
 export const leaveSocketRoom = AlbumId => {
 	const Album = GalleryRealm.objectForPrimaryKey("Album", AlbumId);
 	socket.emit("enterAlbum", AlbumId);

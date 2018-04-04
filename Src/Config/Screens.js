@@ -7,6 +7,8 @@ import TimelineActivity from "../Activities/TimelineActivity/TimelineContainer";
 import GalleryActivity from "../Activities/GalleryActivity/GalleyContainer";
 import ShareActivity from "../Activities/ShareActivity/ShareMain";
 import NavigationActivity from "../Activities/Navigator";
+import SplashActivity from "../Activities/SplashActivity/SplashMain";
+import ChatHomeActivity from "../Activities/ChatHomeActivity/ChatHomeMain";
 import UploadProgressActivity from "../Activities/UploadActivity/UploadProgress/UploadProgressMain";
 import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
@@ -17,13 +19,20 @@ store.subscribe(() => {
 
 export function registerScreens() {
 	Navigation.registerComponent("Navigator", () => NavigationActivity);
+	Navigation.registerComponent("Splash", () => SplashActivity, store, Provider);
 	Navigation.registerComponent("Upload", () => UploadActivity, store, Provider);
 	Navigation.registerComponent(
 		"UploadProgress",
 		() => UploadProgressActivity,
 		store,
 		Provider
-	);
+	),
+		Navigation.registerComponent(
+			"ChatHome",
+			() => ChatHomeActivity,
+			store,
+			Provider
+		);
 	Navigation.registerComponent("Login", () => LoginActivity, store, Provider);
 	Navigation.registerComponent("Profile", () => ProfileActivity);
 	Navigation.registerComponent(
