@@ -1,5 +1,5 @@
 // @flow
-export const SERVER_URL = "http://192.168.31.59:3000";
+export const SERVER_URL = "http://192.168.31.59:3001";
 export const MY_ID = "5a9a38277457c40449e74e6b";
 
 //Timeline

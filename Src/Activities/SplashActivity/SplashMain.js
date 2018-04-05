@@ -16,7 +16,7 @@ export class SplashMain extends Component {
 	}
 
 	getRoomIds = () => {
-		const url = SERVER_URL + "/api/chat/getlist";
+		const url = SERVER_URL + "/chat/getlist";
 		const data = {
 			_id: this.state.id
 		};
@@ -37,6 +37,7 @@ chatlist:Array(2)
 	subscibeToAllRooms = () => {
 		this.getRoomIds().then(result => {
 			// enter each room using result chatlist items
+			console.log("result=>",result)
 			result.data.chatlist.forEach(item => {
 				socket.emit("enterChatRooms", item._id);
 			});

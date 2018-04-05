@@ -75,7 +75,7 @@ export default class HomeScreen extends Component {
 					this.state.userID
 				);
 				this.setState({ chatList }, () => {
-					console.log("setStateTriggered=>", this.state.images);
+					console.log("setStateTriggered=>", this.state.chatList);
 				});
 			})
 			.catch(e => {

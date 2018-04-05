@@ -18,8 +18,9 @@ import { sendMessageToServer } from './ChatUtils';
 export default class ChatScreen extends Component {
 constructor(props){
   super(props)
+  const chatId = "5aa82eafbfad0122a3757ce4"
   this.state={
-      messsages:ChatRealm.objectForPrimaryKey("ChatList", props.chatid).messsages
+      messsages:ChatRealm.objectForPrimaryKey("ChatList", chatId).messsages,    
   }
 }
 
