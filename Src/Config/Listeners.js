@@ -1,37 +1,54 @@
 // @flow
-import UploadRealm from "../Activities/UploadActivity/UploadModel";
-import { insertAlbum } from "../Activities/UploadActivity/UploadUtils";
-import store from "./ReduxStoreConfig";
+import OneSignal from "react-native-onesignal"; // Import package from node modules
+import { AsyncStorage, NativeEventEmitter, NativeModules } from "react-native";
 
-//TODO ? maybe real.removealllisteners in App state event listener
-export const setUpNewUploadRealmListener = () => {
-	const Album = UploadRealm.objects("Album");
-	console.log("LISTENER SETUP");
-	Album.addListener((albums, changes) => {
-		console.log(changes);
-		const AlbumsArray = [];
-		changes.insertions.forEach(index => {
-			AlbumsArray.push(albums[index]);
-		});
-
-		/* changes.modifications.forEach(index => {
-			console.log("mods")
-			AlbumsArray.push(albums[index]);
-		}); */
-
-		if (AlbumsArray.length !== 0) {
-			AlbumsArray.forEach(album => {
-				/*  console.log({
-					...album,
-					photos: album.photos.map(x => Object.assign({}, x))
-				});  */
-				 const newAlbum = {
-					...album,
-					photos: album.photos.map(x => Object.assign({}, x))
-				}; 
-				//console.log(album.snapshot());
-				store.dispatch(insertAlbum(newAlbum));
-			});
-		}
-	});
+const setItem = async () => {
+	try {
+		await AsyncStorage.setItem("@MySuperStore:key", "I like");
+		console.log("reached");
+	} catch (error) {
+		console.log(error);
+	}
 };
+
+const getItem = async () => {
+	try {
+		const value = await AsyncStorage.getItem("@MySuperStore:key");
+
+		// We have data!!
+		console.log(value);
+	} catch (error) {
+		console.log(error);
+	}
+};
+/* 
+const onReceived = notification => {
+	console.log("Notification received: ", notification);
+	setItem();
+};
+
+const onOpened = openResult => {
+	console.log("Message: ", openResult.notification.payload.body);
+	console.log("Data: ", openResult.notification.payload.additionalData);
+	console.log("isActive: ", openResult.notification.isAppInFocus);
+	console.log("openResult: ", openResult);
+	getItem();
+};
+
+const onIds = device => {
+	console.log("Device info: ", device);
+	getItem();
+};
+
+OneSignal.addEventListener("received", onReceived);
+OneSignal.addEventListener("opened", onOpened);
+OneSignal.addEventListener("ids", onIds);
+ */
+
+getItem();
+const new_notification = new NativeEventEmitter(NativeModules.Notification);
+new_notification.addListener("notification", payload => {
+	console.log(payload);
+	setItem();
+});
+console.log("Notification listeners set up");

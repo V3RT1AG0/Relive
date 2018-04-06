@@ -3,8 +3,11 @@ package com.relive;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import io.realm.react.RealmReactPackage;
 import io.realm.react.RealmReactPackage;
+
+import com.relive.OneSignalNotification.NotificationPackage;
 import com.wix.interactable.Interactable;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.vydia.RNUploader.UploaderReactPackage;
@@ -24,61 +27,6 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-/*public class MainApplication extends Application implements ReactApplication {
-
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RealmReactPackage(),
-            new RealmReactPackage(),
-            new NavigationReactPackage(),
-            new Interactable(),
-            new PickerPackage(),
-            new UploaderReactPackage(),
-            new RNAlbumsPackage(),
-            new PhotoViewPackage(),
-            new LinearGradientPackage(),
-            new VectorIconsPackage(),
-            new UploaderReactPackage(),
-            new RNAlbumsPackage(),
-            new Interactable(),
-            new PhotoViewPackage(),
-            new LinearGradientPackage(),
-            new VectorIconsPackage(),
-            new RealmReactPackage(),
-            //new PhotoViewPackage(),
-            //new LinearGradientPackage(),
-            //new VectorIconsPackage(),
-            new PickerPackage()
-      );
-    }
-
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
-  };
-
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, false);
-  }
-}*/
-
-
 public class MainApplication extends NavigationApplication {
 
   @Override
@@ -96,6 +44,8 @@ public class MainApplication extends NavigationApplication {
     // Add additional packages you require here
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(
+            new NotificationPackage(),
+            new ReactNativeOneSignalPackage(),
             new UploaderReactPackage(),
             new RNAlbumsPackage(),
             new Interactable(),

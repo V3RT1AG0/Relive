@@ -1,15 +1,41 @@
 // @flow
 import React, { Component } from "react";
-import { Button, View } from "react-native";
+import { Button, View, AsyncStorage, NativeEventEmitter } from "react-native";
 
 export default class Navigator extends Component {
 	constructor(props) {
 		super(props);
+		//AsyncStorage.clear();
 	}
+
+	setItem = async () => {
+		console.log("setitem");
+		try {
+			await AsyncStorage.setItem("@MySuperStore:key", "I like to save it.");
+			console.log("reached");
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	getItem = async () => {
+		try {
+			const value = await AsyncStorage.getItem("@MySuperStore:key");
+			if (value !== null) {
+				// We have data!!
+				console.log(value);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	
 
 	render() {
 		//const { this.props.navigator.push } = this.props.navigator;
 
+		//this.setItem();
 		return (
 			<View>
 				<Button
@@ -92,6 +118,12 @@ export default class Navigator extends Component {
 							title: "Splash"
 						})
 					}
+				/>
+				<Button
+					title="Lola"
+					onPress={() => {
+						//this.getItem();
+					}}
 				/>
 			</View>
 		);

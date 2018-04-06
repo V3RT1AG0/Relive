@@ -14,7 +14,6 @@ import axios from "axios";
 import { Navigation } from "react-native-navigation";
 import { registerScreens } from "./Config/Screens";
 import { AppState } from "react-native";
-import { setUpNewUploadRealmListener } from "./Config/Listeners";
 
 axios.interceptors.request.use(request => {
 	console.log("Starting Request", request);
@@ -22,6 +21,7 @@ axios.interceptors.request.use(request => {
 });
 
 registerScreens();
+require("./Config/Listeners");
 
 Navigation.startSingleScreenApp({
 	screen: {
@@ -90,7 +90,8 @@ store.subscribe(() => {
 
 //you need to import React even for stateless functional components
 /* const app =import { setUpNewUploadRealmListener } from './Config/Listeners';
- () => (
+ () => (import { AsyncStorage } from 'react-native';
+
 	<Provider store={store}>
 		<RootNavigator />
 	</Provider>
