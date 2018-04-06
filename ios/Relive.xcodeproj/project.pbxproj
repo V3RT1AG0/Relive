@@ -80,6 +80,7 @@
 		1AE520DA9BCE449082079E97 /* libVydiaRNFileUploader.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3A8BF4149134659A6486C08 /* libVydiaRNFileUploader.a */; };
 		5926D0C08DA648A3870502D8 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 149D4D668BD042F9BAC59D45 /* libReactNativeNavigation.a */; };
 		AFE371AEE849402E86C5B97F /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2E09D6C2F745ED8230D6FE /* libRCTOneSignal.a */; };
+		2917CA631BA24A61AC9CD40D /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E22F5F34804142D1B7AA0F3A /* Feather.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -384,6 +385,7 @@
 		0EF5200DBF9A44F59A8A3489 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; name = "RealmReact.xcodeproj"; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		03A97BD629D24B6A88C1F2EF /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; name = "RCTOneSignal.xcodeproj"; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		8F2E09D6C2F745ED8230D6FE /* libRCTOneSignal.a */ = {isa = PBXFileReference; name = "libRCTOneSignal.a"; path = "libRCTOneSignal.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		E22F5F34804142D1B7AA0F3A /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -697,6 +699,7 @@
 				C76A58A78AA04B55843491DB /* Roboto.ttf */,
 				0BED436B540C48A2B4D3E8B6 /* SimpleLineIcons.ttf */,
 				4A07ADA2194F466E817E5FA6 /* Zocial.ttf */,
+				E22F5F34804142D1B7AA0F3A /* Feather.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1124,6 +1127,7 @@
 				39BD2A40045A4A3FADE5E26D /* Roboto.ttf in Resources */,
 				CEE4DD5A71ED4A8AB4EB9BAA /* SimpleLineIcons.ttf in Resources */,
 				9BDF1D88C3F4462F83D615B9 /* Zocial.ttf in Resources */,
+				2917CA631BA24A61AC9CD40D /* Feather.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

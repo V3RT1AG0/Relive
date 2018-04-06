@@ -11,7 +11,7 @@ import GalleryActivity from "./Activities/GalleryActivity/GalleyContainer";
 import ShareActivity from "./Activities/ShareActivity/ShareMain"; */
 //import Navigation from "./Activities/Navigator";
 import axios from "axios";
-import { Navigation } from "react-native-navigation";
+import { Navigation, NativeEventsReceiver } from "react-native-navigation";
 import { registerScreens } from "./Config/Screens";
 import { AppState } from "react-native";
 
@@ -23,13 +23,22 @@ axios.interceptors.request.use(request => {
 registerScreens();
 require("./Config/Listeners");
 
-Navigation.startSingleScreenApp({
-	screen: {
-		label: "One",
-		screen: "Navigator",
-		title: "Screen One",
-		icon: require("./Assets/Images/checked.png")
+const startApp = () => {
+	Navigation.startSingleScreenApp({
+		screen: {
+			label: "One",
+			screen: "Navigator",
+			title: "Screen One",
+			icon: require("./Assets/Images/checked.png")
+		}
+	});
+};
+
+Navigation.isAppLaunched().then(appLaunched => {
+	if (appLaunched) {
+		startApp(); // App is launched -> show UI
 	}
+	new NativeEventsReceiver().appLaunched(startApp); // App hasn't been launched yet -> show the UI only when needed.
 });
 
 //setUpNewUploadRealmListener();

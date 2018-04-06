@@ -2,9 +2,9 @@
 import OneSignal from "react-native-onesignal"; // Import package from node modules
 import { AsyncStorage, NativeEventEmitter, NativeModules } from "react-native";
 
-const setItem = async () => {
+const setItem = async payload => {
 	try {
-		await AsyncStorage.setItem("@MySuperStore:key", "I like");
+		await AsyncStorage.setItem("@MySuperStore:key", payload);
 		console.log("reached");
 	} catch (error) {
 		console.log(error);
@@ -49,6 +49,6 @@ getItem();
 const new_notification = new NativeEventEmitter(NativeModules.Notification);
 new_notification.addListener("notification", payload => {
 	console.log(payload);
-	setItem();
+	setItem(JSON.stringify(payload));
 });
 console.log("Notification listeners set up");
