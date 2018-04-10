@@ -13,6 +13,8 @@ export class SplashMain extends Component {
 		this.state = {
 			id: "5aa82ea7bfad0122a3757be2"
 		};
+
+		
 	}
 
 	getRoomIds = () => {
@@ -42,6 +44,7 @@ chatlist:Array(2)
 				socket.emit("enterChatRooms", item._id);
 			});
 		});
+
 	};
 
 	componentDidMount() {
@@ -59,6 +62,7 @@ chatlist:Array(2)
 		});
 
 		this.subscibeToAllRooms();
+		
 	}
 
 	render() {

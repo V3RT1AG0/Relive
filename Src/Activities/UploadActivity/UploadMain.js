@@ -42,14 +42,15 @@ class UploadActivity extends Component {
 			users_id_array: this.state.users
 		};
 
+		//startInsertingImages(this.selectedImages, "asdasd");
 		createNewAlbumOrSubAlbum(payload, "/album/createAlbum").then(({ data }) => {
 			const { AlbumId } = data;
 			loadAlbumToRealm(AlbumId, this.state.albumname, this.selectedImages);
 			startInsertingImages(this.selectedImages, AlbumId);
-			this.props.navigator.push({
+			/* this.props.navigator.push({
 				screen: "UploadProgress",
 				passProps: { AlbumId }
-			});
+			}); */
 		});
 	};
 
@@ -58,7 +59,8 @@ class UploadActivity extends Component {
 			multiple: true
 		}).then(image => {
 			console.log(image);
-			this.setState({ image: [...this.state.image, ...image] });
+			//this.setState({ image: [...this.state.image, ...image] });
+			this.selectedImages = [...this.selectedImages, ...image];
 		});
 	};
 
@@ -113,10 +115,14 @@ class UploadActivity extends Component {
 					style={(styles.infoContainer, { top: scrollY, opacity })}
 				>
 					<AlbumDetailsForm />
+					<Button
+						onPress={this.handleOnPressImagePickerButton}
+						title="ImagePicker"
+					/>
 					<Button onPress={this.handleUploadButtonPress} title="upload" />
 				</Animated.View>
 
-				<Interactable.View
+				 	<Interactable.View
 					ref="gallery"
 					style={styles.bottomGalleyContainer}
 					verticalOnly
@@ -131,7 +137,7 @@ class UploadActivity extends Component {
 						galleryPadding={5}
 						numColumns={3}
 					/>
-				</Interactable.View>
+				</Interactable.View> 
 			</View>
 		);
 	}

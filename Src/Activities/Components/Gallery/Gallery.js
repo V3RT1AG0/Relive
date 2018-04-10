@@ -88,7 +88,7 @@ export default class Gallery extends React.Component {
 		})
 			.then(r => {
 				//this.setState({ photos: r.edges });
-				//console.log(r);
+				console.log(r);
 				const items = r.edges.map((item, i) => ({
 					id: this.state.page + i,
 					src: item.node.image.uri,

@@ -14,6 +14,10 @@ import axios from "axios";
 import { Navigation, NativeEventsReceiver } from "react-native-navigation";
 import { registerScreens } from "./Config/Screens";
 import { AppState } from "react-native";
+import {
+	changeStatusToOnline,
+	changeStatusToOffline
+} from "./Config/StateChangeConfig";
 
 axios.interceptors.request.use(request => {
 	console.log("Starting Request", request);
@@ -42,9 +46,14 @@ Navigation.isAppLaunched().then(appLaunched => {
 });
 
 //setUpNewUploadRealmListener();
-/* AppState.addEventListener("change", () => {
-	console.log("abc");
-}); */
+AppState.addEventListener("change", AppState => {
+	if (AppState === "active") {
+		//App is in foreground
+		changeStatusToOnline();
+	} else {
+		changeStatusToOffline();
+	}
+});
 
 /* const RootNavigator = StackNavigator({
 	Navigator: {

@@ -15,7 +15,7 @@ import com.BV.LinearGradient.LinearGradientPackage;
 import com.relive.OneSignalNotification.NotificationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactPackage;
-
+import com.rngrp.RNGRPPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +45,8 @@ public class MainApplication extends NavigationApplication {
             new LinearGradientPackage(),
             new VectorIconsPackage(),
             new RealmReactPackage(),
-            new PickerPackage()
+            new PickerPackage(),
+            new RNGRPPackage()
     );
   }
 

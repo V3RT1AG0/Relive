@@ -1,6 +1,7 @@
 // @flow
 import OneSignal from "react-native-onesignal"; // Import package from node modules
 import { AsyncStorage, NativeEventEmitter, NativeModules } from "react-native";
+import { ChatRealm } from "../Activities/ChatMainActivity/ChatModel";
 
 const setItem = async payload => {
 	try {
@@ -49,6 +50,15 @@ getItem();
 const new_notification = new NativeEventEmitter(NativeModules.Notification);
 new_notification.addListener("notification", payload => {
 	console.log(payload);
+	const { roomId, message } = payload;
+	try {
+		const messages = ChatRealm.objectForPrimaryKey("ChatList", roomId).messages;
+		ChatRealm.write(() => {
+			messages.push(message);
+		});
+	} catch (e) {
+		console.log("Error on creation", e);
+	}
 	setItem(JSON.stringify(payload));
 });
 console.log("Notification listeners set up");
