@@ -1,4 +1,15 @@
 // @flow
+import React from "react";
+import {
+	Button,
+	View,
+	TextInput,
+	Animated,
+	Platform,
+	StyleSheet,
+	Text,
+	TouchableOpacity
+} from "react-native";
 import { Navigation } from "react-native-navigation";
 import UploadActivity from "../Activities/UploadActivity/UploadContainer";
 import LoginActivity from "../Activities/LoginActivity/LoginMain";
@@ -12,10 +23,52 @@ import ChatHomeActivity from "../Activities/ChatHomeActivity/ChatHomeMain";
 import UploadProgressActivity from "../Activities/UploadActivity/UploadProgress/UploadProgressMain";
 import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
+import Icon from "react-native-vector-icons/Feather";
+
 //const store = configureStore();
-store.subscribe(() => {
-	console.log("store changed" + store.getState());
+
+const styles = StyleSheet.create({
+	button: {
+		overflow: "hidden",
+		width: 34,
+		height: 34,
+		borderRadius: 34 / 2,
+		justifyContent: "center",
+		alignItems: "center"
+	}
 });
+
+const Lock = () => (
+	<Icon
+		style={
+			(styles.lockButton,
+			{
+				width: 30,
+				height: 30,
+				justifyContent: "center",
+				overflow: "hidden",
+				backgroundColor: "red",
+				borderRadius: 30 / 2
+			})
+		}
+		name="lock"
+		size={30}
+		color="#900"
+	/>
+);
+
+const CustomButton = ({ text }) => (
+	<TouchableOpacity
+		style={[styles.button, { backgroundColor: "tomato" }]}
+		onPress={() => console.log("pressed me!")}
+	>
+		<View style={styles.button}>
+			<Text style={{ color: "white" }}>Hello</Text>
+		</View>
+	</TouchableOpacity>
+);
+
+store.subscribe(() => console.log("store changed" + store.getState()));
 
 export function registerScreens() {
 	Navigation.registerComponent("Navigator", () => NavigationActivity);
@@ -48,6 +101,8 @@ export function registerScreens() {
 		Provider
 	);
 	Navigation.registerComponent("Share", () => ShareActivity, store, Provider);
+	Navigation.registerComponent("CustomButton", () => CustomButton);
+	Navigation.registerComponent("Lock", () => Lock);
 }
 
 /* const RootNavigator = StackNavigator({

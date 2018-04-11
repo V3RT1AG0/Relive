@@ -125,7 +125,7 @@ export default class Gallery extends React.Component {
 				<View
 					style={{
 						backgroundColor: "transparent",
-						height: 150
+						height: 20
 					}}
 				/>
 				<View

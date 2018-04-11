@@ -3,6 +3,7 @@ import React from "react";
 import AutoTags from "./AutoCompleteTag";
 import { View, KeyboardAvoidingView } from "react-native";
 import AnimatedTextView from "./AnimatedTextView";
+import Icon from "react-native-vector-icons/Feather";
 
 export default class Display extends React.Component {
 	constructor() {
@@ -50,9 +51,24 @@ export default class Display extends React.Component {
 			<View>
 				<View
 					style={{
+						height: 40,
+						width: 40,
+						borderRadius: 40 / 2,
+						alignSelf: "flex-end",
+						justifyContent: "center",
+						marginRight: 20,
+						alignItems: "center",
+						marginBottom: 50,
+						backgroundColor: "#ECEFF1"
+					}}
+				>
+					<Icon style={{}} name="lock" size={20} color="black" />
+				</View>
+				<View
+					style={{
 						flexDirection: "row",
 						alignItems: "center",
-						marginBottom: 17
+						marginBottom: 20
 					}}
 				>
 					<AnimatedTextView />

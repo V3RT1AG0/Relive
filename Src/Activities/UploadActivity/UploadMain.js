@@ -14,8 +14,11 @@ import Upload from "react-native-background-upload";
 import { UploadRealm } from "./UploadModel";
 import { startInsertingImages } from "../../Config/UploadService";
 import { createNewAlbumOrSubAlbum, loadAlbumToRealm } from "./UploadUtils";
+import { Navigation } from "react-native-navigation";
 
 class UploadActivity extends Component {
+	timePassed = false;
+
 	constructor(props) {
 		super(props);
 		this.selectedImages = [];
@@ -33,6 +36,32 @@ class UploadActivity extends Component {
 		};
 	}
 
+	static navigatorStyle = {
+		drawUnderNavBar: true,
+		navBarTransparent: true,
+		navBarNoBorder: true,
+		topBarElevationShadowEnabled: false
+	};
+
+	/* static navigatorButtons = {
+		rightButtons: [
+			 {
+				component: "Lock",
+				id: "add",
+				passProps: {
+					
+				}
+			}, 
+			{
+				component: "CustomButton",
+				id: "dadd",
+				passProps: {
+					text: "Hi!"
+				}
+			}
+		]
+	}; */
+
 	handleUploadButtonPress = () => {
 		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
 		const payload = {
@@ -47,10 +76,10 @@ class UploadActivity extends Component {
 			const { AlbumId } = data;
 			loadAlbumToRealm(AlbumId, this.state.albumname, this.selectedImages);
 			startInsertingImages(this.selectedImages, AlbumId);
-			/* this.props.navigator.push({
+			this.props.navigator.push({
 				screen: "UploadProgress",
 				passProps: { AlbumId }
-			}); */
+			});
 		});
 	};
 
@@ -97,8 +126,8 @@ class UploadActivity extends Component {
 
 	render() {
 		const scrollY = this.scrollY.interpolate({
-			inputRange: [-250, 0],
-			outputRange: [5, 200]
+			inputRange: [-350, 0],
+			outputRange: [190, 190]
 		});
 
 		const opacity = this.scrollY.interpolate({
@@ -115,18 +144,14 @@ class UploadActivity extends Component {
 					style={(styles.infoContainer, { top: scrollY, opacity })}
 				>
 					<AlbumDetailsForm />
-					<Button
-						onPress={this.handleOnPressImagePickerButton}
-						title="ImagePicker"
-					/>
-					<Button onPress={this.handleUploadButtonPress} title="upload" />
+					{/* <Button onPress={this.handleUploadButtonPress} title="upload" /> */}
 				</Animated.View>
 
-				 	<Interactable.View
+				<Interactable.View
 					ref="gallery"
 					style={styles.bottomGalleyContainer}
 					verticalOnly
-					snapPoints={[{ y: 0 }, { y: -250 }]}
+					snapPoints={[{ y: 0 }, { y: -350 }]}
 					animatedValueY={this.scrollY}
 				>
 					<Gallery
@@ -137,14 +162,26 @@ class UploadActivity extends Component {
 						galleryPadding={5}
 						numColumns={3}
 					/>
-				</Interactable.View> 
+				</Interactable.View>
 			</View>
 		);
 	}
 
 	handleOnScrollUp = () => {
+		//console.log(event.nativeEvent.contentOffset);
+		/* 	if (event.nativeEvent.contentOffset.y === 0) {
+			if (this.timePassed) this.refs.gallery.snapTo({ index: 0 });
+			this.timePassed = true;
+			setTimeout(() => {
+				this.timePassed = false;
+			}, 5000);
+		} else */
 		this.refs.gallery.snapTo({ index: 1 });
 	};
+
+	/* handleOnScrollDown = () => {
+		this.refs.gallery.snapTo({ index: 0 });
+	}; */
 }
 
 export default UploadActivity;

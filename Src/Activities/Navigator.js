@@ -30,8 +30,6 @@ export default class Navigator extends Component {
 		}
 	};
 
-	
-
 	render() {
 		//const { this.props.navigator.push } = this.props.navigator;
 
@@ -69,8 +67,7 @@ export default class Navigator extends Component {
 					title="Upload"
 					onPress={() =>
 						this.props.navigator.push({
-							screen: "Upload",
-							title: "Upload"
+							screen: "Upload"
 						})
 					}
 				/>

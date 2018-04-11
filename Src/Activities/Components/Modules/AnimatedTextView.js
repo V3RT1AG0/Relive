@@ -17,7 +17,8 @@ export default class VideoScreen extends React.Component {
 
 	state = {
 		examples: ["Birthday..", "Farewell..", "Nightout..", "Trekking.."],
-		index: 0
+		index: 0,
+		animating: true
 		//text:""
 	};
 
@@ -48,6 +49,8 @@ export default class VideoScreen extends React.Component {
 
 	_onPressButton = () => {
 		this.animatableValue.stopAnimation();
+		this.setState({ animating: false });
+		//this._textInput.setNativeProps({ defaultValue: "" });
 	};
 
 	render() {
@@ -56,7 +59,8 @@ export default class VideoScreen extends React.Component {
 			outputRange: [0, 1, 0]
 		});
 
-		const { examples, index } = this.state;
+		const { examples, index, animating } = this.state;
+		const defaultValue = animating ? examples[index] : "";
 		//console.log(index, TextOpacity)
 		return (
 			<View
@@ -74,14 +78,24 @@ export default class VideoScreen extends React.Component {
 				>
 					<TextInput
 						//autoFocus={true}
-						style={{ height: 40, fontSize: 30, paddingBottom: 0 }}
+						//ref={component => (this._textInput = component)}
+						style={{
+							height: 40,
+							fontSize: 30,
+							paddingBottom: 0,
+							textAlign: "center"
+						}}
+						clearTextOnFocus
+						defaultValue={defaultValue}
 						onFocus={this._onPressButton}
 						underlineColorAndroid="transparent"
-						placeholder={examples[index]}
-					>
-						{/*  onChangeText={(text) => this.setState({text})}
+						//placeholder={examples[index]}
+						//placeholder={examples[index]}
+						//placeholder={"Name your day..."}
+					/>
+					{/*  onChangeText={(text) => this.setState({text})}
                     value={this.state.text}>*/}
-					</TextInput>
+					{/* </TextInput> */}
 					{/* TODO albumName will need to be sent up onCreateAlbum button preess*/}
 				</Animated.View>
 			</View>
