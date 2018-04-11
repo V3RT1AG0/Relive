@@ -5,6 +5,7 @@ import { View, KeyboardAvoidingView } from "react-native";
 import AnimatedTextView from "./AnimatedTextView";
 import Icon from "react-native-vector-icons/Feather";
 
+
 export default class Display extends React.Component {
 	constructor() {
 		super();

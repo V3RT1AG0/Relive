@@ -15,9 +15,10 @@ import { UploadRealm } from "./UploadModel";
 import { startInsertingImages } from "../../Config/UploadService";
 import { createNewAlbumOrSubAlbum, loadAlbumToRealm } from "./UploadUtils";
 import { Navigation } from "react-native-navigation";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 class UploadActivity extends Component {
-	timePassed = false;
+	topReached = false;
 
 	constructor(props) {
 		super(props);
@@ -123,6 +124,10 @@ class UploadActivity extends Component {
 			</View>
 		);
 	} */
+	onSwipeDown = gestureState => {
+		if (this.topReached) this.refs.gallery.snapTo({ index: 0 });
+		console.log("You swiped up!");
+	};
 
 	render() {
 		const scrollY = this.scrollY.interpolate({
@@ -147,35 +152,32 @@ class UploadActivity extends Component {
 					{/* <Button onPress={this.handleUploadButtonPress} title="upload" /> */}
 				</Animated.View>
 
-				<Interactable.View
-					ref="gallery"
-					style={styles.bottomGalleyContainer}
-					verticalOnly
-					snapPoints={[{ y: 0 }, { y: -350 }]}
-					animatedValueY={this.scrollY}
-				>
-					<Gallery
-						onImageAdded={this.addSelectedImage}
-						onImageRemoved={this.removeSelectedImage}
-						onScrollUp={this.handleOnScrollUp}
-						galleryMargin={5}
-						galleryPadding={5}
-						numColumns={3}
-					/>
-				</Interactable.View>
+				<GestureRecognizer onSwipeDown={this.onSwipeDown}>
+					<Interactable.View
+						ref="gallery"
+						style={styles.bottomGalleyContainer}
+						verticalOnly
+						snapPoints={[{ y: 0 }, { y: -350 }]}
+						animatedValueY={this.scrollY}
+					>
+						<Gallery
+							onImageAdded={this.addSelectedImage}
+							onImageRemoved={this.removeSelectedImage}
+							onScrollUp={this.handleOnScrollUp}
+							galleryMargin={5}
+							galleryPadding={5}
+							numColumns={3}
+						/>
+					</Interactable.View>
+				</GestureRecognizer>
 			</View>
 		);
 	}
 
-	handleOnScrollUp = () => {
+	handleOnScrollUp = event => {
 		//console.log(event.nativeEvent.contentOffset);
-		/* 	if (event.nativeEvent.contentOffset.y === 0) {
-			if (this.timePassed) this.refs.gallery.snapTo({ index: 0 });
-			this.timePassed = true;
-			setTimeout(() => {
-				this.timePassed = false;
-			}, 5000);
-		} else */
+		if (event.nativeEvent.contentOffset.y === 0) this.topReached = true;
+		else this.topReached = false;
 		this.refs.gallery.snapTo({ index: 1 });
 	};
 
