@@ -182,7 +182,6 @@ export default class Gallery extends React.Component {
 						onScrollEndDrag={this.props.endDrag}
 						onMomentumScrollBegin={this.props.onMomentumScrollBegin}
 						onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-						scrollEnabled={this.props.scrollEnabled}
 					/>
 				</View>
 			</View>

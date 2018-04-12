@@ -30,7 +30,6 @@ class UploadActivity extends Component {
 		});
 		this.scrollY = new Animated.Value(0);
 		this.state = {
-			scrollEnabled: true,
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
@@ -170,7 +169,6 @@ class UploadActivity extends Component {
 					animatedValueY={this.scrollY}
 				>
 					<Gallery
-						ref={component => (this.gall = component)}
 						onImageAdded={this.addSelectedImage}
 						onImageRemoved={this.removeSelectedImage}
 						beginDrag={this.beginDrag}
@@ -182,7 +180,6 @@ class UploadActivity extends Component {
 						noOfSelectedImages={this.selectedImages.length}
 						//onMomentumScrollBegin={this.beginDrag}
 						//onMomentumScrollEnd={this.endDrag}
-						scrollEnabled={this.state.scrollEnabled}
 					/>
 				</Interactable.View>
 				{/* </GestureRecognizer> */}
