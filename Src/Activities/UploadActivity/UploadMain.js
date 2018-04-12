@@ -30,6 +30,7 @@ class UploadActivity extends Component {
 		});
 		this.scrollY = new Animated.Value(0);
 		this.state = {
+			scrollEnabled: true,
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
@@ -95,8 +96,10 @@ class UploadActivity extends Component {
 	};
 
 	addSelectedImage = selectedImage => {
-		console.log(selectedImage);
+		console.log(selectedImage, this.selectedImages.length);
 		this.selectedImages.push(selectedImage);
+		//this.setState({}); // This is done to forceupdate the slectedimages count prop passed to gallery.
+		// either try rerendering this whole activity for just a simple count or re
 	};
 
 	removeSelectedImage = selectedImage => {
@@ -125,8 +128,8 @@ class UploadActivity extends Component {
 		);
 	} */
 	onSwipeDown = gestureState => {
-		if (this.topReached) this.refs.gallery.snapTo({ index: 0 });
 		console.log("You swiped up!");
+		if (this.topReached) this.refs.gallery.snapTo({ index: 0 });
 	};
 
 	render() {
@@ -140,6 +143,12 @@ class UploadActivity extends Component {
 			outputRange: [0.5, 1]
 		});
 
+		/* const config = {
+			velocityThreshold: 0.1,
+			directionalOffsetThreshold: 1
+		}; */
+		console.log("super", this.selectedImages.length);
+
 		return (
 			<View style={styles.topContainer}>
 				{/* <NavigationBar hasHistory /> */}
@@ -152,33 +161,52 @@ class UploadActivity extends Component {
 					{/* <Button onPress={this.handleUploadButtonPress} title="upload" /> */}
 				</Animated.View>
 
-				<GestureRecognizer onSwipeDown={this.onSwipeDown}>
-					<Interactable.View
-						ref="gallery"
-						style={styles.bottomGalleyContainer}
-						verticalOnly
-						snapPoints={[{ y: 0 }, { y: -350 }]}
-						animatedValueY={this.scrollY}
-					>
-						<Gallery
-							onImageAdded={this.addSelectedImage}
-							onImageRemoved={this.removeSelectedImage}
-							onScrollUp={this.handleOnScrollUp}
-							galleryMargin={5}
-							galleryPadding={5}
-							numColumns={3}
-						/>
-					</Interactable.View>
-				</GestureRecognizer>
+				{/* <GestureRecognizer onSwipeDown={this.onSwipeDown} config={config}> */}
+				<Interactable.View
+					ref="gallery"
+					style={styles.bottomGalleyContainer}
+					verticalOnly
+					snapPoints={[{ y: 0 }, { y: -350 }]}
+					animatedValueY={this.scrollY}
+				>
+					<Gallery
+						ref={component => (this.gall = component)}
+						onImageAdded={this.addSelectedImage}
+						onImageRemoved={this.removeSelectedImage}
+						beginDrag={this.beginDrag}
+						endDrag={this.endDrag}
+						onScrollUp={this.handleOnScrollUp}
+						galleryMargin={5}
+						galleryPadding={5}
+						numColumns={3}
+						noOfSelectedImages={this.selectedImages.length}
+						//onMomentumScrollBegin={this.beginDrag}
+						//onMomentumScrollEnd={this.endDrag}
+						scrollEnabled={this.state.scrollEnabled}
+					/>
+				</Interactable.View>
+				{/* </GestureRecognizer> */}
 			</View>
 		);
 	}
-
+	beginDrag = () => {
+		this.isDragging = true;
+		//if (this.reachedZero) this.refs.gallery.snapTo({ index: 0 });
+	};
+	endDrag = () => {
+		this.isDragging = false;
+		//console.log("end", this.beginDrag);
+	};
 	handleOnScrollUp = event => {
-		//console.log(event.nativeEvent.contentOffset);
-		if (event.nativeEvent.contentOffset.y === 0) this.topReached = true;
-		else this.topReached = false;
-		this.refs.gallery.snapTo({ index: 1 });
+		console.log(event.nativeEvent);
+		console.log(event.nativeEvent.contentOffset.y, this.isDragging);
+		if (!this.isDragging) {
+			if (event.nativeEvent.contentOffset.y < 0)
+				this.refs.gallery.snapTo({ index: 0 });
+			else if (event.nativeEvent.contentOffset.y > 0)
+				this.refs.gallery.snapTo({ index: 1 });
+		}
+		//	if (event.nativeEvent.contentOffset.y === 0) this.reachedZero = true;
 	};
 
 	/* handleOnScrollDown = () => {

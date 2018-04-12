@@ -117,8 +117,8 @@ export default class Gallery extends React.Component {
 			? this.state.selectedData
 			: this.state.RNAlbums[0];
 
-		const noOfSelectedImages = this.state.selectedImages.length;
-		//console.log(selectedData, "xxx");
+		//const noOfSelectedImages = this.state.selectedImages.length;
+		console.log("sub", this.props.noOfSelectedImages);
 
 		return (
 			<View>
@@ -165,7 +165,7 @@ export default class Gallery extends React.Component {
 									color: "white"
 								}}
 							>
-								{noOfSelectedImages}
+								{this.props.noOfSelectedImages}
 							</Text>
 						</View>
 					</View>
@@ -178,6 +178,11 @@ export default class Gallery extends React.Component {
 						onEndReached={this.onEndReached}
 						renderItem={this.renderFlatListItem}
 						numColumns={this.props.numColumns}
+						onScrollBeginDrag={this.props.beginDrag}
+						onScrollEndDrag={this.props.endDrag}
+						onMomentumScrollBegin={this.props.onMomentumScrollBegin}
+						onMomentumScrollEnd={this.props.onMomentumScrollEnd}
+						scrollEnabled={this.props.scrollEnabled}
 					/>
 				</View>
 			</View>
