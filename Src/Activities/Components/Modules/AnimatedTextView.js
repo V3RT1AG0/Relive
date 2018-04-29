@@ -26,6 +26,21 @@ export default class VideoScreen extends React.Component {
 		this.startFadeAnimation();
 	}
 
+	static getDerivedStateFromProps(nextProps, prevState) {
+		console.log(nextProps, "GETDERIVERDSTATEFROMPROS");
+		nextProps.showingAlbumOptions
+			? this.startFadeAnimation()
+			: this.animatableValue.stopAnimation();
+		return null;
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log(nextProps, "GETDERIVERDSTATEFROMPROS");
+		nextProps.showingAlbumOptions
+			? this.animatableValue.stopAnimation()
+			: this.startFadeAnimation();
+	}
+
 	startFadeAnimation = () => {
 		this.animatableValue.setValue(0);
 		Animated.timing(this.animatableValue, {
@@ -54,6 +69,7 @@ export default class VideoScreen extends React.Component {
 	};
 
 	render() {
+		console.log(this.props, "render");
 		const TextOpacity = this.animatableValue.interpolate({
 			inputRange: [0, 0.5, 1],
 			outputRange: [0, 1, 0]
@@ -61,13 +77,13 @@ export default class VideoScreen extends React.Component {
 
 		const { examples, index, animating } = this.state;
 		const defaultValue = animating ? examples[index] : "";
+		const fontColor = animating ? "#9E9E9E" : "black";
+
 		//console.log(index, TextOpacity)
 		return (
 			<View
 				style={{
 					flex: 6,
-					paddingStart: 10,
-					paddingEnd: 10,
 					justifyContent: "center"
 				}}
 			>
@@ -80,18 +96,21 @@ export default class VideoScreen extends React.Component {
 						//autoFocus={true}
 						//ref={component => (this._textInput = component)}
 						style={{
-							height: 40,
+							height: 50,
 							fontSize: 30,
 							paddingBottom: 0,
-							textAlign: "center"
+							//textAlign: "center",
+							color: fontColor
+							//fontWeight: "100"
 						}}
+						multiline={false}
 						clearTextOnFocus
 						defaultValue={defaultValue}
 						onFocus={this._onPressButton}
 						underlineColorAndroid="transparent"
 						//placeholder={examples[index]}
 						//placeholder={examples[index]}
-						//placeholder={"Name your day..."}
+						placeholder={"Name your day"}
 					/>
 					{/*  onChangeText={(text) => this.setState({text})}
                     value={this.state.text}>*/}

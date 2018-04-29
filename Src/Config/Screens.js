@@ -21,6 +21,7 @@ import NavigationActivity from "../Activities/Navigator";
 import SplashActivity from "../Activities/SplashActivity/SplashMain";
 import ChatHomeActivity from "../Activities/ChatHomeActivity/ChatHomeMain";
 import UploadProgressActivity from "../Activities/UploadActivity/UploadProgress/UploadProgressMain";
+import AlbumOptionsDialog from "../Activities/Components/Modules/AlbumOptions";
 import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
 import Icon from "react-native-vector-icons/Feather";
@@ -101,6 +102,7 @@ export function registerScreens() {
 		Provider
 	);
 	Navigation.registerComponent("Share", () => ShareActivity, store, Provider);
+	Navigation.registerComponent("AlbumOptionsDialog", () => AlbumOptionsDialog);
 	Navigation.registerComponent("CustomButton", () => CustomButton);
 	Navigation.registerComponent("Lock", () => Lock);
 }

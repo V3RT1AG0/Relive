@@ -7,6 +7,7 @@ import { SERVER_URL, MY_ID } from "../../Config/Constants";
 import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
 import Gallery from "../Components/Gallery/Gallery";
 import AlbumDetailsForm from "../Components/Modules/AlbumDetailsForm";
+import AlbumOptions from "../Components/Modules/AlbumOptions";
 import { NavigationBar } from "@shoutem/ui";
 import styles from "./Style";
 import Interactable from "react-native-interactable";
@@ -30,6 +31,7 @@ class UploadActivity extends Component {
 		});
 		this.scrollY = new Animated.Value(0);
 		this.state = {
+			showOptions: false,
 			albumname: "",
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
@@ -134,7 +136,7 @@ class UploadActivity extends Component {
 	render() {
 		const scrollY = this.scrollY.interpolate({
 			inputRange: [-350, 0],
-			outputRange: [190, 190]
+			outputRange: [150, 150]
 		});
 
 		const opacity = this.scrollY.interpolate({
@@ -152,14 +154,16 @@ class UploadActivity extends Component {
 			<View style={styles.topContainer}>
 				{/* <NavigationBar hasHistory /> */}
 				{/* <Animated.View style={{opacity}}>{uploadCompArr}</Animated.View> */}
-
+				{this.state.showOptions ? <AlbumOptions /> : undefined}
 				<Animated.View
 					style={(styles.infoContainer, { top: scrollY, opacity })}
 				>
-					<AlbumDetailsForm />
+					<AlbumDetailsForm
+						navigator={this.props.navigator}
+						onOptionButtonPressed={this.handleOptionButtonPressed}
+					/>
 					{/* <Button onPress={this.handleUploadButtonPress} title="upload" /> */}
 				</Animated.View>
-
 				{/* <GestureRecognizer onSwipeDown={this.onSwipeDown} config={config}> */}
 				<Interactable.View
 					ref="gallery"
@@ -188,22 +192,26 @@ class UploadActivity extends Component {
 	}
 	beginDrag = () => {
 		this.isDragging = true;
-		//if (this.reachedZero) this.refs.gallery.snapTo({ index: 0 });
+		if (this.reachedZero) this.refs.gallery.snapTo({ index: 0 });
 	};
 	endDrag = () => {
 		this.isDragging = false;
 		//console.log("end", this.beginDrag);
 	};
 	handleOnScrollUp = event => {
+		/* this.reachedZero = false;
 		console.log(event.nativeEvent);
 		console.log(event.nativeEvent.contentOffset.y, this.isDragging);
 		if (!this.isDragging) {
 			if (event.nativeEvent.contentOffset.y < 0)
 				this.refs.gallery.snapTo({ index: 0 });
-			else if (event.nativeEvent.contentOffset.y > 0)
+			else */
+
+		if (!this.isDragging)
+			if (event.nativeEvent.contentOffset.y > 0)
 				this.refs.gallery.snapTo({ index: 1 });
-		}
-		//	if (event.nativeEvent.contentOffset.y === 0) this.reachedZero = true;
+		/*}
+		 if (event.nativeEvent.contentOffset.y === 0) this.reachedZero = true; */
 	};
 
 	/* handleOnScrollDown = () => {

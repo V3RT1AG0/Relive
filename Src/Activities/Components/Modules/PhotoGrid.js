@@ -17,7 +17,6 @@ export default class App extends Component {
 			<FlatList
 				data={this.props.data}
 				//numColumns={3}
-
 				keyExtractor={this._keyExtractor}
 				//renderItem={this.props.renderRowItem}
 				{...this.props}

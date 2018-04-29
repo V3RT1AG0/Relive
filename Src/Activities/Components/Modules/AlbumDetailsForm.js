@@ -1,10 +1,14 @@
 // @flow
 import React from "react";
 import AutoTags from "./AutoCompleteTag";
-import { View, KeyboardAvoidingView } from "react-native";
+import {
+	View,
+	KeyboardAvoidingView,
+	TouchableNativeFeedback
+} from "react-native";
 import AnimatedTextView from "./AnimatedTextView";
-import Icon from "react-native-vector-icons/Feather";
-
+//import Icon from "react-native-vector-icons/Feather";
+import Icon from "react-native-vector-icons/Entypo";
 
 export default class Display extends React.Component {
 	constructor() {
@@ -23,7 +27,8 @@ export default class Display extends React.Component {
 				}
 			],
 			tagsSelected: [],
-			albumName: ""
+			albumName: "",
+			showAlbumOptions: false
 		};
 		/* setTimeout(() => {
             this.setState({ uploadNotifCount: this.state.uploadNotifCount + 1 });
@@ -47,32 +52,54 @@ export default class Display extends React.Component {
 		this.setState({ albumName });
 	};
 
+	handleOptionButtonPressed = () => {
+		console.log("setState called");
+		this.setState({ showAlbumOptions: true });
+		this.props.navigator.showModal({
+			screen: "AlbumOptionsDialog", // unique ID registered with Navigation.registerScreen
+			navigatorStyle: {
+				modalPresentationStyle: "fullScreen",
+				navBarHidden: true,
+				topBarElevationShadowEnabled: false,
+				navBarNoBorder: true,
+				screenBackgroundColor: "rgba(52, 52, 52, 0.5)"
+			}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+			animationType: "screen" // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+		});
+	};
+
 	render() {
 		return (
-			<View>
-				<View
-					style={{
-						height: 40,
-						width: 40,
-						borderRadius: 40 / 2,
-						alignSelf: "flex-end",
-						justifyContent: "center",
-						marginRight: 20,
-						alignItems: "center",
-						marginBottom: 50,
-						backgroundColor: "#ECEFF1"
-					}}
-				>
-					<Icon style={{}} name="lock" size={20} color="black" />
-				</View>
+			<View style={{ margin: 15 }}>
+				<TouchableNativeFeedback onPress={this.handleOptionButtonPressed}>
+					<View
+						style={{
+							height: 36,
+							width: 36,
+							borderRadius: 36 / 2,
+							alignSelf: "flex-end",
+							justifyContent: "center",
+							alignItems: "center",
+							backgroundColor: "#ECEFF1"
+						}}
+					>
+						{/* <Icon style={{}} name="lock" size={20} color="black" /> */}
+						<Icon
+							style={{}}
+							name="dots-three-horizontal"
+							size={20}
+							color="black"
+						/>
+					</View>
+				</TouchableNativeFeedback>
 				<View
 					style={{
 						flexDirection: "row",
 						alignItems: "center",
-						marginBottom: 20
+						marginBottom: 10
 					}}
 				>
-					<AnimatedTextView />
+					<AnimatedTextView showingAlbumOptions={this.state.showAlbumOptions} />
 					{/*Get albumname here*/}
 				</View>
 				<View style={{ flexDirection: "row" }}>
@@ -83,7 +110,7 @@ export default class Display extends React.Component {
 						tagsSelected={this.state.tagsSelected}
 						handleAddition={this.handleAddition}
 						handleDelete={this.handleDelete}
-						placeholder="Add a tag.."
+						placeholder="Add People, Group tag"
 					/>
 				</View>
 			</View>

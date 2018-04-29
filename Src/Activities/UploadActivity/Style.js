@@ -10,7 +10,7 @@ export default StyleSheet.create({
 	infoContainer: {},
 
 	bottomGalleyContainer: {
-		top: 230
+		top: 170
 	},
 	card: {
 		backgroundColor: "transparent",
