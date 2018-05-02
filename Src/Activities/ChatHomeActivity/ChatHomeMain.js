@@ -19,7 +19,8 @@ export default class HomeScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//chatList: ChaltListRealm.objects("ChatList")
+			userId: "5aa82eafbfad0122a3757be3",
+			chatList: ChatRealm.objects("ChatList")
 		};
 	}
 
@@ -64,16 +65,14 @@ export default class HomeScreen extends Component {
 	componentDidMount = () => {
 		ChatRealm.addListener("change", this.forceUpdateRealm);
 
-		fetchNewChatListFromNetwork(this.state.userID, this.state.chatList)
+		fetchNewChatListFromNetwork(this.state.userId, this.state.chatList)
 			.then(() => {
+				console.log();
 				//set up socket to listen to updates
 				//setUpSocketforNewConversation(this.state.AlbumId);
 				//TODO: Pull to update chatlist or realtime using sockets?
 				// pass realm photos to setState in case it was empty array initially
-				const chatList = ChatRealm.objectForPrimaryKey(
-					"ChatList",
-					this.state.userID
-				);
+				const chatList = ChatRealm.objects("ChatList");
 				this.setState({ chatList }, () => {
 					console.log("setStateTriggered=>", this.state.chatList);
 				});
@@ -96,30 +95,17 @@ export default class HomeScreen extends Component {
 				}}
 			>
 				<FlatList
-					data={[
-						{
-							key: "Devin",
-							message: "Let's meet asap.",
-							unread: true,
-							ts: "2h"
-						},
-						{
-							key: "Jackson",
-							message: "Hey, how is it going?",
-							unread: true,
-							ts: "3h"
-						},
-						{ key: "D3", message: "Will ttyl in 10 mins.", ts: "Yesterday" },
-						{ key: "Joel", message: "Sure will come.", ts: "Yesterday" },
-						{ key: "John", message: "Tonight by 9pm.", ts: "2w" },
-						{ key: "Jillian", message: "Don't forget to get it.", ts: "22w" },
-						{ key: "Jimmy", message: "Catch you tomorrow, bye.", ts: "25w" },
-						{ key: "Julie", message: "Let's meet asap.", ts: "30w" }
-					]}
+					data={this.state.chatList}
 					renderItem={({ item }) => (
 						<TouchableNativeFeedback
-							onPress={() =>
-								this.props.navigation.navigate("Chat", { data: item.key })
+							onPress={
+								() =>
+									this.props.navigator.push({
+										screen: "Chat",
+										title: "Chat",
+										passProps: { data: item._id }
+									})
+								//this.props.navigation.navigate("Chat", { data: item.key })
 							}
 						>
 							<View
@@ -139,13 +125,13 @@ export default class HomeScreen extends Component {
 								<View style={style.textView}>
 									<View style={{ flex: 1, flexDirection: "row" }}>
 										<View style={{ flex: 1, alignItems: "flex-start" }}>
-											<Text style={style.text}>{item.key}</Text>
+											<Text style={style.text}>{item.name}</Text>
 										</View>
 										<View
 											style={{
 												flex: 1,
 												alignItems: "flex-end",
-												marginTop: 20,
+												marginTop: 4,
 												marginRight: 10
 											}}
 										>
@@ -155,7 +141,7 @@ export default class HomeScreen extends Component {
 													color: "#000"
 												}}
 											>
-												{item.ts}
+												yestetday
 											</Text>
 										</View>
 									</View>
@@ -174,17 +160,19 @@ export default class HomeScreen extends Component {
 													fontWeight: item.unread ? "500" : "normal"
 												}}
 											>
-												{item.message}
+												hello
 											</Text>
 										</View>
-										{/*   <View
-                      style={{
-                        flex: 1,
-                        alignItems: "flex-end"
-                      }}
-                    >
-                      <Text style={style.textUnread}>1</Text>
-                    </View> */}
+										<View
+											style={{
+												marginTop: -20,
+												flex: 1,
+												alignItems: "flex-end",
+												marginRight: 10
+											}}
+										>
+											<Text style={style.textUnread}>{item.count}</Text>
+										</View>
 									</View>
 								</View>
 							</View>

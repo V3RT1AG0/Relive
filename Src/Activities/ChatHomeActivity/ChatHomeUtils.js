@@ -10,19 +10,14 @@ export const fetchNewChatListFromNetwork = (userID, chatList) => {
 		latestChatItem = chatList.sorted("_id", true)[0]._id;
 
 	return axios
-		.post(SERVER_URL + "/api/chat/getlist")
+		.post(SERVER_URL + "/chat/getlist", {
+			_id: userID
+		})
 		.then(result => {
 			console.log("fetchfromnetwork", result);
-			/* const newConversations = result.data.chatlist.filter(
-				item => item._id > latestChatItem
-			);
-			const modifiedConversation = result.data.chatlist.filter(
-				item => item.count > 0
-			); */
-
-			return putNewConversationsToRealm(result.data.chatList);
+			return putNewConversationsToRealm(result.data.chatlist);
 		})
-		.catch(error => console.log(error.response));
+		.catch(error => console.log(error));
 };
 
 export const putNewConversationsToRealm = Conversations =>
@@ -41,13 +36,8 @@ export const putNewConversationsToRealm = Conversations =>
 				}); */
 			ChatRealm.write(() => {
 				Conversations.forEach(item => {
-					ChatRealm.create(
-						"ChatList",
-						{
-							item
-						},
-						true
-					);
+					console.log(item);
+					ChatRealm.create("ChatList", item, true);
 				});
 			});
 			resolve("success");

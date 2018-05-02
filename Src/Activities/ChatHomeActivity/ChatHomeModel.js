@@ -12,7 +12,7 @@ const ChatList = {
 	}
 };
 
-export const ChaltListRealm = new Realm({
+export const ChatListRealm = new Realm({
 	path: "ChatList.realm",
 	schema: [ChatList]
 });

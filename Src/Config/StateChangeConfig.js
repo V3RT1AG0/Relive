@@ -5,7 +5,7 @@ import socket from "../Config/SocketConfig";
 import { MY_ID } from "../Config/Constants";
 
 export const changeStatusToOnline = () => {
-	socket.emit("goOnilne", MY_ID);
+	socket.emit("goOnline", MY_ID);
 };
 
 export const changeStatusToOffline = () => {

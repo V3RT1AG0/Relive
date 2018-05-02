@@ -22,6 +22,7 @@ import SplashActivity from "../Activities/SplashActivity/SplashMain";
 import ChatHomeActivity from "../Activities/ChatHomeActivity/ChatHomeMain";
 import UploadProgressActivity from "../Activities/UploadActivity/UploadProgress/UploadProgressMain";
 import AlbumOptionsDialog from "../Activities/Components/Modules/AlbumOptions";
+import ChatActivity from "../Activities/ChatMainActivity/ChatMain";
 import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
 import Icon from "react-native-vector-icons/Feather";
@@ -80,13 +81,14 @@ export function registerScreens() {
 		() => UploadProgressActivity,
 		store,
 		Provider
-	),
-		Navigation.registerComponent(
-			"ChatHome",
-			() => ChatHomeActivity,
-			store,
-			Provider
-		);
+	);
+	Navigation.registerComponent(
+		"ChatHome",
+		() => ChatHomeActivity,
+		store,
+		Provider
+	);
+	Navigation.registerComponent("Chat", () => ChatActivity, store, Provider);
 	Navigation.registerComponent("Login", () => LoginActivity, store, Provider);
 	Navigation.registerComponent("Profile", () => ProfileActivity);
 	Navigation.registerComponent(
