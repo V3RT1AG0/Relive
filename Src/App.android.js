@@ -20,7 +20,7 @@ const startApp = () => {
 	Navigation.startSingleScreenApp({
 		screen: {
 			label: "One",
-			screen: "Navigator",
+			screen: "Splash",
 			title: "Screen One",
 			icon: require("./Assets/Images/checked.png")
 		}

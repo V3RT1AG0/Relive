@@ -53,7 +53,7 @@ export default class ChatScreen extends Component {
 			author: this.userid
 		})
 			.then(() => console.log("sucess"))
-			.catch(e => console.log(e.response()));
+			.catch(e => console.log(e.response));
 	};
 
 	handleChangeText = message => {

@@ -13,8 +13,6 @@ export class SplashMain extends Component {
 		this.state = {
 			id: "5aa82ea7bfad0122a3757be2"
 		};
-
-		
 	}
 
 	getRoomIds = () => {
@@ -39,12 +37,15 @@ chatlist:Array(2)
 	subscibeToAllRooms = () => {
 		this.getRoomIds().then(result => {
 			// enter each room using result chatlist items
-			console.log("result=>",result)
+			console.log("result=>", result);
 			result.data.chatlist.forEach(item => {
 				socket.emit("enterChatRooms", item._id);
 			});
+			this.props.navigator.push({
+				screen: "Navigator",
+				title: "Navigator"
+			});
 		});
-
 	};
 
 	componentDidMount() {
@@ -62,7 +63,6 @@ chatlist:Array(2)
 		});
 
 		this.subscibeToAllRooms();
-		
 	}
 
 	render() {
