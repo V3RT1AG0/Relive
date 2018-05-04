@@ -35,17 +35,19 @@ chatlist:Array(2)
  */
 
 	subscibeToAllRooms = () => {
-		this.getRoomIds().then(result => {
-			// enter each room using result chatlist items
-			console.log("result=>", result);
-			result.data.chatlist.forEach(item => {
-				socket.emit("enterChatRooms", item._id);
-			});
-			this.props.navigator.push({
-				screen: "Navigator",
-				title: "Navigator"
-			});
-		});
+		this.getRoomIds()
+			.then(result => {
+				// enter each room using result chatlist items
+				console.log("result=>", result);
+				result.data.chatlist.forEach(item => {
+					socket.emit("enterChatRooms", item._id);
+				});
+				this.props.navigator.push({
+					screen: "Navigator",
+					title: "Navigator"
+				});
+			})
+			.catch(e => console.log(e));
 	};
 
 	componentDidMount() {

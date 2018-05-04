@@ -30,6 +30,7 @@ export const createNewAlbumOrSubAlbum = (payload, path) =>
 		.catch(error => console.log(error.response));
 }; */
 
+// ADD PHOTOS TO TO ALBUM ALREADY CREATED
 export const addPhotosToRealm = (albumId, images) =>
 	new Promise((resolve, reject) => {
 		const Album = UploadRealm.objectForPrimaryKey("Album", albumId);

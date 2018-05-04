@@ -20,7 +20,6 @@ export default class App extends Component {
 				keyExtractor={this._keyExtractor}
 				//renderItem={this.props.renderRowItem}
 				{...this.props}
-				initialNumToRender={20}
 				//onEndReachedThreshold={0.2}
 				//onEndReached={this.props.onEndReached}
 				removeClippedSubviews

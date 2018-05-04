@@ -162,7 +162,7 @@ class UploadActivity extends Component {
 						navigator={this.props.navigator}
 						onOptionButtonPressed={this.handleOptionButtonPressed}
 					/>
-					{/* <Button onPress={this.handleUploadButtonPress} title="upload" /> */}
+					<Button onPress={this.handleUploadButtonPress} title="upload" /> 
 				</Animated.View>
 				{/* <GestureRecognizer onSwipeDown={this.onSwipeDown} config={config}> */}
 				<Interactable.View

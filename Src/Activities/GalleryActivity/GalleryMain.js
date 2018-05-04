@@ -1,24 +1,33 @@
 // @flow
 import React, { Component } from "react";
-import { Text } from "react-native";
+import {
+	View,
+	Image,
+	Dimensions,
+	TouchableWithoutFeedback
+} from "react-native";
 import { GalleryRealm } from "./GalleryModels";
 import {
 	fetchNewPhotosDataFromNetwork,
 	setUpSocketforImageUpdates
 } from "./GalleryUtils";
+import PhotoGrid from "../Components/Modules/PhotoGrid";
+import { SERVER_URL } from "../../Config/Constants";
+const { width } = Dimensions.get("window");
 
 export default class GalleryActivity extends Component {
 	constructor(props) {
 		super(props);
+		this.imageWidth = (width - 2 * (5 + 5)) / 3;
 		this.state = {
-			AlbumId: "5ab6189d17afaf3b5720484e",
+			AlbumId: "5aec06c4ece791191adaa45a",
 
 			//check of realm contains the album or not if yes load that album else an empty array
 			images: GalleryRealm.objectForPrimaryKey(
 				"Album",
-				"5ab6189d17afaf3b5720484e"
+				"5aec06c4ece791191adaa45a"
 			)
-				? GalleryRealm.objectForPrimaryKey("Album", "5ab6189d17afaf3b5720484e")
+				? GalleryRealm.objectForPrimaryKey("Album", "5aec06c4ece791191adaa45a")
 						.photos
 				: []
 		};
@@ -42,7 +51,7 @@ export default class GalleryActivity extends Component {
 				// pass realm photos to setState in case it was empty array initially
 				const images = GalleryRealm.objectForPrimaryKey(
 					"Album",
-					"5ab6189d17afaf3b5720484e"
+					"5aec06c4ece791191adaa45a"
 				).photos;
 				this.setState({ images }, () => {
 					console.log("setStateTriggered=>", this.state.images);
@@ -58,8 +67,52 @@ export default class GalleryActivity extends Component {
 		//maybe leave the joined subalbum group or in addition to that disconnect socket connection
 	};
 
+	renderFlatListItem = itemData => {
+		const marker = (
+			<Image
+				style={{
+					position: "absolute",
+					top: 5,
+					right: 5,
+					backgroundColor: "transparent",
+					width: 25,
+					height: 25
+				}}
+				source={require("../../Assets/Images/checked.png")}
+				//require only once and try if performance imporoves
+			/>
+		);
+		const tick = itemData.item.selected ? marker : null;
+		console.log("itemData=>", SERVER_URL + "/" + itemData.item.url);
+		return (
+			<TouchableWithoutFeedback onPress={() => this.onButtonPress(itemData)}>
+				<View style={{ height: this.imageWidth, width: this.imageWidth }}>
+					<Image
+						resizeMode="cover"
+						resizeMethod="resize"
+						style={{ flex: 1 }}
+						source={{
+							uri:
+								"https://s3.us-east-2.amazonaws.com/crewal-test/" +
+								itemData.item.url
+						}}
+					/>
+					{tick}
+				</View>
+			</TouchableWithoutFeedback>
+		);
+	};
+
 	render() {
 		console.log("render=>" + this.state.images);
-		return <Text>Done</Text>;
+		return (
+			<View>
+				<PhotoGrid
+					data={this.state.images}
+					renderItem={this.renderFlatListItem}
+					numColumns={3}
+				/>
+			</View>
+		);
 	}
 }
