@@ -13,6 +13,7 @@ import {
 } from "./GalleryUtils";
 import PhotoGrid from "../Components/Modules/PhotoGrid";
 import { SERVER_URL } from "../../Config/Constants";
+import { UploadRealm } from "../UploadActivity/UploadModel";
 const { width } = Dimensions.get("window");
 
 export default class GalleryActivity extends Component {
@@ -23,6 +24,11 @@ export default class GalleryActivity extends Component {
 			AlbumId: "5aec06c4ece791191adaa45a",
 
 			//check of realm contains the album or not if yes load that album else an empty array
+
+			pendingImages: UploadRealm.objectForPrimaryKey(
+				"Album",
+				"5aec06c4ece791191adaa45a"
+			).photos,
 			images: GalleryRealm.objectForPrimaryKey(
 				"Album",
 				"5aec06c4ece791191adaa45a"
@@ -83,8 +89,12 @@ export default class GalleryActivity extends Component {
 			/>
 		);
 		const tick = itemData.item.selected ? marker : null;
+		const uri = itemData.item.src
+			? itemData.item.src
+			: "https://s3.us-east-2.amazonaws.com/crewal-test/" + itemData.item.url;
 		console.log("itemData=>", SERVER_URL + "/" + itemData.item.url);
 		return (
+			//TODO ONCLICK = IT WILL OPEN IMAGE ON CLICK AND NOT GET SELECTED. MAYBE LONG PRESS TO SELECT?
 			<TouchableWithoutFeedback onPress={() => this.onButtonPress(itemData)}>
 				<View style={{ height: this.imageWidth, width: this.imageWidth }}>
 					<Image
@@ -92,9 +102,7 @@ export default class GalleryActivity extends Component {
 						resizeMethod="resize"
 						style={{ flex: 1 }}
 						source={{
-							uri:
-								"https://s3.us-east-2.amazonaws.com/crewal-test/" +
-								itemData.item.url
+							uri
 						}}
 					/>
 					{tick}
@@ -103,15 +111,55 @@ export default class GalleryActivity extends Component {
 		);
 	};
 
+	/* renderPendingImages = itemData => {
+		const marker = (
+			<Image
+				style={{
+					position: "absolute",
+					top: 5,
+					right: 5,
+					backgroundColor: "transparent",
+					width: 25,
+					height: 25
+				}}
+				source={require("../../Assets/Images/checked.png")}
+				//require only once and try if performance imporoves
+			/>
+		);
+		const tick = itemData.item.selected ? marker : null;
+		console.log("itemData=>", itemData.item);
+		return (
+			<TouchableWithoutFeedback onPress={() => this.onButtonPress(itemData)}>
+				<View style={{ height: this.imageWidth, width: this.imageWidth }}>
+					<Image
+						resizeMode="cover"
+						resizeMethod="resize"
+						style={{ flex: 1 }}
+						source={{
+							uri: itemData.item.src
+						}}
+					/>
+					{tick}
+				</View>
+			</TouchableWithoutFeedback>
+		);
+	}; */
+
 	render() {
 		console.log("render=>" + this.state.images);
 		return (
 			<View>
 				<PhotoGrid
-					data={this.state.images}
+					data={[...this.state.images, ...this.state.pendingImages]}
 					renderItem={this.renderFlatListItem}
 					numColumns={3}
 				/>
+
+				{/* 	<PhotoGrid
+					data={this.state.pendingImages}
+					renderItem={this.renderPendingImages}
+					numColumns={3}
+				/> */}
 			</View>
 		);
 	}
