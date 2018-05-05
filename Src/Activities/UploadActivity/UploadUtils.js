@@ -46,7 +46,7 @@ export const addPhotosToRealm = (albumId, images) =>
 			reject(e);
 		}
 	});
-
+//CREATE NEW ALBUM AND ADD PHOTOS
 export const loadAlbumToRealm = (_id, name, imagesArray) => {
 	console.log(imagesArray, "imagesAray");
 	UploadRealm.write(() => {

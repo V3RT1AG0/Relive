@@ -1,12 +1,10 @@
 // @flow
-import { INITIAL_PHOTOS, ADD_PHOTOS } from "../../Config/Constants";
+import { UPLOAD_PROGRESS } from "../../Config/Constants";
 
-const GalleryReducer = (state = [], action) => {
+const GalleryReducer = (state = { progress: 0 }, action) => {
 	switch (action.type) {
-		case INITIAL_PHOTOS:
-			return (state = [...action.data]);
-		case ADD_PHOTOS:
-			return (state = [...state, ...action.data]);
+		case UPLOAD_PROGRESS:
+			return (state = { progress: action.progress });
 		default:
 			return state;
 	}

@@ -3,12 +3,14 @@ import {
 	ADD_ALBUM,
 	IMAGE_UPLOADED,
 	SERVER_URL,
-	ADD_SELECTED_PHOTO
+	ADD_SELECTED_PHOTO,
+	UPLOAD_PROGRESS
 } from "./Constants";
 import { Platform } from "react-native";
 import Upload from "react-native-background-upload";
 import Axios from "axios";
 import RNGRP from "react-native-get-real-path";
+import store from "./ReduxStoreConfig";
 const axios = Axios.create();
 export const startInsertingImages = (Images, AlbumId) => {
 	uploadImage(Images, AlbumId, 0);
@@ -57,6 +59,10 @@ const uploadImage = (Images, AlbumId, index) => {
 					.then(uploadId => {
 						console.log("Upload started");
 						Upload.addListener("progress", uploadId, data => {
+							store.dispatch({
+								type: UPLOAD_PROGRESS,
+								progress: data.progress
+							});
 							console.log(`Progress: ${data.progress}%`);
 						});
 						Upload.addListener("error", uploadId, data => {

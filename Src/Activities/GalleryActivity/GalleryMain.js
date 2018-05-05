@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import {
+	Text,
 	View,
 	Image,
 	Dimensions,
@@ -149,6 +150,7 @@ export default class GalleryActivity extends Component {
 		console.log("render=>" + this.state.images);
 		return (
 			<View>
+				<Text>{this.props.PhotosData.progress}</Text>
 				<PhotoGrid
 					data={[...this.state.images, ...this.state.pendingImages]}
 					renderItem={this.renderFlatListItem}
