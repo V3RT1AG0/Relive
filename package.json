@@ -18,6 +18,7 @@
 	"dependencies": {
 		"@shoutem/ui": "^0.23.5",
 		"@types/jest": "^22.2.2",
+		"@types/react": "^16.3.13",
 		"aws-sdk": "^2.214.1",
 		"axios": "^0.17.1",
 		"native-base": "^2.4.1",

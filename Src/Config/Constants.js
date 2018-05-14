@@ -15,3 +15,8 @@ export const IMAGE_UPLOADED = "IMAGE_UPLOADED";
 export const ADD_SELECTED_PHOTO = "ADD_SELECTED_PHOTO";
 export const EMPTY_SELECTED_PHOTOS = "EMPTY_SELECTED_PHOTOS";
 export const UPLOAD_PROGRESS = "UPLOAD_PROGRESS";
+
+
+//native bridge imports
+import {NativeModules} from 'react-native';
+export const Share =   NativeModules.ShareMultiple;

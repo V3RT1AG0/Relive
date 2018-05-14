@@ -26,6 +26,7 @@ import ChatActivity from "../Activities/ChatMainActivity/ChatMain";
 import store from "./ReduxStoreConfig";
 import { Provider } from "react-redux";
 import Icon from "react-native-vector-icons/Feather";
+import Icon2 from "react-native-vector-icons/Ionicons";
 
 //const store = configureStore();
 
@@ -57,6 +58,28 @@ const Lock = () => (
 		size={30}
 		color="#900"
 	/>
+);
+//
+const DropDownArrow = () => (
+	<View
+		style={{
+			justifyContent: "center",
+			alignItems: "center"
+		}}
+	>
+		<Icon2
+			style={{
+				marginTop: 10,
+				width: 25,
+				height: 25,
+				overflow: "hidden",
+				color: "black",
+				borderRadius: 25 / 2
+			}}
+			name="ios-arrow-down"
+			size={25}
+		/>
+	</View>
 );
 
 const CustomButton = ({ text }) => (
@@ -107,50 +130,5 @@ export function registerScreens() {
 	Navigation.registerComponent("AlbumOptionsDialog", () => AlbumOptionsDialog);
 	Navigation.registerComponent("CustomButton", () => CustomButton);
 	Navigation.registerComponent("Lock", () => Lock);
+	Navigation.registerComponent("DropDownArrow", () => DropDownArrow);
 }
-
-/* const RootNavigator = StackNavigator({
-	Navigator: {
-		screen: NavigationActivity,
-		navigationOptions: {
-			headerTitle: "Navigator"
-		}
-	},
-	Upload: {
-		screen: UploadActivity,
-		navigationOptions: {
-			headerTitle: "UploadActivity"
-		}
-	},
-	Login: {
-		screen: LoginActivity,
-		navigationOptions: {
-			headerTitle: "LoginActivity"
-		}
-	},
-	Profile: {
-		screen: ProfileActivity,
-		navigationOptions: {
-			headerTitle: "ProfileActivity"
-		}
-	},
-	Timeline: {
-		screen: TimelineActivity,
-		navigationOptions: {
-			headerTitle: "TimelineActivity"
-		}
-	},
-	Gallery: {
-		screen: GalleryActivity,
-		navigationOptions: {
-			headerTitle: "Gallery"
-		}
-	},
-	Share: {
-		screen: ShareActivity,
-		navigationOptions: {
-			headerTitle: "Share"
-		}
-	}
-});
- */

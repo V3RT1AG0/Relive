@@ -6,6 +6,7 @@ import android.app.Application;
 import io.realm.react.RealmReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+import com.relive.ShareMultiple.SharePackage;
 import com.wix.interactable.Interactable;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.vydia.RNUploader.UploaderReactPackage;
@@ -46,7 +47,8 @@ public class MainApplication extends NavigationApplication {
             new VectorIconsPackage(),
             new RealmReactPackage(),
             new PickerPackage(),
-            new RNGRPPackage()
+            new RNGRPPackage(),
+            new SharePackage()
     );
   }
 
