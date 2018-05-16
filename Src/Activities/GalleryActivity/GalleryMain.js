@@ -5,7 +5,8 @@ import {
     View,
     Image,
     Dimensions,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    CheckBox
 } from "react-native";
 import {GalleryRealm} from "./GalleryModels";
 import {
@@ -23,7 +24,7 @@ import * as Progress from 'react-native-progress';
 export default class GalleryActivity extends Component {
     constructor(props) {
         super(props);
-        props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         this.selectedImages = [];
         //this.imageWidth = (width - 2 * (5 + 5)) / 3;
         this.imageWidth = (width) / 3;
@@ -53,28 +54,43 @@ export default class GalleryActivity extends Component {
         };
     }
 
-    onNavigatorEvent(event) {
-        // this is the onPress handler for the two buttons together
-        if (event.type == "NavBarButtonPress") {
-            // this is the event type for button presses
-            if (event.id == "drop") {
-            }
-        }
-    }
+
+    static navigatorStyle = {
+        drawUnderNavBar: false,
+        navBarBackgroundColor: 'white',
+        //navBarBlur: false,
+        //navBarTransparent: true,
+        navBarNoBorder: true,
+        topBarElevationShadowEnabled: false
+    };
 
     static navigatorButtons = {
+
         rightButtons: [
-            /* {
+            {
                 title: "Edit",
                 id: "edit",
                 showAsAction: "ifRoom"
-            }, */
+            },
             {
                 id: "drop",
-                component: "DropDownArrow"
+                title: "drop",
+                component: "DropDownArrow",
+                passProps: {}
             }
         ]
     };
+
+
+    onNavigatorEvent(event) {
+        if (event.type == 'NavBarButtonPress') {
+            console.log("dsadad")
+            if (event.id === 'edit') {
+                console.log("drop");
+            }
+
+        }
+    }
 
     forceUpdateRealm = () => {
         this.forceUpdate(() => {
@@ -147,8 +163,7 @@ export default class GalleryActivity extends Component {
 
         //TODO:on click remove stop uploading if already in progress and then delete it from server and then from local db
         const cancel = (
-            <View style={{
-            }}>
+            <View style={{}}>
                 <View style={{
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -255,7 +270,7 @@ export default class GalleryActivity extends Component {
                                 uri
                             }}
                         />
-                        {tick}
+                        {this.selectedImages.includes(uri) ? marker : undefined}
 
                     </View>
                 </TouchableWithoutFeedback>

@@ -154,13 +154,13 @@ class UploadActivity extends Component {
 			<View style={styles.topContainer}>
 				{/* <NavigationBar hasHistory /> */}
 				{/* <Animated.View style={{opacity}}>{uploadCompArr}</Animated.View> */}
-				{this.state.showOptions ? <AlbumOptions /> : undefined}
+				{/*{this.state.showOptions ? <AlbumOptions /> : undefined} REMOVED ASSUMING THAT IT IS NO LONGER REQUIRED*/}
 				<Animated.View
 					style={(styles.infoContainer, { top: scrollY, opacity })}
 				>
 					<AlbumDetailsForm
 						navigator={this.props.navigator}
-						onOptionButtonPressed={this.handleOptionButtonPressed}
+						/*onOptionButtonPressed={this.handleOptionButtonPressed}*/
 					/>
 					<Button onPress={this.handleUploadButtonPress} title="upload" />
 				</Animated.View>
