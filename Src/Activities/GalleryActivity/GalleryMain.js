@@ -15,15 +15,18 @@ import {
 import PhotoGrid from "../Components/Modules/PhotoGrid";
 import {SERVER_URL, Share} from "../../Config/Constants";
 import {UploadRealm} from "../UploadActivity/UploadModel";
-import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import MaterialIcon from "react-native-vector-icons/Entypo";
+
 const {width} = Dimensions.get("window");
+import * as Progress from 'react-native-progress';
 
 export default class GalleryActivity extends Component {
     constructor(props) {
         super(props);
         props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         this.selectedImages = [];
-        this.imageWidth = (width - 2 * (5 + 5)) / 3;
+        //this.imageWidth = (width - 2 * (5 + 5)) / 3;
+        this.imageWidth = (width) / 3;
         this.state = {
             AlbumId: "5aec06c4ece791191adaa45a",
 
@@ -31,11 +34,13 @@ export default class GalleryActivity extends Component {
 
             pendingImages: UploadRealm.objectForPrimaryKey(
                 "Album",
-                "5aec06c4ece791191adaa45a"
-            )? UploadRealm.objectForPrimaryKey(
+                //  "5aec06c4ece791191adaa45a"
+                "5afac30d70d2a60c1c3d655d"
+            ) ? UploadRealm.objectForPrimaryKey(
                 "Album",
-                "5aec06c4ece791191adaa45a"
-            ).photos:[],
+                "5afac30d70d2a60c1c3d655d"
+                // "5aec06c4ece791191adaa45a"
+            ).photos : [],
             images: GalleryRealm.objectForPrimaryKey(
                 "Album",
                 "5aec06c4ece791191adaa45a"
@@ -141,19 +146,38 @@ export default class GalleryActivity extends Component {
 
 
         //TODO:on click remove stop uploading if already in progress and then delete it from server and then from local db
-        const cancel = (<MaterialIcon
-            style={{
-                position: "absolute",
-                top: 5,
-                right: 5,
-                backgroundColor: "transparent",
-                width: 25,
-                height: 25
-            }}
-            name="cancel"
-            size={25}
-            color="#900"
-        />)
+        const cancel = (
+            <View style={{
+            }}>
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                }}>
+                    <MaterialIcon
+                        style={{
+                            zIndex: 20,
+                            backgroundColor: "transparent",
+                            borderRadius: 24 / 2
+                        }}
+                        name="cross"
+                        size={24}
+                        color='rgba(255,255,255,0.9)'
+                    />
+                </View>
+                <View
+                    width={40}
+                    height={40}
+                    style={{
+                        backgroundColor: "rgba(0,0,0,0.6)",
+                        borderRadius: 40 / 2,
+                    }}/>
+            </View>)
+
 
         console.log(this.selectedImages, "%", itemData.item.url)
         const tick = this.selectedImages.includes(itemData.item.url) ? marker : null;
@@ -173,7 +197,41 @@ export default class GalleryActivity extends Component {
                                 uri
                             }}
                         />
-                         {cancel}
+                        <View
+                            style={{
+                                flex: 1, position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: 'rgba(0,0,0,0.3)'
+                            }}
+                        />
+
+
+                        <Progress.Circle thickness={3} indeterminate={false} size={35} progress={1} borderWidth={0}
+                                         color={"#66BB6A"} style={{
+                            zIndex: 10,
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}/>
+                        <View style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            {cancel}
+                        </View>
+
                     </View>
                 </TouchableWithoutFeedback> :
                 <TouchableWithoutFeedback
@@ -201,7 +259,8 @@ export default class GalleryActivity extends Component {
 
                     </View>
                 </TouchableWithoutFeedback>
-        );
+        )
+            ;
     };
 
     /* renderPendingImages = itemData => {
@@ -239,18 +298,53 @@ export default class GalleryActivity extends Component {
     }; */
 
     render() {
+        let progress = 0
+        if (this.state.pendingImages.length !== 0) {
+            console.log(this.state.pendingImages)
+            const pendingImagesLength = this.state.pendingImages.length;
+            const completedImagesLength = this.state.pendingImages.filtered('uploaded = true').length;
+            progress = completedImagesLength / pendingImagesLength;
+        }
         console.log("render=>" + this.state.images);
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Text>{this.props.PhotosData.progress}</Text>
                 <PhotoGrid
                     // combined both the peningimages and already uploaded images together and then in
                     // renderitem I checked what is the source of the image and renderd the item according to it.
                     // i.e cancel button on image currently being uploaded and upload progress while for and
-                    data={[...this.state.images, ...this.state.pendingImages]}
+                    data={[...this.state.pendingImages, ...this.state.images]}
                     renderItem={this.renderFlatListItem}
                     numColumns={3}
                 />
+                <View style={{
+                    position: "absolute",
+                    bottom: 20,
+                    right: 15,
+                    height: 43,
+                    backgroundColor: "white",
+                    width: 140,
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    elevation: 4
+                }}>
+                    <View style={{alignItems: "center"}}>
+                        <View style={{flexDirection: "row", marginBottom: 8, alignItems: "center"}}>
+                            <Text style={{color: "black", fontWeight: "bold", paddingRight: 5}}>{5 + "/" + 10}</Text>
+                            <Text style={{color: "black"}}>{"completed"}</Text>
+                            <MaterialIcon
+                                style={{marginLeft: 5, marginTop: 1}}
+                                name="circle-with-cross"
+                                size={15}
+                            />
+                        </View>
+                        <Progress.Bar height={4} borderWidth={0} color={"#66BB6A"} borderRadius={0} progress={0.3}
+                                      width={140}/>
+
+
+                    </View>
+                </View>
+                {/*https://github.com/oblador/react-native-progress/issues/104*/}
 
                 {/* 	<PhotoGrid
 					data={this.state.pendingImages}
