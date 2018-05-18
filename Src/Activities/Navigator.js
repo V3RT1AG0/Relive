@@ -49,8 +49,8 @@ export default class Navigator extends Component {
 					title="Timeline"
 					onPress={() =>
 						this.props.navigator.push({
-							screen: "Login",
-							title: "Login"
+							screen: "Timeline",
+							title: "Timeline"
 						})
 					}
 				/>

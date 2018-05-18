@@ -1,30 +1,69 @@
-// @flow
-import React, { Component } from "react";
-import {} from "react-native";
-import { SERVER_URL, MY_ID } from "../../Config/Constants";
-import { View } from "react-native";
-import { Text } from "react-native";
+//@flow
+import React from "react";
+import {Text, View,} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import TimeLineListView from "./TimeLineListView";
+import {Fonts} from '../../Assets/Fonts'
 
-class TimeLine extends Component {
-	constructor(props) {
-		super(props);
-		this.state = { data: {} };
-		console.log("constructor called");
-	}
+export default class Timeline extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {AlbunmDate: "26-01-2018"};
+    }
 
-	componentDidMount() {
-		//this.fetchTimelineInitialData();
-		console.log("Component did mount");
-		this.props.getInitialTimeline();
-	}
+    componentDidMount() {
+        this.props.getInitialTimeline();
+    }
+    static navigatorStyle = {
+        navBarHidden: true
+    };
 
-	render() {
-		const { timelineData } = this.props;
-		return (
-			<View>
-				<Text>Done</Text>
-			</View>
-		);
-	}
+
+    DateChange = date => {
+        this.setState({AlbunmDate: date});
+    };
+
+
+    render() {
+        return (
+            <View style={{flex: 1, padding: 5}}>
+              <View
+                    style={{
+                        flex: 1,
+                        flexDirection: "column"
+                    }}
+                >
+                    <TimeLineListView
+                        //navigation={this.props.navigation}
+                        DateChange={this.DateChange}
+                        CurrentlyDisplayedDate={this.state.AlbunmDate}
+                    />
+                </View>
+                <View
+                    style={{position: "absolute", bottom: 10, right: 20, zIndex: 200}}
+                >
+                    <View style={{flex: 1, flexDirection: "row", justifyContent: "flex-end", marginRight: 20}}>
+                        <Icon name="stop-circle" style={{fontSize: 60}}
+                              onPress={() => this.props.navigator.resetTo({
+                                  screen: "TimelineGallery",
+                                  title: "TimelineGallery"
+                              })}/>
+                    </View>
+                </View>
+                <View
+                    style={{
+                        position: "absolute",
+                        top: 180,
+                        left: 10,
+                        zIndex: 200
+                    }}
+                >
+                    <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+                        <Text style={{fontSize:20,fontFamily:Fonts.RobotoLarge,color:'black'}}>{this.state.AlbunmDate}</Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
 }
-export default TimeLine;
+

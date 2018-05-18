@@ -15,6 +15,7 @@ import UploadActivity from "../Activities/UploadActivity/UploadContainer";
 import LoginActivity from "../Activities/LoginActivity/LoginMain";
 import ProfileActivity from "../Activities/ProfileActivity/ProfileMain";
 import TimelineActivity from "../Activities/TimelineActivity/TimelineContainer";
+import TimelineGalleryView from "../Activities/TimelineActivity/TimeLineGalleryView";
 import GalleryActivity from "../Activities/GalleryActivity/GalleyContainer";
 import GalleryOptionsModal from "../Activities/GalleryActivity/GalleryOptionsModal";
 import ShareActivity from "../Activities/ShareActivity/ShareMain";
@@ -137,6 +138,12 @@ export function registerScreens() {
     Navigation.registerComponent(
         "Gallery",
         () => GalleryActivity,
+        store,
+        Provider
+    );
+    Navigation.registerComponent(
+        "TimelineGallery",
+        () => TimelineGalleryView,
         store,
         Provider
     );
