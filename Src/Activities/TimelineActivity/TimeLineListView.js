@@ -14,7 +14,9 @@ import {Fonts} from "../../Assets/Fonts";
 
 export default class TimeLineListView extends React.Component {
     constructor(props) {
+
         super(props);
+        console.log(props,"props=>")
         this.seperating_items = this.seperating_items.bind(this);
         this.viewabilityConfig = {itemVisiblePercentThreshold: 100};
         this.setting = this.setting.bind(this);
@@ -109,7 +111,8 @@ export default class TimeLineListView extends React.Component {
         return (
             <View style={{flex: 1}}>
                 <FlatList
-                    data={this.state.data}
+                   // data={this.state.data}
+                    data={this.props.Data}
                     onViewableItemsChanged={this.setting}
                     //initialNumToRender={1}
 
@@ -130,101 +133,118 @@ export default class TimeLineListView extends React.Component {
                             <View style={{height: 200}}/>
                         </View>
                     }
-                    renderItem={({item, index}) => (
-                        <View
-                            style={{
-                                flex: 4,
-                                flexDirection: "column",
-                                backgroundColor: "#ffffff"
-                                //	opacity: this.state.changed == item.date ? 1.0 : 0.4
-                            }}
-                        >
+                    renderItem={({item, index}) => {
+                        console.log(item)
+                        const names = [...item.groupTagId.map(gtag=>gtag.name),...item.userId.map(user=>user.name)]
+                        const combinedNames = names.slice(0,3).join(', ');
+                        const photos = item.photoId.map(photo=>(
+                            <View style={style.imageWrap}>
+                                <Image
+                                    style={style.imageStyle}
+                                    source={{uri:"https://s3.us-east-2.amazonaws.com/crewal-test/" + photo.url}}
+                                />
+                            </View>
+                            )
+                        )
+                        console.log(names,photos)
+                        return(
+
                             <View
                                 style={{
-                                    flex: 1,
+                                    flex: 4,
                                     flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    marginTop: 20,
-                                    marginBottom: 20,
-                                    opacity:
-                                        this.props.CurrentlyDisplayedDate == item.date ? 1.0 : 0.4
+                                    backgroundColor: "#ffffff"
+                                    //	opacity: this.state.changed == item.date ? 1.0 : 0.4
                                 }}
                             >
                                 <View
                                     style={{
-                                        flex: 1
-                                    }}
-                                >
-                                    <Text style={style.textStyle}>{item.Heading}</Text>
-                                </View>
-                                <View
-                                    style={{
                                         flex: 1,
-                                        flexDirection: "row",
-                                        marginBottom: 20,
+                                        flexDirection: "column",
+                                        alignItems: "center",
                                         justifyContent: "center",
-                                        alignItems: "center"
+                                        marginTop: 20,
+                                        marginBottom: 20,
+                                        opacity:
+                                            this.props.CurrentlyDisplayedDate == item.date ? 1.0 : 0.4
                                     }}
                                 >
-                                    <Text
+                                    <View
                                         style={{
-                                            fontFamily: Fonts.RobotoSmall,
-                                            fontSize: 18
+                                            flex: 1
                                         }}
                                     >
-                                        With Kushal, Aditya & 10 more
-                                    </Text>
-                                    <Text style={{fontFamily: Fonts.RobotoSmall, fontSize: 15}}>
-                                        {"  "}
-                                    </Text>
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row"
-                                    }}
-                                >
-                                    <View style={style.imageWrap}>
-                                        <Image
-                                            style={style.imageStyle}
-                                            source={require("../../Assets/Images/charmander.png")}
-                                        />
+                                        <Text style={style.textStyle}>{item.Heading}</Text>
                                     </View>
-                                    <View style={style.imageWrap}>
-                                        <Image
-                                            style={style.imageStyle}
-                                            source={require("../../Assets/Images/charmander.png")}
-                                        />
-                                    </View>
-                                    <View style={style.imageWrap}>
-                                        <Image
-                                            style={style.imageStyle}
-                                            source={require("../../Assets/Images/charmander.png")}
-                                        />
-                                    </View>
-                                    <TouchableHighlight
-                                        onPress={() => this.props.navigation.navigate("Album_add")}
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: "row",
+                                            marginBottom: 20,
+                                            justifyContent: "center",
+                                            alignItems: "center"
+                                        }}
                                     >
-                                        <View
-                                            style={
-                                                {
-                                                    width: 65,
-                                                    height: 65,
-                                                    backgroundColor: "grey",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                    opacity: 0.5
-                                                } // backgroundColor:'#ffffff',
-                                            }
+                                        <Text
+                                            style={{
+                                                fontFamily: Fonts.RobotoSmall,
+                                                fontSize: 18
+                                            }}
                                         >
-                                            <Text>+10</Text>
+                                            With {combinedNames} & {names.length-3} more
+                                        </Text>
+                                        <Text style={{fontFamily: Fonts.RobotoSmall, fontSize: 15}}>
+                                            {"  "}
+                                        </Text>
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: "row"
+                                        }}
+                                    >
+                                        {photos}
+                                       {/* <View style={style.imageWrap}>
+                                            <Image
+                                                style={style.imageStyle}
+                                                source={require("../../Assets/Images/charmander.png")}
+                                            />
                                         </View>
-                                    </TouchableHighlight>
+                                        <View style={style.imageWrap}>
+                                            <Image
+                                                style={style.imageStyle}
+                                                source={require("../../Assets/Images/charmander.png")}
+                                            />
+                                        </View>
+                                        <View style={style.imageWrap}>
+                                            <Image
+                                                style={style.imageStyle}
+                                                source={require("../../Assets/Images/charmander.png")}
+                                            />
+                                        </View>*/}
+                                        <TouchableHighlight
+                                            onPress={() => this.props.navigation.navigate("Album_add")}
+                                        >
+                                            <View
+                                                style={
+                                                    {
+                                                        width: 65,
+                                                        height: 65,
+                                                        backgroundColor: "grey",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        opacity: 0.5
+                                                    } // backgroundColor:'#ffffff',
+                                                }
+                                            >
+                                                <Text>+{item.photoId.length-3}</Text>
+                                            </View>
+                                        </TouchableHighlight>
+                                    </View>
                                 </View>
+                                {this.header_dash_line()}
                             </View>
-                            {this.header_dash_line()}
-                        </View>
-                    )}
+                        )
+                    }}
                 />
             </View>
         );

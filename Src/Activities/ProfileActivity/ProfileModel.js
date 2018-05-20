@@ -1,29 +1,20 @@
 // @flow
 import Realm from "realm";
 
-const PhotosSchema = {
-    name: "Photos",
+const UserSchema = {
+    name: "User",
     primaryKey: "_id",
     properties: {
         _id: "string",
-        url: "string",
-        uploadDate: "date"
+        name: "string",
+        phone: "string",
+        dp: "string",
+        userid: {type: "string[]", default: []},
+        groupTagId: {type: "string[]", default: []}
     }
 };
 
-const AlbumSchema = {
-    name: "Album",
-    primaryKey: "_id",
-    properties: {
-        _id: "string",
-        owner: "string",
-        userId: "string[]",
-        groupTagId: "string[]",
-        photos: { type: "Photos[]", default: [] }
-    }
-};
-
-export const GalleryRealm = new Realm({
-    path: "Gallery.realm",
-    schema: [AlbumSchema, PhotosSchema]
+export const UserRealm = new Realm({
+    path: "User.realm",
+    schema: [UserSchema]
 });

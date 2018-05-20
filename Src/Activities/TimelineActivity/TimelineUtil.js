@@ -8,18 +8,18 @@ const loadTimelineWithDataAC = data => ({
 	data
 });
 
-export const loadInitialTimelinefromRealm = () => dispatch => {
-	const albums = realm.objects("TimeLine");
+export const loadInitialTimelinefromRealm = () => {
+	const albums = realm.objects("Album");
 	let latestAlbumId = "000000000000000000000000";
 	console.log(albums.length);
 	if (albums.length !== 0) latestAlbumId = albums.sorted("_id", true)[0]._id;
 	//TODO maybe the listner needs to be removed when closing the activity
-	realm.addListener("change", () => {
+	/*realm.addListener("change", () => {
 		console.log("data changed" + albums);
 		dispatch(loadTimelineWithDataAC(albums));
-	});
+	});*/
 
-	dispatch(loadTimelineWithDataAC(albums));
+	//dispatch(loadTimelineWithDataAC(albums));
 	fetchNewTimelineDataFromNetwork(latestAlbumId);
 };
 
@@ -39,13 +39,14 @@ const fetchNewTimelineDataFromNetwork = latestAlbumId => {
 
 const addNewAlbumToRealm = newAlbum => {
 	//call using foEACH and remove forEach here
+	console.log(newAlbum)
 	try {
 		//this will trigger the listener
 		realm.write(() => {
-			const timeline = realm.create("TimeLine", newAlbum);
+			const timeline = realm.create("Album", newAlbum);
 			console.log("Realm" + timeline._id);
 		});
 	} catch (e) {
-		console.log("Error on creation");
+		console.log("Error on creation",e);
 	}
 };
