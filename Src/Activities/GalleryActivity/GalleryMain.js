@@ -36,17 +36,20 @@ export default class GalleryActivity extends Component {
             pendingImages: UploadRealm.objectForPrimaryKey(
                 "Album",
                 //  "5aec06c4ece791191adaa45a"
-                "5afac30d70d2a60c1c3d655d"
+                //"5afac30d70d2a60c1c3d655d"
+                this.props.albumId
             ) ? UploadRealm.objectForPrimaryKey(
                 "Album",
-                "5afac30d70d2a60c1c3d655d"
+                //"5afac30d70d2a60c1c3d655d"
                 // "5aec06c4ece791191adaa45a"
+                this.props.albumId
             ).photos : [],
             images: GalleryRealm.objectForPrimaryKey(
                 "Album",
-                "5aec06c4ece791191adaa45a"
+                // "5aec06c4ece791191adaa45a"
+                this.props.albumId
             )
-                ? GalleryRealm.objectForPrimaryKey("Album", "5aec06c4ece791191adaa45a")
+                ? GalleryRealm.objectForPrimaryKey("Album", this.props.albumId)
                     .photos
                 : [],
 
@@ -102,15 +105,15 @@ export default class GalleryActivity extends Component {
         GalleryRealm.addListener("change", this.forceUpdateRealm);
 
         // fetch new data from network and put it into realm
-        fetchNewPhotosDataFromNetwork(this.state.AlbumId, this.state.images)
+        fetchNewPhotosDataFromNetwork(this.props.albumId, this.state.images)
             .then(() => {
                 //set up socket to listen to updates
-                setUpSocketforImageUpdates(this.state.AlbumId);
+                setUpSocketforImageUpdates(this.props.albumId);
 
                 // pass realm photos to setState in case it was empty array initially
                 const images = GalleryRealm.objectForPrimaryKey(
                     "Album",
-                    "5aec06c4ece791191adaa45a"
+                    this.props.albumId
                 ).photos;
                 this.setState({images}, () => {
                     console.log("setStateTriggered=>", this.state.images);

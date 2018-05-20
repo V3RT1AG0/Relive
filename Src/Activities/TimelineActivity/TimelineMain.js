@@ -6,7 +6,6 @@ import TimeLineListView from "./TimeLineListView";
 import {Fonts} from '../../Assets/Fonts'
 import TimeLineRealm from "./TimeLineModel";
 import {loadInitialTimelinefromRealm} from "./TimelineUtil";
-import {GalleryRealm} from "../GalleryActivity/GalleryModels";
 
 
 export default class Timeline extends React.Component {
@@ -53,10 +52,10 @@ export default class Timeline extends React.Component {
                     }}
                 >
                     <TimeLineListView
-                        //navigation={this.props.navigation}
                         Data={this.state.albums}
                         DateChange={this.DateChange}
                         CurrentlyDisplayedDate={this.state.AlbunmDate}
+                        navigator={this.props.navigator}
                     />
                 </View>
                 <View
