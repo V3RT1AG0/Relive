@@ -10,7 +10,8 @@ const UserSchema = {
         phone: "string",
         dp: "string",
         userid: {type: "string[]", default: []},
-        groupTagId: {type: "string[]", default: []}
+        groupTagId: {type: "string[]", default: []},
+        timestamp:"string"
     }
 };
 

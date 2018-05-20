@@ -10,11 +10,16 @@ import {
 } from "react-native";
 import Switch from "react-native-flip-toggle-button";
 import Gradient from "react-native-linear-gradient";
+import {UserRealm} from "./ProfileModel";
+import {MY_ID} from "../../Config/Constants";
 
 export default class ProfileMain extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { hasPassword: false };
+        this.state = { hasPassword: false,
+        userInfo:UserRealm.objectForPrimaryKey(
+            "User",MY_ID
+        ) };
         Text.defaultProps.style = { fontFamily: "Roboto" };
     }
     handleChange = e => {
@@ -56,7 +61,7 @@ export default class ProfileMain extends React.Component {
                             }}
                         >
                             <Image
-                                source={require("../../Assets/Images/charmander.png")}
+                                source={{uri:this.state.userInfo.dp}}
                                 style={{
                                     flex: 1,
                                     width: null,
@@ -65,7 +70,7 @@ export default class ProfileMain extends React.Component {
                             />
                         </View>
                         <Text style={{ marginTop: 10, color: "#fff", fontSize: 18 }}>
-                            Kushal Siddesh
+                            {this.state.userInfo.name}
                         </Text>
                     </View>
                     <View
