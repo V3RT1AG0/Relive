@@ -1,33 +1,61 @@
 // @flow
 import Realm from "realm";
 
-export const SubAlbumSchema = {
-	name: "SubAlbum",
-	properties: {
-		userId: "string[]",
-		groupTagId: "string[]"
-	}
-};
-const AlbumSchema = {
-	name: "Album",
-	properties: {
-		name: "string"
-	}
+
+const UserSchema = {
+    name: "User",
+    properties: {
+        _id: "string",
+        name: "string",
+    }
 };
 
-//this is same as album array in mongoDB
+const GrouptagSchema = {
+    name: "Grouptag",
+    properties: {
+        _id: "string",
+        name: "string",
+    }
+};
+
+const PhotoSchema = {
+    name: "Photo",
+    properties: {
+        _id: "string",
+        url: "string",
+    }
+};
+
+const AlbumSchema = {
+    name: "Album",
+    properties: {
+        _id: "string",
+        name: "string",
+        userId: "User",
+        groupTagId: "Grouptag",
+        photoId: "Photo",
+    }
+};
+
+
 const TimeLineSchema = {
-	name: "TimeLine",
-	properties: {
-		subAlbumIds: "SubAlbum[]",
-		albumId: "Album",
-		_id: "string"
-	}
+    name: "TimeLine",
+    primaryKey: "_id",
+    properties: {
+        _id: "string",
+        name: "string",
+        phone: "string",
+        groupTagId: {type: "string[]", default: []},
+        userid: {type: "string[]", default: []},
+        album: {type: "Album[]", default: []},
+        dp: "string",
+        timestamp: "string"
+    }
 };
 
 export default new Realm({
-	path: "Timeline.realm",
-	schema: [TimeLineSchema, AlbumSchema, SubAlbumSchema]
+    path: "Timeline.realm",
+    schema: [TimeLineSchema, AlbumSchema,UserSchema,GrouptagSchema,PhotoSchema]
 });
 
 //TODO remove subalbum schema

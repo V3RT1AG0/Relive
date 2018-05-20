@@ -27,7 +27,6 @@ export default class Display extends React.Component {
                 }
             ],
             tagsSelected: [],
-            albumName: "",
             showAlbumOptions: false
         };
         /* setTimeout(() => {
@@ -49,7 +48,7 @@ export default class Display extends React.Component {
     };
 
     onChangeAlbumText = albumName => {
-        this.setState({albumName});
+        this.props.setAlbumName({albumName});
     };
 
     handleOptionButtonPressed = () => {
@@ -100,7 +99,9 @@ export default class Display extends React.Component {
                         marginBottom: 10
                     }}
                 >
-                    <AnimatedTextView showingAlbumOptions={this.state.showAlbumOptions}/>
+                    <AnimatedTextView showingAlbumOptions={this.state.showAlbumOptions}
+
+                                      onChangeAlbumText={this.props.onChangeAlbumText}/>
                     {/*Get albumname here*/}
                 </View>
                 <View style={{flexDirection: "row"}}>

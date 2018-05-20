@@ -8,7 +8,6 @@ import CreateGroupTag from "../Components/CreateGroupTag/CreateGroupTag";
 import Gallery from "../Components/Gallery/Gallery";
 import AlbumDetailsForm from "../Components/Modules/AlbumDetailsForm";
 import AlbumOptions from "../Components/Modules/AlbumOptions";
-import { NavigationBar } from "@shoutem/ui";
 import styles from "./Style";
 import Interactable from "react-native-interactable";
 import Upload from "react-native-background-upload";
@@ -20,7 +19,7 @@ import GestureRecognizer from "react-native-swipe-gestures";
 
 class UploadActivity extends Component {
 	topReached = false;
-
+    albumname= "";
 	constructor(props) {
 		super(props);
 		this.selectedImages = [];
@@ -32,7 +31,7 @@ class UploadActivity extends Component {
 		this.scrollY = new Animated.Value(0);
 		this.state = {
 			showOptions: false,
-			albumname: "",
+
 			groupsTags: ["5a9280f2e800da77ac1ebb94"],
 			users: [MY_ID, "5a9a384f7457c40449e74e6c", "5a9a38647457c40449e74e6d"],
 			albumId: "5a9ba2588db14e194f7b78d1"
@@ -68,7 +67,7 @@ class UploadActivity extends Component {
 	handleUploadButtonPress = () => {
 		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
 		const payload = {
-			album_name: this.state.albumname,
+			album_name: this.albumname,
 			created_by: "xyz", //current user
 			groupTag_id_array: this.state.groupsTags,
 			users_id_array: this.state.users
@@ -77,7 +76,7 @@ class UploadActivity extends Component {
 		//startInsertingImages(this.selectedImages, "asdasd");
 		createNewAlbumOrSubAlbum(payload, "/album/createAlbum").then(({ data }) => {
 			const { AlbumId } = data;
-			loadAlbumToRealm(AlbumId, this.state.albumname, this.selectedImages);
+			loadAlbumToRealm(AlbumId, this.albumname, this.selectedImages);
 			//startInsertingImages(this.selectedImages, AlbumId);
 			this.props.navigator.push({
 				screen: "UploadProgress",
@@ -133,6 +132,11 @@ class UploadActivity extends Component {
 		if (this.topReached) this.refs.gallery.snapTo({ index: 0 });
 	};
 
+    handleChangeAlbumText = albumName => {
+    	console.log(albumName)
+        this.albumname=albumName
+    };
+
 	render() {
 		const scrollY = this.scrollY.interpolate({
 			inputRange: [-350, 0],
@@ -160,6 +164,8 @@ class UploadActivity extends Component {
 				>
 					<AlbumDetailsForm
 						navigator={this.props.navigator}
+						onChangeAlbumText={ this.handleChangeAlbumText}
+
 						/*onOptionButtonPressed={this.handleOptionButtonPressed}*/
 					/>
 					<Button onPress={this.handleUploadButtonPress} title="upload" />

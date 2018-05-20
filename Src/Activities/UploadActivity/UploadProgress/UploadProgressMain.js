@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Button, View, TextInput, Animated, Platform } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import Gallery from "../../Components/Gallery/Gallery";
-import { NavigationBar } from "@shoutem/ui";
 import styles from "./Style";
 import Interactable from "react-native-interactable";
 import { connect } from "react-redux";

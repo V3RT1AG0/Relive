@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Dash from "react-native-dash";
-import { Fonts } from "../../Assets/Fonts";
+import {Fonts} from "../../Assets/Fonts";
 
 export default class TimeLineListView extends React.Component {
     constructor(props) {
         super(props);
         this.seperating_items = this.seperating_items.bind(this);
-        this.viewabilityConfig = { itemVisiblePercentThreshold: 100 };
+        this.viewabilityConfig = {itemVisiblePercentThreshold: 100};
         this.setting = this.setting.bind(this);
         this.data = [
             {
@@ -70,14 +70,14 @@ export default class TimeLineListView extends React.Component {
     }
 
     seperating_items = () => {
-        return <View style={{ margin: 40 }} />;
+        return <View style={{margin: 40}}/>;
     };
 
 
     setting = viewable => {
-        console.log(viewable,"viewable")
+        console.log(viewable, "viewable")
         if (viewable.viewableItems[0])
-       this.props.DateChange(viewable.viewableItems[0].item.date);
+            this.props.DateChange(viewable.viewableItems[0].item.date);
     };
 
     header_dash_line = () => {
@@ -107,15 +107,16 @@ export default class TimeLineListView extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
                 <FlatList
                     data={this.state.data}
                     onViewableItemsChanged={this.setting}
                     //initialNumToRender={1}
+
                     viewabilityConfig={this.viewabilityConfig}
                     inverted={true} //  onScroll={this._onScroll}
                     ListHeaderComponent={
-                        <View style={{ backgroundColor: "#fff" }}>
+                        <View style={{backgroundColor: "#fff"}}>
                             <View
                                 style={{
                                     flex: 1,
@@ -124,12 +125,12 @@ export default class TimeLineListView extends React.Component {
                                     justifyContent: "center"
                                 }}
                             >
-                                <Icon name="md-add-circle" style={{ fontSize: 60, color: "#546E7A" }} />
+                                <Icon name="md-add-circle" style={{fontSize: 60, color: "#546E7A"}}/>
                             </View>
-                            <View style={{ height: 200 }} />
+                            <View style={{height: 200}}/>
                         </View>
                     }
-                    renderItem={({ item, index }) => (
+                    renderItem={({item, index}) => (
                         <View
                             style={{
                                 flex: 4,
@@ -174,7 +175,7 @@ export default class TimeLineListView extends React.Component {
                                     >
                                         With Kushal, Aditya & 10 more
                                     </Text>
-                                    <Text style={{ fontFamily: Fonts.RobotoSmall, fontSize: 15 }}>
+                                    <Text style={{fontFamily: Fonts.RobotoSmall, fontSize: 15}}>
                                         {"  "}
                                     </Text>
                                 </View>

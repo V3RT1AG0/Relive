@@ -22,6 +22,15 @@ export default class TimeLineGallery extends Component {
 
     constructor(props) {
         super(props);
+
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            console.log(this._scrollView)
+            this._scrollView.scrollToLocation({sectionIndex: 1,itemIndex:0, animated: false}); //viewOffset
+        }, 10)
+
     }
 
 
@@ -40,6 +49,9 @@ export default class TimeLineGallery extends Component {
                     <SectionList
                         stickySectionHeadersEnabled
                         style={styles.scrollContainer}
+                        ref={(c) => {
+                            this._scrollView = c
+                        }}
                         renderItem={({item, index, section}) => {
                             const numColumns = 3;
 

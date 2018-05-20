@@ -108,6 +108,7 @@ export default class VideoScreen extends React.Component {
 						defaultValue={defaultValue}
 						onFocus={this._onPressButton}
 						underlineColorAndroid="transparent"
+                       	onChangeText={this.props.onChangeAlbumText}
 						//placeholder={examples[index]}
 						//placeholder={examples[index]}
 						placeholder={"Name your day"}

@@ -12,7 +12,6 @@ import {
 	ScrollView,
 	TextInput
 } from "react-native";
-import { NavigationBar, Title } from "@shoutem/ui";
 import ImagePathSelector from "../Modules/ImagePathSelector";
 import { Picker } from "native-base";
 

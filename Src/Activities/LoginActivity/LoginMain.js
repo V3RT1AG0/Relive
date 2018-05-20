@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-//import { Examples } from '@shoutem/ui';
+
 import { View } from "react-native";
 import { TextInput } from "react-native";
 import { Button } from "react-native";

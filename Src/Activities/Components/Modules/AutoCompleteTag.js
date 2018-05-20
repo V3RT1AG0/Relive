@@ -5,9 +5,9 @@ import {
 	Text,
 	TouchableHighlight,
 	TouchableOpacity,
-	View
+	View,
+    Image
 } from "react-native";
-import { Image } from "@shoutem/ui";
 import Autocomplete from "./react-native-autocomplete-input";
 
 export default class AutoTags extends Component {
@@ -111,7 +111,7 @@ export default class AutoTags extends Component {
 							) : (
 								<View style={styles.suggestionListItems}>
 									<Image
-										style={{ height: 30, width: 30 }}
+										style={{ height: 30, width: 30,borderRadius:30/2 }}
 										styleName="small-avatar"
 										source={{
 											uri:
