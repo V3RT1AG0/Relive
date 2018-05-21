@@ -115,7 +115,7 @@ export default class AutoTags extends Component {
 										styleName="small-avatar"
 										source={{
 											uri:
-												"https://sharekoube.files.wordpress.com/2012/03/berserker.jpg"
+												suggestion.dp
 										}}
 									/>
 									<Text style={{ fontSize: 15, paddingStart: 10 }}>

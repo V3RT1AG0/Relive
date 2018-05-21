@@ -102,8 +102,7 @@ export default class Navigator extends Component {
 					title="ChatHome"
 					onPress={() =>
 						this.props.navigator.push({
-							screen: "ChatHome",
-							title: "ChatHome"
+							screen: "ChatHome"
 						})
 					}
 				/>

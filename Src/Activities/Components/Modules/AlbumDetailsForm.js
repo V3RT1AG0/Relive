@@ -9,13 +9,16 @@ import {
 import AnimatedTextView from "./AnimatedTextView";
 //import Icon from "react-native-vector-icons/Feather";
 import Icon from "react-native-vector-icons/Entypo";
+import {UserRealm} from "../../ProfileActivity/ProfileModel";
+import {MY_ID} from "../../../Config/Constants";
 
 export default class Display extends React.Component {
     constructor() {
         super();
 
         this.state = {
-            suggestions: [
+            suggestions: [...UserRealm.objectForPrimaryKey("User", MY_ID).userid,
+                ...UserRealm.objectForPrimaryKey("User", MY_ID).groupTagId] /* [
                 {
                     name: "Aditya"
                 },
@@ -25,7 +28,7 @@ export default class Display extends React.Component {
                 {
                     name: "D3"
                 }
-            ],
+            ]*/,
             tagsSelected: [],
             showAlbumOptions: false
         };

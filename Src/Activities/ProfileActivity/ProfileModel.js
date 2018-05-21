@@ -1,6 +1,24 @@
 // @flow
 import Realm from "realm";
 
+const GroupTagSchema = {
+    name: "GroupTag",
+    properties: {
+        _id: "string",
+        name: "string",
+        dp: "string"
+    }
+};
+
+const UserTagSchema = {
+    name: "UserTag",
+    properties: {
+        _id: "string",
+        name: "string",
+        dp: "string"
+    }
+};
+
 const UserSchema = {
     name: "User",
     primaryKey: "_id",
@@ -9,13 +27,14 @@ const UserSchema = {
         name: "string",
         phone: "string",
         dp: "string",
-        userid: {type: "string[]", default: []},
-        groupTagId: {type: "string[]", default: []},
-        timestamp:"string"
+        userid: {type: "UserTag[]", default: []},
+        groupTagId: {type: "GroupTag[]", default: []},
+        timestamp: "string",
+        password: "string?"
     }
 };
 
 export const UserRealm = new Realm({
     path: "User.realm",
-    schema: [UserSchema]
+    schema: [UserSchema, UserTagSchema, GroupTagSchema]
 });

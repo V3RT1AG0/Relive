@@ -19,8 +19,8 @@ import { sendMessageToServer, fetchNewChatsFromNetwork } from "./ChatUtils";
 export default class ChatScreen extends Component {
 	constructor(props) {
 		super(props);
-		this.chatId = "5aa82eafbfad0122a3757ce4";
-		this.userid = "5aa82ea7bfad0122a3757be2";
+		this.chatId = props.data; //from props using navigation to pass chat id
+		this.userid = "5aa82ea7bfad0122a3757be2"; //from constants
 		this.state = {
 			message: "",
 			messages: ChatRealm.objectForPrimaryKey("ChatList", this.chatId).messages
@@ -66,37 +66,16 @@ export default class ChatScreen extends Component {
 		});
 	};
 
-	static navigationOptions = ({ navigation }) => {
-		const { params } = navigation.state;
-		return {
-			title: params.data,
-			headerStyle: {
-				borderBottomWidth: 0,
-				elevation: 0,
-				height: 60
-			},
-			headerRight: (
-				<View style={{ flex: 1, flexDirection: "row" }}>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("Contact")}
-						style={{
-							borderColor: "black",
-							marginRight: 25
-						}}
-					>
-						<View>
-							<Text>
-								<Icon
-									name="ios-arrow-down"
-									style={{ color: "black", fontSize: 25 }}
-								/>
-							</Text>
-						</View>
-					</TouchableOpacity>
-				</View>
-			)
-		};
-	};
+    static navigatorButtons = {
+
+        rightButtons: [
+            {
+                id: "drop",
+                title: "drop",
+                component: "DropDownArrow",
+            }
+        ]
+    };
 
 	render() {
 		return (

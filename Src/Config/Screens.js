@@ -108,6 +108,8 @@ const CustomButton = ({text}) => (
     </TouchableOpacity>
 );
 
+
+
 store.subscribe(() => console.log("store changed" + store.getState()));
 
 export function registerScreens() {
