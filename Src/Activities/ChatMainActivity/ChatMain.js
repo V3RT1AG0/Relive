@@ -30,7 +30,7 @@ export default class ChatScreen extends Component {
     componentDidMount = () => {
         ChatRealm.addListener("change", this.forceUpdateRealm);
 
-        fetchNewChatsFromNetwork(this.chatId, this.userid, this.state.chatList)
+        fetchNewChatsFromNetwork(this.chatId, this.userid, this.state.messages)
             .then(() => {
                 const messages = ChatRealm.objectForPrimaryKey("ChatList", this.chatId)
                     .messages;

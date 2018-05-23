@@ -119,6 +119,7 @@ export default class TimeLineListView extends React.Component {
                     viewabilityConfig={this.viewabilityConfig}
                     inverted={true} //  onScroll={this._onScroll}
                     ListHeaderComponent={
+
                         <View style={{backgroundColor: "#fff"}}>
                             <View
                                 style={{
@@ -128,10 +129,17 @@ export default class TimeLineListView extends React.Component {
                                     justifyContent: "center"
                                 }}
                             >
-                                <Icon name="md-add-circle" style={{fontSize: 60, color: "#546E7A"}}/>
+                                <TouchableHighlight
+                                    onPress={() => this.props.navigator.push({
+                                        screen: "Upload"
+                                    })}
+                                >
+                                    <Icon name="md-add-circle" style={{fontSize: 60, color: "#546E7A"}}/>
+                                </TouchableHighlight>
                             </View>
                             <View style={{height: 200}}/>
                         </View>
+
                     }
                     renderItem={({item, index}) => {
                         console.log(item)
@@ -200,7 +208,7 @@ export default class TimeLineListView extends React.Component {
                                     <TouchableHighlight onPress={() => this.props.navigator.push({
                                         screen: "Gallery",
                                         passProps: {
-                                            albumId:item._id
+                                            albumId: item._id
                                         }
                                     })}>
                                         <View
@@ -227,26 +235,22 @@ export default class TimeLineListView extends React.Component {
                                                 source={require("../../Assets/Images/charmander.png")}
                                             />
                                         </View>*/}
-                                            <TouchableHighlight
-                                                onPress={() => this.props.navigator.push({
-                                                    screen: "Upload"
-                                                })}
+
+                                            <View
+                                                style={
+                                                    {
+                                                        width: 65,
+                                                        height: 65,
+                                                        backgroundColor: "grey",
+                                                        justifyContent: "center",
+                                                        alignItems: "center",
+                                                        opacity: 0.5
+                                                    } // backgroundColor:'#ffffff',
+                                                }
                                             >
-                                                <View
-                                                    style={
-                                                        {
-                                                            width: 65,
-                                                            height: 65,
-                                                            backgroundColor: "grey",
-                                                            justifyContent: "center",
-                                                            alignItems: "center",
-                                                            opacity: 0.5
-                                                        } // backgroundColor:'#ffffff',
-                                                    }
-                                                >
-                                                    <Text>+{item.photoId.length - 3}</Text>
-                                                </View>
-                                            </TouchableHighlight>
+                                                <Text>+{item.photoId.length - 3}</Text>
+                                            </View>
+
                                         </View>
                                     </TouchableHighlight>
                                 </View>

@@ -28,7 +28,7 @@ export class SplashMain extends Component {
 	};
 
 	/*
-data: 
+data:
 chatlist:Array(2)
 1:{name: "Shivraj", message: Array(1), _id: "5aa82eafbfad0122a3757ce4", readinfo: {…}}
 2:{name: "Adityaraj", message: Array(1), _id: "5aa82eafbfad0122a3757ce5", readinfo: {…}}
@@ -52,7 +52,7 @@ chatlist:Array(2)
 
 	componentDidMount() {
 		socket.on("ChatMessage", (message, roomId) => {
-			console.log("PhotoFromSocket", message);
+			console.log("message=>", message);
 			try {
 				const messages = ChatRealm.objectForPrimaryKey("ChatList", roomId)
 					.messages;
