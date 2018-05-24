@@ -1,9 +1,17 @@
 package com.relive;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.reactnativenavigation.controllers.SplashActivity;
 
-public class MainActivity extends SplashActivity {
+import java.util.ArrayList;
+
+public class MainActivity extends SplashActivity
+{
+
 
     /**
      * Returns the name of the main component registered from JavaScript.

@@ -17,8 +17,6 @@ include ':react-native-background-upload'
 project(':react-native-background-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-background-upload/android')
 include ':react-native-albums'
 project(':react-native-albums').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-albums/android')
-include ':react-native-photo-view'
-project(':react-native-photo-view').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-photo-view/android')
 include ':react-native-linear-gradient'
 project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
 include ':react-native-vector-icons'
@@ -26,3 +24,5 @@ project(':react-native-vector-icons').projectDir = new File(rootProject.projectD
 include ':react-native-get-real-path'
 project(':react-native-get-real-path').projectDir = new File(settingsDir, '../node_modules/react-native-get-real-path/android')
 include ':app'
+include ':app', ':react-native-share-extension'
+project(':react-native-share-extension').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-extension/android')

@@ -1,10 +1,11 @@
 // @flow
 import React, { Component } from "react";
-import { Button, View, AsyncStorage, NativeEventEmitter } from "react-native";
+import { Button, View, AsyncStorage, NativeEventEmitter,Text } from "react-native";
 
 export default class Navigator extends Component {
 	constructor(props) {
 		super(props);
+		console.log(props,"props navigator")
 		//AsyncStorage.clear();
 	}
 
@@ -121,7 +122,9 @@ export default class Navigator extends Component {
 						//this.getItem();
 					}}
 				/>
+                <Text>{this.props.url}</Text>
 			</View>
+
 		);
 	}
 }
