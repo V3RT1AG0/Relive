@@ -3,10 +3,12 @@ package com.relive.ShareMultiple;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,11 +29,14 @@ public class ShareMultipleFileModule extends ReactContextBaseJavaModule
     }
 
     @ReactMethod
-    public void share(String[] urls)
+    public void share(ReadableArray urls)
     {
+        Log.d("Debug",urls.toString());
         ArrayList<Uri> files = new ArrayList<>();
-        for (String url : urls /* List of the files you want to send */)
+       // for (String url : urls /* List of the files you want to send */)
+        for(int i=0;i<urls.size();i++)
         {
+            String url = urls.getString(i);
             File file = new File(url);
             Uri uri = FileProvider.getUriForFile(
                     getReactApplicationContext(),

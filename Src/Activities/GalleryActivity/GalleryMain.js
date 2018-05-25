@@ -11,7 +11,8 @@ import {
 import {GalleryRealm} from "./GalleryModels";
 import {
     fetchNewPhotosDataFromNetwork,
-    setUpSocketforImageUpdates
+    setUpSocketforImageUpdates,
+    downloadFile
 } from "./GalleryUtils";
 import PhotoGrid from "../Components/Modules/PhotoGrid";
 import {SERVER_URL, Share} from "../../Config/Constants";
@@ -24,8 +25,10 @@ import * as Progress from 'react-native-progress';
 export default class GalleryActivity extends Component {
     constructor(props) {
         super(props);
+        downloadFile();
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
         this.selectedImages = [];
+
         //this.imageWidth = (width - 2 * (5 + 5)) / 3;
         this.imageWidth = (width) / 3;
         this.state = {

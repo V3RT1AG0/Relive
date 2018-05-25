@@ -27,6 +27,7 @@
 		"react-native-background-upload": "^4.4.0",
 		"react-native-dash": "0.0.8",
 		"react-native-flip-toggle-button": "^1.0.5",
+		"react-native-fs": "^2.9.12",
 		"react-native-get-real-path": "git+https://github.com/Wraptime/react-native-get-real-path.git",
 		"react-native-image-crop-picker": "^0.19.1",
 		"react-native-interactable": "^0.1.10",

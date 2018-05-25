@@ -151,6 +151,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fs')
     compile project(':react-native-linear-gradient')
     compile project(':realm')
     compile project(':react-native-vector-icons')
@@ -170,6 +171,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:25.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
+    compile project(':react-native-fs')
     compile project(':react-native-share-extension')
    // compile ("com.facebook.react:react-native:0.51.1") { force = true }
 }

@@ -16,6 +16,7 @@ import com.relive.OneSignalNotification.NotificationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.facebook.react.ReactPackage;
 import com.rngrp.RNGRPPackage;
+import com.rnfs.RNFSPackage;
 import java.util.Arrays;
 import java.util.List;
 import com.alinz.parkerdan.shareextension.SharePackage;
@@ -42,14 +43,14 @@ public class MainApplication extends NavigationApplication {
             new UploaderReactPackage(),
             new RNAlbumsPackage(),
             new Interactable(),
-
             new LinearGradientPackage(),
             new VectorIconsPackage(),
             new RealmReactPackage(),
             new PickerPackage(),
             new RNGRPPackage(),
             new com.relive.ShareMultiple.SharePackage(),
-            new SharePackage()
+            new SharePackage(),
+            new RNFSPackage()
     );
   }
 

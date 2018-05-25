@@ -1,4 +1,6 @@
 rootProject.name = 'Relive'
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 include ':react-native-linear-gradient'
 project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
 include ':realm'
@@ -26,3 +28,5 @@ project(':react-native-get-real-path').projectDir = new File(settingsDir, '../no
 include ':app'
 include ':app', ':react-native-share-extension'
 project(':react-native-share-extension').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-extension/android')
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(settingsDir, '../node_modules/react-native-fs/android')
