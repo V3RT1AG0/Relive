@@ -115,7 +115,7 @@ export default class TimeLineListView extends React.Component {
                     data={this.props.Data}
                     onViewableItemsChanged={this.setting}
                     //initialNumToRender={1}
-
+                    keyExtractor={(item, index) => index} // TODO change this to item.key later
                     viewabilityConfig={this.viewabilityConfig}
                     inverted={true} //  onScroll={this._onScroll}
                     ListHeaderComponent={

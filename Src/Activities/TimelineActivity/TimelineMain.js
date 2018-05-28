@@ -1,12 +1,15 @@
 //@flow
 import React from "react";
 import {Text, View,} from "react-native";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import TimeLineListView from "./TimeLineListView";
 import {Fonts} from '../../Assets/Fonts'
 import TimeLineRealm from "./TimeLineModel";
 import {loadInitialTimelinefromRealm} from "./TimelineUtil";
-
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import {CircleButton} from "../Components/Modules/CircleButton";
 
 export default class Timeline extends React.Component {
     constructor(props) {
@@ -27,7 +30,7 @@ export default class Timeline extends React.Component {
 
     forceUpdateRealm = () => {
         this.forceUpdate(() => {
-            console.log("forceUpdateTimeline",this.state.albums);
+            console.log("forceUpdateTimeline", this.state.albums);
         });
     };
 
@@ -58,17 +61,41 @@ export default class Timeline extends React.Component {
                         navigator={this.props.navigator}
                     />
                 </View>
-                <View
-                    style={{position: "absolute", bottom: 10, right: 20, zIndex: 200}}
+
+                <CircleButton
+                    bottom={10} right={20}
                 >
-                    <View style={{flex: 1, flexDirection: "row", justifyContent: "flex-end", marginRight: 20}}>
-                        <Icon name="stop-circle" style={{fontSize: 60}}
-                              onPress={() => this.props.navigator.resetTo({
-                                  screen: "TimelineGallery",
-                                  title: "TimelineGallery"
-                              })}/>
-                    </View>
-                </View>
+                    <Icon name="stop" style={{fontSize: 30, color: "white"}}
+                          onPress={() => this.props.navigator.resetTo({
+                              screen: "TimelineGallery",
+                          })}/>
+
+                </CircleButton>
+                <CircleButton bottom={10} left={20}>
+                    <EvilIcons
+                        name="search"
+                        style={{fontSize: 30, color: "white"}}
+                        onPress={() => {
+                            this.props.navigator.resetTo({
+                                screen: "TimelineGallery",
+                            })
+                        }}
+                    />
+                </CircleButton>
+                <CircleButton
+                    top={10} left={20}
+                >
+                    <IonIcons name="ios-notifications" style={{fontSize: 30, color: "white"}}
+                    />
+                </CircleButton>
+                <CircleButton
+                    top={10} right={20} onPress={() => this.props.navigator.push({
+                    screen: "Profile"
+                })}
+                >
+
+                </CircleButton>
+
                 <View
                     style={{
                         position: "absolute",
@@ -86,7 +113,8 @@ export default class Timeline extends React.Component {
                     </View>
                 </View>
             </View>
-        );
+        )
+            ;
     }
 }
 
