@@ -3,7 +3,9 @@ import React from "react";
 import {View, TouchableNativeFeedback} from "react-native";
 
 export const CircleButton = (props) => {
-
+    console.log(props)
+    const {top=undefined,bottom=undefined,right=undefined,left=undefined} = props
+    console.log(top,bottom,right,left)
     return (
         <TouchableNativeFeedback
             onPress={props.onPress}
@@ -18,10 +20,10 @@ export const CircleButton = (props) => {
                     justifyContent: "center",
                     backgroundColor: "black",
                     borderRadius: 60 / 2,
-                    ...props
+                    top,bottom,right,left
                 }}
             >
-                {props.children}
+               {props.children}
             </View>
         </TouchableNativeFeedback>
     )

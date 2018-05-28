@@ -34,16 +34,19 @@
 		"react-native-linear-gradient": "^2.4.0",
 		"react-native-navigation": "^1.1.426",
 		"react-native-onesignal": "^3.1.4",
+		"react-native-popover-tooltip": "^1.1.4",
 		"react-native-progress": "^3.4.0",
 		"react-native-share-extension": "^1.2.1",
 		"react-native-swipe-gestures": "^1.0.2",
 		"react-native-vector-icons": "^4.5.0",
 		"react-redux": "^5.0.6",
 		"realm": "2.2.15",
+		"recompose": "^0.27.1",
 		"redux": "^3.7.2",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.2.0",
-		"socket.io-client": "^2.0.4"
+		"socket.io-client": "^2.0.4",
+		"styled-components": "^3.3.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",

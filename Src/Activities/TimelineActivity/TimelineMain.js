@@ -10,6 +10,7 @@ import {loadInitialTimelinefromRealm} from "./TimelineUtil";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {CircleButton} from "../Components/Modules/CircleButton";
+import PopoverTooltip from 'react-native-popover-tooltip';
 
 export default class Timeline extends React.Component {
     constructor(props) {
@@ -63,13 +64,10 @@ export default class Timeline extends React.Component {
                 </View>
 
                 <CircleButton
-                    bottom={10} right={20}
-                >
-                    <Icon name="stop" style={{fontSize: 30, color: "white"}}
-                          onPress={() => this.props.navigator.resetTo({
-                              screen: "TimelineGallery",
-                          })}/>
-
+                    bottom={10} right={20} onPress={() => this.props.navigator.resetTo({
+                    screen: "TimelineGallery",
+                })}>
+                    <Icon name="stop" style={{fontSize: 30, color: "white"}}/>
                 </CircleButton>
                 <CircleButton bottom={10} left={20}>
                     <EvilIcons
@@ -83,17 +81,38 @@ export default class Timeline extends React.Component {
                     />
                 </CircleButton>
                 <CircleButton
-                    top={10} left={20}
+                    top={10} left={20} onPress={() => {this.refs.NotifToggle.toggle()}}
                 >
-                    <IonIcons name="ios-notifications" style={{fontSize: 30, color: "white"}}
+                    <PopoverTooltip
+                        ref='NotifToggle'
+                        setBelow
+                        buttonComponent={
+                            <IonIcons name="ios-notifications" style={{fontSize: 30, color: "white"}}/>
+                        }
+                        items={[
+                            {
+                                label: 'Item 1',
+                                onPress: () => {
+                                }
+                            },
+                            {
+                                label: 'Item 2',
+                                onPress: () => {
+                                }
+                            }
+                        ]}
                     />
                 </CircleButton>
-                <CircleButton
-                    top={10} right={20} onPress={() => this.props.navigator.push({
-                    screen: "Profile"
-                })}
+                < CircleButton
+                    top={10}
+                    right={20}
+                    onPress={() => {
+                        this.props.navigator.push({
+                            screen: "Profile"
+                        })
+                    }
+                    }
                 >
-
                 </CircleButton>
 
                 <View
@@ -112,9 +131,10 @@ export default class Timeline extends React.Component {
                         }}>{this.state.AlbunmDate}</Text>
                     </View>
                 </View>
-            </View>
-        )
-            ;
-    }
-}
+                <
+                /View>
+                )
+                ;
+                }
+                }
 
