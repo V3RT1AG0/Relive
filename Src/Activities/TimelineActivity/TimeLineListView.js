@@ -16,7 +16,7 @@ export default class TimeLineListView extends React.Component {
     constructor(props) {
 
         super(props);
-        console.log(props, "props=>")
+      //  console.log(props, "props=>")
         this.seperating_items = this.seperating_items.bind(this);
         this.viewabilityConfig = {itemVisiblePercentThreshold: 100};
         this.setting = this.setting.bind(this);
@@ -77,7 +77,7 @@ export default class TimeLineListView extends React.Component {
 
 
     setting = viewable => {
-        console.log(viewable, "viewable")
+      //  console.log(viewable, "viewable")
         if (viewable.viewableItems[0])
             this.props.DateChange(viewable.viewableItems[0].item.date);
     };
@@ -112,6 +112,8 @@ export default class TimeLineListView extends React.Component {
             <View style={{flex: 1}}>
                 <FlatList
                     // data={this.state.data}
+                    onScrollEndDrag={this.props.onScrollEnd}
+                    onScrollBeginDrag = {this.props.onScroll}
                     data={this.props.Data}
                     onViewableItemsChanged={this.setting}
                     //initialNumToRender={1}
@@ -142,7 +144,7 @@ export default class TimeLineListView extends React.Component {
 
                     }
                     renderItem={({item, index}) => {
-                        console.log(item)
+                       // console.log(item)
                         const names = [...item.groupTagId.map(gtag => gtag.name), ...item.userId.map(user => user.name)]
                         const combinedNames = names.slice(0, 3).join(', ');
                         const photos = item.photoId.map(photo => (
@@ -154,7 +156,7 @@ export default class TimeLineListView extends React.Component {
                                 </View>
                             )
                         )
-                        console.log(names, photos)
+                      //  console.log(names, photos)
                         return (
 
                             <View
