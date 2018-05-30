@@ -16,6 +16,7 @@ axios.interceptors.request.use(request => {
 registerScreens();
 require("./Config/Listeners");
 
+
 const startApp = () => {
 	Navigation.startSingleScreenApp({
 		screen: {
@@ -26,6 +27,36 @@ const startApp = () => {
 		}
 	});
 };
+
+
+/*
+const startApp = () => {
+    Navigation.startTabBasedApp({
+        tabs: [
+            {
+                label: 'One',
+                title: 'Screen One',
+                screen: 'Profile',
+                icon: require('../Src/Assets/Images/charmander.png'),
+            },
+            {
+                label: 'Two',
+                screen: 'Timeline',
+                title: 'Screen Two',
+                icon: require('../Src/Assets/Images/charmander.png'),
+            },
+            {
+                label: 'Three',
+                icon: require('../Src/Assets/Images/charmander.png'),
+                screen: 'Profile',
+                title: 'Screen Two'
+            }
+        ]
+    });
+};
+*/
+
+
 
 Navigation.isAppLaunched().then(appLaunched => {
 	if (appLaunched) {

@@ -29,6 +29,7 @@ const PhotoSchema = {
 const AlbumSchema = {
     name: "Album",
     properties: {
+        timestamp:"string",
         _id: "string",
         name: "string",
         userId: "User[]",

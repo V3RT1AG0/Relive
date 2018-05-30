@@ -8,11 +8,16 @@ import {Fonts} from '../../Assets/Fonts'
 import TimeLineRealm from "./TimeLineModel";
 import {loadInitialTimelinefromRealm} from "./TimelineUtil";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {CircleButton} from "../Components/Modules/CircleButton";
 import PopoverTooltip from 'react-native-popover-tooltip';
+import LinearGradient from 'react-native-linear-gradient';
+
+
 import {UserRealm} from "../ProfileActivity/ProfileModel";
 import {MY_ID} from "../../Config/Constants";
+import moment from "moment"
 
 export default class Timeline extends React.Component {
     constructor(props) {
@@ -20,7 +25,6 @@ export default class Timeline extends React.Component {
         this.animatableValue = new Animated.Value(0)
         this.state = {
             AlbunmDate: "26-01-2018",
-
             albums: TimeLineRealm.objects("Album")
                 ? TimeLineRealm.objects("Album")
                 : [],
@@ -31,10 +35,8 @@ export default class Timeline extends React.Component {
     }
 
 
-
-
     startFadeOutAnimation = () => {
-       // this.animatableValue.setValue(0);
+        // this.animatableValue.setValue(0);
         Animated.timing(this.animatableValue, {
             toValue: 1,
             duration: 100,
@@ -66,7 +68,7 @@ export default class Timeline extends React.Component {
     };
 
     static navigatorStyle = {
-        navBarHidden: true
+        navBarHidden: true,
     };
 
 
@@ -85,13 +87,24 @@ export default class Timeline extends React.Component {
 
 
     render() {
-        const iconWidth = 25;
+        const iconWidth = 30;
         const CircleOpacity = this.animatableValue.interpolate({
-            inputRange: [0,1],
-            outputRange: [1,0.1]
+            inputRange: [0, 1],
+            outputRange: [1, 0.1]
         });
         return (
-            <View style={{flex: 1, padding: 5}}>
+            <View style={{flex: 1}}>
+                <LinearGradient
+                    colors={["#BDBDBD", "#ffffff"]}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        width: "100%",
+                        height: 50,
+                        opacity: 0.7,
+                        zIndex: 100
+                    }}
+                />
                 <View
                     style={{
                         flex: 1,
@@ -103,21 +116,31 @@ export default class Timeline extends React.Component {
                         DateChange={this.DateChange}
                         CurrentlyDisplayedDate={this.state.AlbunmDate}
                         navigator={this.props.navigator}
-                        onScroll = {this.handleOnScrollTimeLine}
-                        onScrollEnd = {this.handleOnScrollMomentumEnd}
+                        onScroll={this.handleOnScrollTimeLine}
+                        onScrollEnd={this.handleOnScrollMomentumEnd}
                     />
                 </View>
 
                 <CircleButton
-                    bottom={10} right={10} opacity={CircleOpacity} onPress={() => this.props.navigator.resetTo({
-                    screen: "TimelineGallery",
-                })}>
-                    <Icon name="stop" style={{fontSize: iconWidth, color: "white"}}/>
+                    bottom={10} right={10} opacity={CircleOpacity} backgroundColor={"white"}
+                    onPress={() => this.props.navigator.resetTo({
+                        screen: "TimelineGallery",
+                    })}>
+                    <View style={{
+                        height: 40,
+                        width: 40,
+                        borderRadius:40/2,
+                        backgroundColor:"black",
+                        alignItems:"center",
+                        justifyContent:"center"
+                    }}>
+                        <IonIcons name="ios-grid-outline" style={{fontSize: iconWidth, color: "white"}}/>
+                    </View>
                 </CircleButton>
                 <CircleButton bottom={10} left={10} opacity={CircleOpacity}>
-                    <EvilIcons
-                        name="search"
-                        style={{fontSize: iconWidth, color: "white"}}
+                    <MaterialIcons
+                        name="dots-vertical"
+                        style={{fontSize: iconWidth, color: "black"}}
                         onPress={() => {
                             this.props.navigator.resetTo({
                                 screen: "TimelineGallery",
@@ -125,10 +148,13 @@ export default class Timeline extends React.Component {
                         }}
                     />
                 </CircleButton>
-                <CircleButton
+                {/*<CircleButton
                     opacity={CircleOpacity}
-                    top={10} left={10} onPress={() => {
-                    this.refs.NotifToggle.toggle()
+                    top={10} left={-10} borderTopRightRadius={25} borderBottomRightRadius={25} onPress={() => {
+                    this.props.navigator.push({
+                        screen: "NotificationActivity"
+                    })
+                    // this.refs.NotifToggle.toggle()
                 }}
                 >
                     <PopoverTooltip
@@ -150,8 +176,8 @@ export default class Timeline extends React.Component {
                             }
                         ]}
                     />
-                </CircleButton>
-                < CircleButton
+                </CircleButton>*/}
+                {/*< CircleButton
                     opacity={CircleOpacity}
                     top={10}
                     right={10}
@@ -172,7 +198,7 @@ export default class Timeline extends React.Component {
                             alignSelf: "stretch"
                         }}
                     />
-                </CircleButton>
+                </CircleButton>*/}
 
                 <View
                     style={{
@@ -187,7 +213,8 @@ export default class Timeline extends React.Component {
                             fontSize: 20,
                             fontFamily: Fonts.RobotoLarge,
                             color: 'black'
-                        }}>{this.state.AlbunmDate}</Text>
+                        }}>{moment(this.state.AlbunmDate).format('MM/DD/YYYY')}</Text>
+
                     </View>
                 </View>
             </View>);

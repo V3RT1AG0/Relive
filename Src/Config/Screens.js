@@ -29,6 +29,8 @@ import store from "./ReduxStoreConfig";
 import {Provider} from "react-redux";
 import Icon from "react-native-vector-icons/Feather";
 import Icon2 from "react-native-vector-icons/Ionicons";
+import SwiperActivity from "../Activities/SwiperActivity";
+import NotificationActivity from "../Activities/NotificationActivity/NotificationMain";
 
 //const store = configureStore();
 
@@ -109,7 +111,6 @@ const CustomButton = ({text}) => (
 );
 
 
-
 store.subscribe(() => console.log("store changed" + store.getState()));
 
 export function registerScreens() {
@@ -149,7 +150,9 @@ export function registerScreens() {
         store,
         Provider
     );
+    Navigation.registerComponent("SwiperActivity", () => SwiperActivity, store, Provider);
     Navigation.registerComponent("Share", () => ShareActivity, store, Provider);
+    Navigation.registerComponent("NotificationActivity", () => NotificationActivity, store, Provider);
     Navigation.registerComponent("AlbumOptionsDialog", () => AlbumOptionsDialog);
     Navigation.registerComponent("GalleryOptionsModal", () => GalleryOptionsModal);
     Navigation.registerComponent("CustomButton", () => CustomButton);

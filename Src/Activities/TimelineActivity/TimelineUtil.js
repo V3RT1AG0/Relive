@@ -12,7 +12,7 @@ const loadTimelineWithDataAC = data => ({
 export const loadInitialTimelinefromRealm = () => {
     const albums = realm.objects("Album");
     let latestAlbumId = "000000000000000000000000";
-   // console.log(albums.length);
+    console.log(albums.length);
     if (albums.length !== 0) latestAlbumId = albums.sorted("_id", true)[0]._id;
     //TODO maybe the listner needs to be removed when closing the activity
     /*realm.addListener("change", () => {
@@ -58,7 +58,7 @@ const addNewAlbumToRealm = newAlbum => {
 };
 
 const addUserDataToRealm = userInfo => {
-   // console.log(userInfo, "user=>")
+    console.log(userInfo, "user=>")
     try {
         //this will trigger the listener
         UserRealm.write(() => {

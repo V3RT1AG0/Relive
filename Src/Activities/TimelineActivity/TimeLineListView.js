@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Dash from "react-native-dash";
 import {Fonts} from "../../Assets/Fonts";
 
+
 export default class TimeLineListView extends React.Component {
     constructor(props) {
 
@@ -65,7 +66,6 @@ export default class TimeLineListView extends React.Component {
             }
         ];
         this.state = {
-            changed: this.data[0].date,
             data: this.data
         };
         this.dataLength = this.data.length - 1;
@@ -79,7 +79,7 @@ export default class TimeLineListView extends React.Component {
     setting = viewable => {
       //  console.log(viewable, "viewable")
         if (viewable.viewableItems[0])
-            this.props.DateChange(viewable.viewableItems[0].item.date);
+            this.props.DateChange(viewable.viewableItems[0].item.timestamp);
     };
 
     header_dash_line = () => {
@@ -122,7 +122,7 @@ export default class TimeLineListView extends React.Component {
                     inverted={true} //  onScroll={this._onScroll}
                     ListHeaderComponent={
 
-                        <View style={{backgroundColor: "#fff"}}>
+                        <View style={{backgroundColor: "#FFFFFF"}}>
                             <View
                                 style={{
                                     flex: 1,
@@ -136,7 +136,7 @@ export default class TimeLineListView extends React.Component {
                                         screen: "Upload"
                                     })}
                                 >
-                                    <Icon name="md-add-circle" style={{fontSize: 60, color: "#546E7A"}}/>
+                                    <Icon name="ios-add-circle-outline" style={{fontSize: 4, color: "#546E7A"}}/>
                                 </TouchableHighlight>
                             </View>
                             <View style={{height: 200}}/>
@@ -163,7 +163,7 @@ export default class TimeLineListView extends React.Component {
                                 style={{
                                     flex: 4,
                                     flexDirection: "column",
-                                    backgroundColor: "#ffffff"
+                                    backgroundColor: "#FFFFFF"
                                     //	opacity: this.state.changed == item.date ? 1.0 : 0.4
                                 }}
                             >
@@ -176,7 +176,7 @@ export default class TimeLineListView extends React.Component {
                                         marginTop: 20,
                                         marginBottom: 20,
                                         opacity:
-                                            this.props.CurrentlyDisplayedDate == item.date ? 1.0 : 0.4
+                                            this.props.CurrentlyDisplayedDate == item.timestamp ? 1.0 : 0.4
                                     }}
                                 >
                                     <View
@@ -190,7 +190,7 @@ export default class TimeLineListView extends React.Component {
                                         style={{
                                             flex: 1,
                                             flexDirection: "row",
-                                            marginBottom: 20,
+                                            marginBottom: 15,
                                             justifyContent: "center",
                                             alignItems: "center"
                                         }}
@@ -198,7 +198,7 @@ export default class TimeLineListView extends React.Component {
                                         <Text
                                             style={{
                                                 fontFamily: Fonts.RobotoSmall,
-                                                fontSize: 18
+                                                fontSize: 17
                                             }}
                                         >
                                             With {combinedNames} & {names.length - 3} more
@@ -241,8 +241,8 @@ export default class TimeLineListView extends React.Component {
                                             <View
                                                 style={
                                                     {
-                                                        width: 65,
-                                                        height: 65,
+                                                        width: 55,
+                                                        height: 55,
                                                         backgroundColor: "grey",
                                                         justifyContent: "center",
                                                         alignItems: "center",
@@ -268,22 +268,21 @@ export default class TimeLineListView extends React.Component {
 
 const style = StyleSheet.create({
     textStyle: {
-        fontSize: 30,
+        fontSize: 25,
         marginBottom: 10,
         fontFamily: Fonts.RobotoSmall,
         color: "black",
         fontWeight: "200"
     },
-
     peopleStyle: {
-        fontSize: 20,
+        fontSize: 15,
         marginBottom: 20,
         fontFamily: Fonts.RobotoSmall,
         color: "black"
     },
     imageWrap: {
-        width: 65,
-        height: 65,
+        width: 55,
+        height: 55,
         marginRight: 1
     },
     imageStyle: {
