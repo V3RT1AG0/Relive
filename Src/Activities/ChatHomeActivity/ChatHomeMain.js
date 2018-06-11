@@ -98,6 +98,7 @@ export default class HomeScreen extends Component {
                 {this.navigationOptions()}
                 <FlatList
                     data={this.state.chatList}
+                    keyExtractor={(item, index) => item._id}
                     renderItem={({item}) => (
                         <TouchableNativeFeedback
                             onPress={

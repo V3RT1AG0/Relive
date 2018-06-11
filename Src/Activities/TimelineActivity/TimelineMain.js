@@ -1,6 +1,6 @@
 //@flow
 import React from "react";
-import {Text, View, Image, Animated, Easing} from "react-native";
+import {Text, View, Image, Animated, Easing, TouchableNativeFeedback,} from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import TimeLineListView from "./TimeLineListView";
@@ -10,7 +10,7 @@ import {loadInitialTimelinefromRealm} from "./TimelineUtil";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import {CircleButton} from "../Components/Modules/CircleButton";
+//import {CircleButton} from "../Components/Modules/CircleButton";
 import PopoverTooltip from 'react-native-popover-tooltip';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -18,6 +18,75 @@ import LinearGradient from 'react-native-linear-gradient';
 import {UserRealm} from "../ProfileActivity/ProfileModel";
 import {MY_ID} from "../../Config/Constants";
 import moment from "moment"
+
+const CircleButton = props => {
+    console.log(props);
+    const {
+        top = undefined,
+        bottom = undefined,
+        right = undefined,
+        left = undefined
+    } = props;
+    const {
+        borderTopLeftRadius = undefined,
+        borderTopRightRadius = undefined,
+        borderBottomLeftRadius = undefined,
+        borderBottomRightRadius = undefined
+    } = props;
+    // console.log(top, bottom, right, left,props.children)
+
+    return (
+        <TouchableNativeFeedback
+            onPress={props.onPress}
+            // background={TouchableNativeFeedback.SelectableBackground()}
+        >
+            <Animated.View
+                style={{
+                    opacity: props.opacity,
+                    position: "absolute",
+                    zIndex: 200,
+                    // height: 40,
+                    //width: 60,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    //backgroundColor: "white",
+                    //borderRadius: 50/2,
+                    top,
+                    bottom,
+                    right,
+                    left,
+                    borderBottomLeftRadius,
+                    borderTopLeftRadius,
+                    borderTopRightRadius,
+                    borderBottomRightRadius
+                }}
+            >
+                {props.options === true ?
+                    <MaterialIcons
+                        name="dots-vertical"
+                        style={{fontSize: 35, color: "black"}}
+                        onPress={() => {
+                            this.props.navigator.resetTo({
+                                screen: "TimelineGallery",
+                            })
+                        }}
+                    /> :
+                    <View style={{
+                        height: 40,
+                        width: 40,
+                        borderRadius: 40 / 2,
+                        backgroundColor: "black",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}>
+                        <IonIcons name="ios-grid-outline" style={{fontSize: 35, color: "white"}}/>
+                    </View>
+                }
+            </Animated.View>
+        </TouchableNativeFeedback>
+    );
+};
+
 
 export default class Timeline extends React.Component {
     constructor(props) {
@@ -73,38 +142,59 @@ export default class Timeline extends React.Component {
 
 
     DateChange = date => {
+        console.log("date triggered")
         this.setState({AlbunmDate: date});
     };
 
-    handleOnScrollTimeLine = () => {
-        this.startFadeOutAnimation();
+    handleOnScrollTimeLine = (event) => {
+        //this.startFadeOutAnimation();
+        const currentOffset = event.nativeEvent.contentOffset.y;
+        const dif = currentOffset - (this.offset || 0);
+        if (Math.abs(dif) < 3) {
+            console.log('unclear');
+        } else if (dif < 0) {
+            console.log('up');
+            this.startFadeInAnimation()
+        } else {
+            console.log('down');
+            this.startFadeOutAnimation()
+        }
+        this.offset = currentOffset;
     }
 
-    handleOnScrollMomentumEnd = () => {
+   /* handleOnScrollMomentumEnd = () => {
         console.log("triggered scroll end")
         this.startFadeInAnimation()
-    }
+    }*/
 
 
     render() {
         const iconWidth = 30;
         const CircleOpacity = this.animatableValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [1, 0.1]
+            outputRange: [1, 0]
+        });
+
+        const gradientOpacity = this.animatableValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0.7, 0]
         });
         return (
             <View style={{flex: 1}}>
+                <Animated.View style={{
+                    opacity:gradientOpacity,
+                    position: "absolute",
+                    top: 0,
+                    width: "100%",
+                    height: 50,
+                    zIndex: 100}}>
                 <LinearGradient
                     colors={["#BDBDBD", "#ffffff"]}
                     style={{
-                        position: "absolute",
-                        top: 0,
-                        width: "100%",
-                        height: 50,
-                        opacity: 0.7,
-                        zIndex: 100
+                        flex:1
                     }}
                 />
+                </Animated.View>
                 <View
                     style={{
                         flex: 1,
@@ -117,16 +207,16 @@ export default class Timeline extends React.Component {
                         CurrentlyDisplayedDate={this.state.AlbunmDate}
                         navigator={this.props.navigator}
                         onScroll={this.handleOnScrollTimeLine}
-                        onScrollEnd={this.handleOnScrollMomentumEnd}
+                       // onScrollEnd={this.handleOnScrollMomentumEnd}
                     />
                 </View>
 
                 <CircleButton
-                    bottom={10} right={10} opacity={CircleOpacity} backgroundColor={"white"}
+                    bottom={10} right={10}  backgroundColor={"white"} options={false}
                     onPress={() => this.props.navigator.resetTo({
                         screen: "TimelineGallery",
                     })}>
-                    <View style={{
+                    {/*  <View style={{
                         height: 40,
                         width: 40,
                         borderRadius:40/2,
@@ -135,10 +225,10 @@ export default class Timeline extends React.Component {
                         justifyContent:"center"
                     }}>
                         <IonIcons name="ios-grid-outline" style={{fontSize: iconWidth, color: "white"}}/>
-                    </View>
+                    </View>*/}
                 </CircleButton>
-                <CircleButton bottom={10} left={10} opacity={CircleOpacity}>
-                    <MaterialIcons
+                <CircleButton options={true} bottom={10} left={10} opacity={CircleOpacity}>
+                    {/*<MaterialIcons
                         name="dots-vertical"
                         style={{fontSize: iconWidth, color: "black"}}
                         onPress={() => {
@@ -146,7 +236,8 @@ export default class Timeline extends React.Component {
                                 screen: "TimelineGallery",
                             })
                         }}
-                    />
+                    />*/}
+                    {/* <View  style={{backgroundColor: "black"}}></View>*/}
                 </CircleButton>
                 {/*<CircleButton
                     opacity={CircleOpacity}

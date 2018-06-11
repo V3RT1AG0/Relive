@@ -89,7 +89,7 @@ export default class ChatScreen extends Component {
                                 alignItems: item.author._id === this.userid ? "flex-end" : "flex-start",
                                 marginBottom: 15
                             }}
-                            key={item.key}
+                            key={item._id}
                         >
                             <View
                                 style={{

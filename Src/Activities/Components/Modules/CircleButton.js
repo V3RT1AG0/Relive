@@ -6,7 +6,8 @@ export const CircleButton = (props) => {
     console.log(props)
     const {top = undefined, bottom = undefined, right = undefined, left = undefined} = props
     const {borderTopLeftRadius = undefined, borderTopRightRadius = undefined, borderBottomLeftRadius = undefined, borderBottomRightRadius= undefined} = props
-   // console.log(top, bottom, right, left)
+   // console.log(top, bottom, right, left,props.children)
+
     return (
         <TouchableNativeFeedback
             onPress={props.onPress}

@@ -10,41 +10,12 @@ import {
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import Swiper from 'react-native-swiper';
-import ProfileMain from "./ProfileActivity/ProfileMain";
 import Feather from 'react-native-vector-icons/Feather';
 
 import TimelineActivity from "../Activities/TimelineActivity/TimelineContainer";
 import ChatHomeActivity from "../Activities/ChatHomeActivity/ChatHomeMain";
 import NotificationMain from "./NotificationActivity/NotificationMain";
 import {CircleButton} from "./Components/Modules/CircleButton";
-
-
-const styles = StyleSheet.create({
-    wrapper: {},
-    slide1: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#9DD6EB',
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5',
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9',
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
-    }
-})
 
 
 export default class SwiperActivity extends Component {
@@ -125,7 +96,7 @@ export default class SwiperActivity extends Component {
         console.log("swiper triggered")
         return (
             <View style={{flex: 1}}>
-                <Swiper style={styles.wrapper} showsPagination={false} loop={false} index={1}
+                <Swiper  showsPagination={false} loop={false} index={1}
                         scrollEventThrottle={16}
                         onPageScroll={this.onScrollBeginDrag}>
                     <NotificationMain/>

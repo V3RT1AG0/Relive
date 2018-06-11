@@ -17,10 +17,10 @@ export default class TimeLineListView extends React.Component {
     constructor(props) {
 
         super(props);
-      //  console.log(props, "props=>")
-        this.seperating_items = this.seperating_items.bind(this);
+        //  console.log(props, "props=>")
+        // this.seperating_items = this.seperating_items.bind(this);
         this.viewabilityConfig = {itemVisiblePercentThreshold: 100};
-        this.setting = this.setting.bind(this);
+        // this.setting = this.setting.bind(this);
         this.data = [
             {
                 key: "0",
@@ -71,13 +71,9 @@ export default class TimeLineListView extends React.Component {
         this.dataLength = this.data.length - 1;
     }
 
-    seperating_items = () => {
-        return <View style={{margin: 40}}/>;
-    };
-
 
     setting = viewable => {
-      //  console.log(viewable, "viewable")
+        //  console.log(viewable, "viewable")
         if (viewable.viewableItems[0])
             this.props.DateChange(viewable.viewableItems[0].item.timestamp);
     };
@@ -107,17 +103,31 @@ export default class TimeLineListView extends React.Component {
         );
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("same", this.props, nextProps, this.props.Data === nextProps.Data)
+       /* if (this.props.Data === nextProps.Data){
+            console.log("flase trigger")
+            return false;
+        }*/
+
+        return true
+    }
+
     render() {
+        console.log(this.props.Data, "render triggered")
         return (
             <View style={{flex: 1}}>
                 <FlatList
                     // data={this.state.data}
-                    onScrollEndDrag={this.props.onScrollEnd}
-                    onScrollBeginDrag = {this.props.onScroll}
+                    removeClippedSubviews
+                    scrollEventThrottle={16}
+                    //onScrollEndDrag={this.props.onScrollEnd}
+                    //onScrollBeginDrag={this.props.onScroll}
+                    onScroll={this.props.onScroll}
                     data={this.props.Data}
                     onViewableItemsChanged={this.setting}
                     //initialNumToRender={1}
-                    keyExtractor={(item, index) => index} // TODO change this to item.key later
+                    keyExtractor={(item, index) => item._id}
                     viewabilityConfig={this.viewabilityConfig}
                     inverted={true} //  onScroll={this._onScroll}
                     ListHeaderComponent={
@@ -136,7 +146,7 @@ export default class TimeLineListView extends React.Component {
                                         screen: "Upload"
                                     })}
                                 >
-                                    <Icon name="ios-add-circle-outline" style={{fontSize: 4, color: "#546E7A"}}/>
+                                    <Icon name="ios-add-circle-outline" style={{fontSize: 40, color: "#546E7A"}}/>
                                 </TouchableHighlight>
                             </View>
                             <View style={{height: 200}}/>
@@ -144,11 +154,12 @@ export default class TimeLineListView extends React.Component {
 
                     }
                     renderItem={({item, index}) => {
-                       // console.log(item)
+                        // console.log(item)
+                        console.log("rerenderng item")
                         const names = [...item.groupTagId.map(gtag => gtag.name), ...item.userId.map(user => user.name)]
                         const combinedNames = names.slice(0, 3).join(', ');
-                        const photos = item.photoId.map(photo => (
-                                <View style={style.imageWrap}>
+                        const photos = item.photoId.map((photo, index) => (
+                                <View style={style.imageWrap} key={index}>
                                     <Image
                                         style={style.imageStyle}
                                         source={{uri: "https://s3.us-east-2.amazonaws.com/crewal-test/" + photo.url}}
@@ -156,15 +167,15 @@ export default class TimeLineListView extends React.Component {
                                 </View>
                             )
                         )
-                      //  console.log(names, photos)
+                        //  console.log(names, photos)
+                        console.log(item._id)
                         return (
-
                             <View
                                 style={{
                                     flex: 4,
                                     flexDirection: "column",
-                                    backgroundColor: "#FFFFFF"
-                                    //	opacity: this.state.changed == item.date ? 1.0 : 0.4
+                                    backgroundColor: "#FFFFFF",
+                                    opacity: this.state.changed == item.date ? 1.0 : 0.4
                                 }}
                             >
                                 <View
@@ -219,24 +230,7 @@ export default class TimeLineListView extends React.Component {
                                             }}
                                         >
                                             {photos}
-                                            {/* <View style={style.imageWrap}>
-                                            <Image
-                                                style={style.imageStyle}
-                                                source={require("../../Assets/Images/charmander.png")}
-                                            />
-                                        </View>
-                                        <View style={style.imageWrap}>
-                                            <Image
-                                                style={style.imageStyle}
-                                                source={require("../../Assets/Images/charmander.png")}
-                                            />
-                                        </View>
-                                        <View style={style.imageWrap}>
-                                            <Image
-                                                style={style.imageStyle}
-                                                source={require("../../Assets/Images/charmander.png")}
-                                            />
-                                        </View>*/}
+
 
                                             <View
                                                 style={
