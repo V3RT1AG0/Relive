@@ -12,21 +12,48 @@ import Switch from "react-native-flip-toggle-button";
 import Gradient from "react-native-linear-gradient";
 import {UserRealm} from "./ProfileModel";
 import {MY_ID} from "../../Config/Constants";
+import {GalleryRealm} from "../GalleryActivity/GalleryModels";
 
 export default class ProfileMain extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { hasPassword: false,
+        this.state = {
         userInfo:UserRealm.objectForPrimaryKey(
             "User",MY_ID
         ) };
         Text.defaultProps.style = { fontFamily: "Roboto" };
     }
     handleChange = e => {
-        this.state.hasPassword
-            ? this.setState({ hasPassword: false })
-            : this.setState({ hasPassword: true });
+        if(this.state.userInfo.password)
+            UserRealm.write(() => {
+                this.state.userInfo.password = undefined
+            });
+        else
+        {
+            this.props.navigator.showModal({
+                screen: "SetMasterPasswordModal", // unique ID registered with Navigation.registerScreen
+                navigatorStyle: {
+                    modalPresentationStyle: "fullScreen",
+                    navBarHidden: true,
+                    topBarElevationShadowEnabled: false,
+                    navBarNoBorder: true,
+                    screenBackgroundColor: "rgba(52, 52, 52, 0.5)"
+                }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+                animationType: "screen" // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+            });
+        }
+
     };
+
+    forceUpdateRealm = () => {
+        this.forceUpdate(() => {
+            console.log("forceUpdate");
+        });
+    };
+
+    componentDidMount = () => {
+       UserRealm.addListener("change", this.forceUpdateRealm);
+    }
 
     static navigatorStyle = {
         drawUnderNavBar: true,
@@ -87,7 +114,7 @@ export default class ProfileMain extends React.Component {
                                 {
                                     title: "Master Password",
                                     switch: true,
-                                    hasPassword: this.state.hasPassword,
+                                    hasPassword: this.state.userInfo.password,
                                     data: [],
                                     subText: "Hide and Lock your Albums using a password."
                                 },
@@ -140,7 +167,7 @@ export default class ProfileMain extends React.Component {
                                         <View style={{ marginRight: 10 }}>
                                             <Switch
                                                 onToggle={this.handleChange}
-                                                value={this.state.hasPassword}
+                                                value={this.state.userInfo.password}
                                                 buttonHeight={19}
                                                 buttonWidth={35}
                                                 sliderRadius={50}

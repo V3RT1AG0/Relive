@@ -43,7 +43,7 @@ chatlist:Array(2)
 					socket.emit("enterChatRooms", item._id);
 				});
 				this.props.navigator.push({
-					screen: "SwiperActivity"
+					screen: "Navigator"
 				});
 			})
 			.catch(e => console.log(e));

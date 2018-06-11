@@ -36,7 +36,7 @@ const fetchNewTimelineDataFromNetwork = latestAlbumId => {
             delete userinfo.album;
             addUserDataToRealm(userinfo);
             const newAlbums = result.data.album;
-            newAlbums.forEach(album => addNewAlbumToRealm(album));
+            newAlbums.forEach(album => addNewAlbumToRealm(album)); //TODO use forEach inside realm write instead
 
 
         })
