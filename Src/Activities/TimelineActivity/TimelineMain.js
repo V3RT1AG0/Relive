@@ -2,6 +2,7 @@
 import React from "react";
 import {Text, View, Image, Animated, Easing, TouchableNativeFeedback,} from "react-native";
 
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import TimeLineListView from "./TimeLineListView";
 import {Fonts} from '../../Assets/Fonts'
@@ -210,6 +211,8 @@ export default class Timeline extends React.Component {
                        // onScrollEnd={this.handleOnScrollMomentumEnd}
                     />
                 </View>
+
+
 
                 <CircleButton
                     bottom={10} right={10}  backgroundColor={"white"} options={false}

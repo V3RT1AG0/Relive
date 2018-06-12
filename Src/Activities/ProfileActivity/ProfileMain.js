@@ -6,30 +6,33 @@ import {
     View,
     SectionList,
     Image,
-    TouchableNativeFeedback,
+    TouchableNativeFeedback, Button,
 } from "react-native";
 import Switch from "react-native-flip-toggle-button";
 import Gradient from "react-native-linear-gradient";
 import {UserRealm} from "./ProfileModel";
 import {MY_ID} from "../../Config/Constants";
 import {GalleryRealm} from "../GalleryActivity/GalleryModels";
+import {axios} from "axios/index";
+import * as Constants from "../../Config/Constants";
 
 export default class ProfileMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        userInfo:UserRealm.objectForPrimaryKey(
-            "User",MY_ID
-        ) };
-        Text.defaultProps.style = { fontFamily: "Roboto" };
+            userInfo: UserRealm.objectForPrimaryKey(
+                "User", MY_ID
+            )
+        };
+        Text.defaultProps.style = {fontFamily: "Roboto"};
     }
+
     handleChange = e => {
-        if(this.state.userInfo.password)
+        if (this.state.userInfo.password)
             UserRealm.write(() => {
                 this.state.userInfo.password = undefined
             });
-        else
-        {
+        else {
             this.props.navigator.showModal({
                 screen: "SetMasterPasswordModal", // unique ID registered with Navigation.registerScreen
                 navigatorStyle: {
@@ -52,23 +55,29 @@ export default class ProfileMain extends React.Component {
     };
 
     componentDidMount = () => {
-       UserRealm.addListener("change", this.forceUpdateRealm);
+        UserRealm.addListener("change", this.forceUpdateRealm);
     }
 
+    handleEditProfile = () => {
+        this.props.navigator.push({
+            screen: "EditProfile"
+        })
+    }
     static navigatorStyle = {
         drawUnderNavBar: true,
         navBarTransparent: true,
         navBarNoBorder: true,
         topBarElevationShadowEnabled: false
     };
+
     render() {
         return (
             <Gradient
                 colors={["#263238", "#607d8b", "#263238"]}
-                start={{ x: 0.0, y: 0.25 }}
-                end={{ x: 0.5, y: 1.0 }}
+                start={{x: 0.0, y: 0.25}}
+                end={{x: 0.5, y: 1.0}}
                 locations={[0, 0.5, 1.5]}
-                style={{ flex: 1 }}
+                style={{flex: 1}}
             >
                 <View style={styles.container}>
                     <View
@@ -88,7 +97,7 @@ export default class ProfileMain extends React.Component {
                             }}
                         >
                             <Image
-                                source={{uri:this.state.userInfo.dp}}
+                                source={{uri: this.state.userInfo.dp}}
                                 style={{
                                     flex: 1,
                                     width: null,
@@ -96,10 +105,11 @@ export default class ProfileMain extends React.Component {
                                 }}
                             />
                         </View>
-                        <Text style={{ marginTop: 10, color: "#fff", fontSize: 18 }}>
+                        <Text style={{marginTop: 10, color: "#fff", fontSize: 18}}>
                             {this.state.userInfo.name}
                         </Text>
                     </View>
+                    <Button onPress={this.handleEditProfile} title={"edit"}/>
                     <View
                         style={{
                             margin: 20,
@@ -131,10 +141,10 @@ export default class ProfileMain extends React.Component {
                                     logout: true
                                 }
                             ]}
-                            renderItem={({ item, section }) => (
+                            renderItem={({item, section}) => (
                                 <Text style={styles.item}>{item}</Text>
                             )}
-                            renderSectionHeader={({ section }) => (
+                            renderSectionHeader={({section}) => (
                                 <View
                                     style={{
                                         flexDirection: "row",
@@ -164,7 +174,7 @@ export default class ProfileMain extends React.Component {
                                     )}
 
                                     {section.switch && (
-                                        <View style={{ marginRight: 10 }}>
+                                        <View style={{marginRight: 10}}>
                                             <Switch
                                                 onToggle={this.handleChange}
                                                 value={this.state.userInfo.password}

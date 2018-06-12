@@ -81,28 +81,30 @@ export default class SwiperActivity extends Component {
         const iconWidth = 30;
         const leftColor = this.animatableValue.interpolate({
             inputRange: [870, 1000],
-            outputRange: [0,1]
+            outputRange: [0, 1]
         });
 
         const leftTextOpacity = this.animatableValue.interpolate({
-            inputRange: [0,800],
-            outputRange: [1,0]
+            inputRange: [0, 800],
+            outputRange: [1, 0]
         });
 
         const rightColor = this.animatableValue2.interpolate({
             inputRange: [0, 130],
-            outputRange: [1,0]
+            outputRange: [1, 0]
         });
         console.log("swiper triggered")
         return (
             <View style={{flex: 1}}>
-                <Swiper  showsPagination={false} loop={false} index={1}
-                        scrollEventThrottle={16}
-                        onPageScroll={this.onScrollBeginDrag}>
-                    <NotificationMain/>
-                    <TimelineActivity/>
-                    <ChatHomeActivity/>
-                </Swiper>
+
+                    <Swiper showsPagination={false} loop={false} index={1}
+                            scrollEventThrottle={16}
+                            onPageScroll={this.onScrollBeginDrag}>
+                        <NotificationMain/>
+                        <TimelineActivity/>
+                        <ChatHomeActivity/>
+                    </Swiper>
+
                 <CircleButton
                     //opacity={CircleOpacity}
                     opacity={leftColor}

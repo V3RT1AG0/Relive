@@ -32,6 +32,7 @@ import Icon2 from "react-native-vector-icons/Ionicons";
 import SwiperActivity from "../Activities/SwiperActivity";
 import NotificationActivity from "../Activities/NotificationActivity/NotificationMain";
 import MasterPassModal from "../Activities/ProfileActivity/SetPasswordModal";
+import EditProfile from "../Activities/ProfileActivity/EditProfile";
 
 //const store = configureStore();
 
@@ -160,4 +161,5 @@ export function registerScreens() {
     Navigation.registerComponent("Lock", () => Lock);
     Navigation.registerComponent("DropDownArrow", () => DropDownArrow);
     Navigation.registerComponent("SetMasterPasswordModal", () => MasterPassModal);
+    Navigation.registerComponent("EditProfile", () => EditProfile);
 }
