@@ -100,8 +100,8 @@ export default class SwiperActivity extends Component {
                     <Swiper showsPagination={false} loop={false} index={1}
                             scrollEventThrottle={16}
                             onPageScroll={this.onScrollBeginDrag}>
-                        <NotificationMain/>
-                        <TimelineActivity/>
+                        <NotificationMain />
+                        <TimelineActivity navigator={this.props.navigator}/>
                         <ChatHomeActivity/>
                     </Swiper>
 

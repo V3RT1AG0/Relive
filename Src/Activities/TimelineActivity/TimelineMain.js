@@ -230,8 +230,48 @@ export default class Timeline extends React.Component {
                         <IonIcons name="ios-grid-outline" style={{fontSize: iconWidth, color: "white"}}/>
                     </View>*/}
                 </CircleButton>
-                <CircleButton options={true} bottom={10} left={10} opacity={CircleOpacity}>
-                    {/*<MaterialIcons
+                <View style = {{position:"absolute",bottom:10,left:10}}>
+                <PopoverTooltip
+                    ref='NotifToggle'
+                    buttonComponent={
+                        <Animated.View
+                            style={{
+                                opacity: CircleOpacity,
+                                zIndex: 200
+                            }}
+                        >
+                        <MaterialIcons
+                            name="dots-vertical"
+                            style={{fontSize: 35, color: "black"}}
+                            onPress={() => {
+                               /* this.props.navigator.resetTo({
+                                    screen: "TimelineGallery",
+                                })*/
+                                this.refs.NotifToggle.toggle()
+                            }}
+                        />
+                        </Animated.View>
+                    }
+                    items={[
+                        {
+                            label: 'Profile',
+                            onPress: () => {
+                                console.log("triggered")
+                                this.props.navigator.push({
+                                    screen: "Profile"
+                                })
+                            }
+                        },
+                        {
+                            label: 'Search',
+                            onPress: () => {
+                            }
+                        }
+                    ]}
+                />
+                </View>
+               {/* <CircleButton options={true} bottom={10} left={10} opacity={CircleOpacity}>
+                    <MaterialIcons
                         name="dots-vertical"
                         style={{fontSize: iconWidth, color: "black"}}
                         onPress={() => {
@@ -239,9 +279,9 @@ export default class Timeline extends React.Component {
                                 screen: "TimelineGallery",
                             })
                         }}
-                    />*/}
-                    {/* <View  style={{backgroundColor: "black"}}></View>*/}
-                </CircleButton>
+                    />
+                     <View  style={{backgroundColor: "black"}}></View>
+                </CircleButton>*/}
                 {/*<CircleButton
                     opacity={CircleOpacity}
                     top={10} left={-10} borderTopRightRadius={25} borderBottomRightRadius={25} onPress={() => {
