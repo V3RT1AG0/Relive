@@ -1,126 +1,136 @@
 // @flow
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from "axios";
-import { Button, View, TextInput, FlatList, Switch, Text } from "react-native";
-import { SERVER_URL, MY_ID } from "../../../Config/Constants";
+import {Button, View, TextInput, FlatList, Switch, Text} from "react-native";
+import {SERVER_URL, MY_ID} from "../../../Config/Constants";
+import {UserRealm} from "../../ProfileActivity/ProfileModel";
 
 class CreateGroupTag extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			//use map to add ticked:false to each one
-			userIDs: [], //store this ids in redux store first time you fetch user data
-			selectedUserID: [], //this contains name and id of user.
-			text: "",
-			completed: false
-		};
-	}
 
-	componentDidMount() {
-		console.log("didMount");
-		this.loadAllUserId();
-	}
+    constructor(props) {
+        super(props);
+        /* this.state = {
+             //use map to add ticked:false to each one
+             userIDs: [], //store this ids in redux store first time you fetch user data
+             selectedUserID: [], //this contains name and id of user.
+             text: "",
+             completed: false
+         };*/
 
-	loadAllUserId = () => {
-		axios.interceptors.request.use(request => {
-			console.log("Starting Request", request);
-			return request;
-		});
+        this.state = {
+            selectedUserID: [],
+            userIDs: UserRealm.objectForPrimaryKey(
+                "User", MY_ID
+            ).userid
+        }
+    }
 
-		axios
-			.post(SERVER_URL + "/grouptag/getUserIds", { userId: MY_ID })
-			.then(result => {
-				console.log(result);
-				this.setState({ userIDs: [...result.data.userid] });
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	};
+    componentDidMount() {
+        console.log(this.state.userIDs,"UserIds.....");
+        //this.loadAllUserId();
+    }
 
-	handleCreateTagButtonPress = () => {
-		//TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
-		//const axios = Axios.create();
+    loadAllUserId = () => {
+        axios.interceptors.request.use(request => {
+            console.log("Starting Request", request);
+            return request;
+        });
 
-		const payload = {
-			members: [MY_ID, ...this.state.selectedUserID.map(user => user._id)], //send only userid and not name
-			name: this.state.text,
-			createdBy: MY_ID
-		};
-		axios
-			.post(SERVER_URL + "/groupTag/addTag", payload)
-			.then(success => {
-				console.log(success);
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	};
+        axios
+            .post(SERVER_URL + "/grouptag/getUserIds", {userId: MY_ID})
+            .then(result => {
+                console.log(result);
+                this.setState({userIDs: [...result.data.userid]});
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
-	handleSwitchValueChanged = (isChecked, item) => {
-		const { selectedUserID, userIDs } = this.state;
-		console.log(item, userIDs);
-		if (selectedUserID.includes(item)) {
-			const myindex = selectedUserID.indexOf(item);
-			selectedUserID.splice(myindex, 1);
-			console.log("remove" + selectedUserID[myindex] + "" + myindex);
-			this.setState({ selectedUserID: [...selectedUserID] });
-		} else {
-			this.setState({
-				selectedUserID: [...selectedUserID, item]
-			});
-			console.log(
-				"add" + item + " " + this.state.selectedUserID.indexOf(item) != -1
-				//this.state.selectedUserID.includes(item)
-				//this.state.selectedUserID.filter(data => data._id === item_id)
-			);
-		}
+    handleCreateTagButtonPress = () => {
+        //TODO batch images:use array and loop, look for batch option in s3 sdk or look for axios multi request
+        //const axios = Axios.create();
 
-		this.setState({ userIDs: [...this.state.userIDs] });
-		//even though I had not changed userId array I had to call setState on that to rerender listview since I have passed userId in listview
-	};
+        const payload = {
+            members: [MY_ID, ...this.state.selectedUserID.map(user => user._id)], //send only userid and not name
+            name: this.state.text,
+            createdBy: MY_ID
+        };
+        axios
+            .post(SERVER_URL + "/groupTag/addTag", payload)
+            .then(success => {
+                console.log(success);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
-	setSwitchValue = item => {
-		console.log("triggered1");
-		/* 	if (this.state.selectedUserID.includes(item)) return true;
-		return false; */
-		return this.state.selectedUserID.indexOf(item) != -1;
-	};
+    handleSwitchValueChanged = (isChecked, item) => {
+        const {selectedUserID, userIDs} = this.state;
+        console.log(item, userIDs);
+        if (selectedUserID.includes(item)) {
+            const myindex = selectedUserID.indexOf(item);
+            selectedUserID.splice(myindex, 1);
+            console.log("remove" + selectedUserID[myindex] + "" + myindex);
+            this.setState({selectedUserID: [...selectedUserID]});
+        } else {
+            this.setState({
+                selectedUserID: [...selectedUserID, item]
+            });
+            console.log(
+                "add" + item + " " + this.state.selectedUserID.indexOf(item) != -1
+                //this.state.selectedUserID.includes(item)
+                //this.state.selectedUserID.filter(data => data._id === item_id)
+            );
+        }
 
-	_keyExtractor = item => item._id;
+        this.setState({userIDs: [...this.state.userIDs]});
+        //even though I had not changed userId array I had to call setState on that to rerender listview since I have passed userId in listview
+    };
 
-	render() {
-		console.log(this.state.selectedUserID, "renderer");
-		return (
-			<View>
-				<TextInput
-					onChangeText={text => this.setState({ text })}
-					value={this.state.text}
-				/>
-				<Button onPress={this.handleCreateTagButtonPress} title="Create" />
-				{/* <Switch
+    setSwitchValue = item => {
+        console.log("triggered1");
+        /* 	if (this.state.selectedUserID.includes(item)) return true;
+        return false; */
+        return this.state.selectedUserID.indexOf(item) != -1;
+    };
+
+    _keyExtractor = item => item._id;
+
+    render() {
+        console.log(this.state.selectedUserID, "renderer");
+        return (
+            <View>
+                <TextInput
+                    onChangeText={text => this.setState({text})}
+                    value={this.state.text}
+                />
+                <Button onPress={this.handleCreateTagButtonPress} title="Create"/>
+                {/* <Switch
 					value={this.state.completed}
 					onValueChange={checked => this.setState({ completed: checked })}
 				/> */}
 
-				<FlatList
-					data={this.state.userIDs}
-					keyExtractor={this._keyExtractor}
-					renderItem={({ item, index }) => (
-						<View>
-							<Switch
-								value={this.setSwitchValue(item)}
-								onValueChange={checked =>
-									this.handleSwitchValueChanged(checked, item)
-								}
-							/>
-							<Text>{item.name}</Text>
-						</View>
-					)}
-				/>
-			</View>
-		);
-	}
+                <FlatList
+                    data={this.state.userIDs}
+                    keyExtractor={this._keyExtractor}
+                    renderItem={({item, index}) => (
+                        <View>
+                            <Switch
+                                value={this.setSwitchValue(item)}
+                                onValueChange={checked =>
+                                    this.handleSwitchValueChanged(checked, item)
+                                }
+                            />
+                            <Text>{item.name}</Text>
+                        </View>
+                    )}
+                />
+            </View>
+        );
+    }
 }
+
 
 export default CreateGroupTag;

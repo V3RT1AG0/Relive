@@ -35,6 +35,7 @@ const AlbumSchema = {
         userId: "User[]",
         groupTagId: "Grouptag[]",
         photoId: "Photo[]",
+        //locked:{type:bool,default:false} //TODO hide from timeline if true
     }
 };
 

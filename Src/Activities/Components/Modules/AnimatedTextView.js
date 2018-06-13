@@ -26,7 +26,8 @@ export default class VideoScreen extends React.Component {
 		this.startFadeAnimation();
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	//Todo Code for stopping the animation when album options is opened
+	/*static getDerivedStateFromProps(nextProps, prevState) {
 		console.log(nextProps, "GETDERIVERDSTATEFROMPROS");
 		nextProps.showingAlbumOptions
 			? this.startFadeAnimation()
@@ -39,7 +40,7 @@ export default class VideoScreen extends React.Component {
 		nextProps.showingAlbumOptions
 			? this.animatableValue.stopAnimation()
 			: this.startFadeAnimation();
-	}
+	}*/
 
 	startFadeAnimation = () => {
 		this.animatableValue.setValue(0);

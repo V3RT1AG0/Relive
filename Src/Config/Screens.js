@@ -33,6 +33,7 @@ import SwiperActivity from "../Activities/SwiperActivity";
 import NotificationActivity from "../Activities/NotificationActivity/NotificationMain";
 import MasterPassModal from "../Activities/ProfileActivity/SetPasswordModal";
 import EditProfile from "../Activities/ProfileActivity/EditProfile";
+import CreateGroupTag from "../Activities/Components/CreateGroupTag/CreateGroupTag"
 
 //const store = configureStore();
 
@@ -162,4 +163,5 @@ export function registerScreens() {
     Navigation.registerComponent("DropDownArrow", () => DropDownArrow);
     Navigation.registerComponent("SetMasterPasswordModal", () => MasterPassModal);
     Navigation.registerComponent("EditProfile", () => EditProfile);
+    Navigation.registerComponent("CreateGroupTag", () => CreateGroupTag);
 }

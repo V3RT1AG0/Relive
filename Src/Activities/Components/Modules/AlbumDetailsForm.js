@@ -4,7 +4,7 @@ import AutoTags from "./AutoCompleteTag";
 import {
     View,
     KeyboardAvoidingView,
-    TouchableNativeFeedback
+    TouchableNativeFeedback, Text
 } from "react-native";
 import AnimatedTextView from "./AnimatedTextView";
 //import Icon from "react-native-vector-icons/Feather";
@@ -72,7 +72,7 @@ export default class Display extends React.Component {
 
     render() {
         return (
-            <View style={{margin: 15, borderRadius: 36 / 2}}>
+            <View style={{margin: 15}}>
                 <TouchableNativeFeedback onPress={this.handleOptionButtonPressed}
                                          background={TouchableNativeFeedback.Ripple('#FFF', true)}>
                     <View
@@ -103,10 +103,15 @@ export default class Display extends React.Component {
                     }}
                 >
                     <AnimatedTextView showingAlbumOptions={this.state.showAlbumOptions}
-
                                       onChangeAlbumText={this.props.onChangeAlbumText}/>
                     {/*Get albumname here*/}
                 </View>
+                <TouchableNativeFeedback
+                    onPress={() => this.props.navigator.push({
+                        screen: "CreateGroupTag",
+                    })}>
+                    <Text>Create Group Tag</Text>
+                </TouchableNativeFeedback>
                 <View style={{flexDirection: "row"}}>
                     {/*<Text style={{fontSize: 15,marginStart:15,color:"#90A4AE",paddingTop:10}}>with</Text>*/}
                     <AutoTags
